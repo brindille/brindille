@@ -1,0 +1,64 @@
+html {
+  box-sizing: border-box;
+  border-collapse: collapse;
+  line-height: 1;
+}
+
+* {
+  border-collapse: inherit;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+*:not(body) {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: cover;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+ul,
+ol,
+menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+}
+
+p,
+small {
+  margin: 0;
+  padding: 0;
+}
+
+form {
+  margin: 0;
+}
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
