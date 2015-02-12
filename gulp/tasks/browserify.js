@@ -21,9 +21,10 @@ gulp.task('browserify', function()
 {
     aliasify = require('aliasify').configure({
         aliases: {
-            'components': '../../app/components/**/*.js',
-            'sections': '../../app/sections/**/*.js',
-            'lib': '../../app/lib/**/*.js',
+            'components': '../../app/components',
+            'sections': '../../app/sections',
+            'layouts': '../../app/layouts',
+            'lib': '../../app/lib',
         },
         configDir: __dirname,
         verbose: false

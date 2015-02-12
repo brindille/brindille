@@ -65,12 +65,12 @@ module.exports = extend({
 
     // When requested route does not exists, redirects to proper default route
     onDefaultRoute: function(c) {
-        history.replaceState({}, '', '/' + this.defaultRoute);
-        page('/' + this.defaultRoute);
+        history.replaceState({}, '', this.defaultRoute);
+        this.redirect(this.defaultRoute);
     },
 
     redirect: function (path) {
-        page('/' + path);
+        page(path);
     },
 
     getCurrentRouteId: function(path) {

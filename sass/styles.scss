@@ -16,3 +16,15 @@
 @import "common/colors";
 @import "common/variables";
 @import "common/base";
+
+/*
+    Layouts
+ */
+@import "app/layouts/header/header";
+@import "app/layouts/footer/footer";
+
+/*
+    Sections
+ */
+@import "app/sections/home/home";
+@import "app/sections/about/about";
