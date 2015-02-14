@@ -11,7 +11,6 @@ var AbstractView = require('./AbstractView'),
     Manage each view with data, template and actions given
  */
 function View (options) {
-    this.el = null;
     // html template
     this.template = options.template || '';
     // data for template
@@ -29,8 +28,7 @@ function View (options) {
 View.prototype = new AbstractView; // jshint ignore:line
 View.prototype.constructor = View;
 
-View.prototype.routed = function(el) {
-    this.el = el;
+View.prototype.routed = function() {
     this.setTimeline();
     this.createPromises();
     this.resolvePromises().then(function() {
@@ -185,10 +183,7 @@ View.prototype.contentLoaded = function() {
     }
     this.beforeTransitionIn();
     this.onPreloadComplete();
-    // Append after preload if some data from promises have to be displayed
-    this.append(this.el);
     this.insertTweens();
-    this.playTransitionIn();
 };
 
 module.exports = View;

@@ -15,7 +15,7 @@ home.insertTweens = function () {
         document.querySelector('.home h2'),
         document.querySelector('.home a')
     ];
-    this.tlTransition.staggerFromTo($els, 0.7, {y: 100, alpha: 0}, {y: 0, alpha: 1, ease: Expo.easeInOut}, 0.08, 0.3);
+    this.tlTransition.staggerFromTo($els, 0.7, {y: 100, alpha: 0}, {y: 0, alpha: 1, ease: Expo.easeInOut}, 0.08, 0);
 };
 
 home.beforeTransitionIn = function () {

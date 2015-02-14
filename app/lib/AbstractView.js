@@ -28,10 +28,6 @@ AbstractView.prototype.append = function(el) {
         return;
     }
 
-    // Clear el
-    while($el.hasChildNodes()) {
-        $el.removeChild( $el.firstChild );
-    }
     // Append template
     $el.innerHTML = compiler.render(this.template, this.data);
 };

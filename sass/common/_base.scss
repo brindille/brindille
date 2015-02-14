@@ -1,64 +1,44 @@
 html {
-  box-sizing: border-box;
-  border-collapse: collapse;
-  line-height: 1;
+    box-sizing: border-box;
+    border-collapse: collapse;
+    line-height: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 * {
-  border-collapse: inherit;
+    margin: 0;
+    padding: 0;
+    border-collapse: inherit;
 }
 
 *,
 *:before,
 *:after {
-  box-sizing: inherit;
+    box-sizing: inherit;
 }
 
 *:not(body) {
-  background-repeat: no-repeat;
-  background-position: 50%;
-  background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: cover;
 }
 
 [hidden] {
-  display: none !important;
+    display: none !important;
 }
 
-html,
 body {
-  padding: 0;
-  margin: 0;
-}
-
-ul,
-ol,
-menu {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-li {
-  margin: 0;
-  padding: 0;
+    position: relative;
 }
 
 a {
-  color: inherit;
+    color: inherit;
 }
 
-p,
-small {
-  margin: 0;
-  padding: 0;
-}
-
-form {
-  margin: 0;
-}
-
-fieldset {
-  border: none;
-  margin: 0;
-  padding: 0;
+#view {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
