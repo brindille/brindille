@@ -6,7 +6,8 @@ var about = new View({
     template: fs.readFileSync(__dirname + '/about.html', 'utf8'),
     data: {
         'title': 'About'
-    }
+    },
+    transitionType: 'outAndAfterIn'
 });
 
 about.insertTweens = function () {
@@ -19,6 +20,14 @@ about.beforeTransitionIn = function () {
 };
 
 about.onPreloadComplete = function() {
+
+};
+
+about.createPromises = function() {
+
+};
+
+about.createManifest = function() {
 
 };
 

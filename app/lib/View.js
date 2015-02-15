@@ -23,6 +23,10 @@ function View (options) {
     this.promises = [];
     // promises results
     this.files = {};
+    // transition timeline
+    this.tlTransition = null;
+    // transition mode
+    this.transitionType = options.transitionType || '';
 }
 
 View.prototype = new AbstractView; // jshint ignore:line
@@ -56,7 +60,7 @@ View.prototype.setTimeline = function() {
  */
 View.prototype.beforeTransitionIn = function() {
     // Method to override
-    console.warn('[View] - You need to override View.beforeTransitionIn');
+    console.warn('[View] - You need to override view.beforeTransitionIn');
 };
 
 /*
@@ -78,7 +82,7 @@ View.prototype.playTransitionOut = function() {
  */
 View.prototype.insertTweens = function() {
     // Method to override
-    console.warn('[View] - You need to override View.insertTweens');
+    console.warn('[View] - You need to override view.insertTweens');
     this.tlTransition.fromTo(document.body, 0.4, {opacity: 0}, {opacity: 1});
 };
 
@@ -106,6 +110,7 @@ View.prototype.onTransitionOutComplete = function() {
 */
 View.prototype.createPromises = function() {
     // Method to override
+    console.warn('[View] - You need to override view.createPromises');
 };
 
 View.prototype.resolvePromises = function() {
@@ -134,6 +139,7 @@ View.prototype.resolvePromises = function() {
 */
 View.prototype.createManifest = function() {
     // Method to override
+    console.warn('[View] - You need to override view.createManifest');
 };
 
 View.prototype.startPreload = function() {
@@ -166,7 +172,7 @@ View.prototype.onPreloadProgress = function(event) {
 };
 
 View.prototype.onPreloadError = function(event) {
-
+    this.emitter.emit('view:preloadError');
 };
 
 /*
@@ -175,6 +181,7 @@ View.prototype.onPreloadError = function(event) {
  */
 View.prototype.onPreloadComplete = function() {
     // Method to override
+    console.warn('[View] - You need to override view.onPreloadComplete');
 };
 
 View.prototype.contentLoaded = function() {

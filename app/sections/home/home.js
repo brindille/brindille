@@ -6,7 +6,8 @@ var home = new View({
     template: fs.readFileSync(__dirname + '/home.html', 'utf8'),
     data: {
         'name': 'John'
-    }
+    },
+    transitionType: 'outAndAfterIn'
 });
 
 home.insertTweens = function () {
@@ -23,6 +24,14 @@ home.beforeTransitionIn = function () {
 };
 
 home.onPreloadComplete = function() {
+
+};
+
+home.createPromises = function() {
+
+};
+
+home.createManifest = function() {
 
 };
 

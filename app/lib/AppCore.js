@@ -1,6 +1,6 @@
 'use strict';
 
-var router = require('./router');
+var router = require('./Router');
 
 /*
     AppCore
@@ -23,7 +23,7 @@ function AppCore (options) {
     Initialization
  */
 AppCore.prototype.init = function() {
-    router.on('router:update', this.onRoute.bind(this));
+    router.emitter.on('router:update', this.onRoute.bind(this));
     // Append layouts
     this.addLayouts();
     // Add routes to router and start it
