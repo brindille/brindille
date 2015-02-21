@@ -1,6 +1,8 @@
 var Section = require('lib/Section');
 var fs = require('fs');
 var TweenMax = require('TweenMax');
+var resizeUtil = require('utils/resize');
+var bindAll = require('bindall-standalone');
 
 var home = new Section({
     template: fs.readFileSync(__dirname + '/home.html', 'utf8'),
@@ -40,14 +42,20 @@ home.createManifest = function() {
 };
 
 home.addEvents = function () {
-
+    resizeUtil.addListener(this.resize);
 };
 
 home.removeEvents = function () {
+    resizeUtil.removeListener(this.resize);
+};
 
+home.resize = function() {
+    console.log('resize', resizeUtil.width, resizeUtil.height);
 };
 
 // add your own methods here
 // e.g: home.action = function() {};
+
+bindAll(home, 'resize');
 
 module.exports = home;

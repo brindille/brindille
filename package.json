@@ -65,9 +65,11 @@
   },
   "dependencies": {
     "bindall-standalone": "^1.0.5",
+    "debounce": "^1.0.0",
     "domready": "^1.0.7",
     "dot": "^1.0.3",
     "extend": "^2.0.0",
+    "mobile-detect": "^0.4.3",
     "page": "^1.6.0"
   }
 }

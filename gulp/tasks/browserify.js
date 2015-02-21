@@ -25,6 +25,7 @@ gulp.task('browserify', function()
             'sections': '../../app/sections',
             'layouts': '../../app/layouts',
             'lib': '../../app/lib',
+            'utils': '../../app/lib/utils',
         },
         configDir: __dirname,
         verbose: false

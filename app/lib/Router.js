@@ -3,7 +3,8 @@
 var page = require('page'),
     forEach = require('forEach'),
     bindAll = require('bindall-standalone'),
-    // browser = require('common/browser-check'),
+    MobileDetect = require('mobile-detect'),
+    md = new MobileDetect(navigator.userAgent),
     verbose = true;
 
 /**
@@ -81,11 +82,11 @@ Router.prototype.setContainer = function(el) {
  * Start router
  */
 Router.prototype.start = function() {
-    // if(browser.isIE9) {
-    //     // F*cking IE
-    //     history.redirect();
-    //     page.base('/#');
-    // }
+    if(~~md.version('IE') === 9) {
+        // F*cking IE
+        history.redirect();
+        page.base('/#');
+    }
     page.start({
         hashbang: false
     });

@@ -31,20 +31,22 @@ View.prototype.append = function(el) {
 
     // Append template
     $el.innerHTML = compiler.render(this.template, this.data);
+
+    this.addEvents();
 };
 
 /**
  *  Set all your events
  */
 View.prototype.addEvents = function() {
-
+    console.warn("[View] - You need to override view.addEvents");
 };
 
 /**
  * Remove events to prevent memory leaks
  */
 View.prototype.removeEvents = function() {
-
+    console.warn("[View] - You need to override view.removeEvents");
 };
 
 /**
