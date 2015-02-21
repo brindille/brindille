@@ -3,17 +3,17 @@ var domready = require('domready');
 
 var app = new AppCore({
     el: '#view',
-    views: {
+    sections: {
         'home': require('sections/home/home'),
         'about': require('sections/about/about')
     },
     routes: {
         '/home': {
-            view: 'home',
+            section: 'home',
             isDefault: true
         },
         '/about': {
-            view: 'about',
+            section: 'about',
             isDefault: false
         }
     },

@@ -1,8 +1,8 @@
-var View = require('lib/View');
+var Section = require('lib/Section');
 var fs = require('fs');
 var TweenMax = require('TweenMax');
 
-var about = new View({
+var about = new Section({
     template: fs.readFileSync(__dirname + '/about.html', 'utf8'),
     data: {
         'title': 'About'
@@ -10,13 +10,12 @@ var about = new View({
     transitionType: 'outAndAfterIn'
 });
 
-about.insertTweens = function () {
+about.transitionIn = function (callback) {
     var $el = document.querySelector('.about h1');
+    this.tlTransition  = new TimelineMax({
+        onComplete: callback
+    });
     this.tlTransition.fromTo($el, 0.7, {y: 100, alpha: 0}, {y: 0, alpha: 1, ease: Expo.easeInOut}, 0.3);
-};
-
-about.beforeTransitionIn = function () {
-
 };
 
 about.onPreloadComplete = function() {
