@@ -2,9 +2,10 @@
 
 var View = require('./View');
 
-/*
-    Layout class
-    Manage each layout with node where append to, data, template and actions given
+/**
+ * class Layout extends View
+ * Manage each layout with node where append to, data, template and actions given
+ * @param {object} options
  */
 function Layout (options) {
     View.call(this);
@@ -16,6 +17,5 @@ function Layout (options) {
 
 Layout.prototype = new View; // jshint ignore:line
 Layout.prototype.constructor = Layout;
-
 
 module.exports = Layout;

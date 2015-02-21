@@ -2,25 +2,36 @@
 
 var Router = require('./Router');
 
-/*
-    AppCore
-    Manage all the application (sections, components, layouts, ...)
+/**
+ * class AppCore
+ * Manage all the application (sections, components, layouts, ...)
+ * @param {object} options references to each part of the applications
  */
 function AppCore (options) {
-    // Node where append section
+    /*
+        Node where append section
+     */
     this.el = document.querySelector( options.el ) || document.body;
-    // Sections of app
+    /*
+        App sections
+     */
     this.sections = options.sections || {};
-    // Routes of app
+    /*
+        App routes
+     */
     this.routes = options.routes || {};
-    // Layout of app
+    /*
+        App layouts
+     */
     this.layouts = options.layouts || {};
-    // Components of app
+    /*
+        App components
+     */
     this.components = options.components || {};
 }
 
-/*
-    Initialization
+/**
+ * Initialization
  */
 AppCore.prototype.init = function() {
     // Router.emitter.on('router:update', this.onRoute.bind(this));
@@ -33,8 +44,8 @@ AppCore.prototype.init = function() {
     Router.start();
 };
 
-/*
-    Add routes to Router
+/**
+ * Add routes to Router
  */
 AppCore.prototype.addRoutes = function() {
     var defaultRoute;
@@ -51,8 +62,8 @@ AppCore.prototype.addRoutes = function() {
     if(defaultRoute) Router.setDefault(defaultRoute);
 };
 
-/*
-    Append view layouts
+/**
+ * Append layouts
  */
 AppCore.prototype.addLayouts = function() {
     for(var layout in this.layouts) {

@@ -6,24 +6,37 @@ var View = require('./View'),
     forEach = require('forEach'),
     TweenMax = require('TweenMax');
 
-/*
-    Section class
-    Manage each view with data, template and actions given
+/**
+ * class Section extends View
+ * Manage each view with data, template and actions given
+ * @param {object} options
  */
 function Section (options) {
     View.call(this);
 
-    // html template
+    /*
+        html template
+     */
     this.template = options.template || '';
-    // data for template
+    /*
+       data for template
+     */
     this.data = options.data || {};
-    // event emitter
+    /*
+        event emitter
+     */
     this.emitter = new EventEmitter();
-    // manifest to preload
+    /*
+       manifest to preload
+     */
     this.manifest = [];
-    // promises to resolve
+    /*
+       promises to resolve
+     */
     this.promises = [];
-    // promises results
+    /*
+        promises results
+     */
     this.files = {};
 }
 
@@ -38,36 +51,48 @@ Section.prototype.routed = function() {
     }.bind(this));
 };
 
-/************************
- *  Transition stuff
- ************************/
+/*===================================================
+   Transitions
+===================================================*/
+/**
+ * Animation to play when section is appended
+ * @param  {Function} callback function to execute whenever you want (onStart, onComplete, ...)
+ */
 Section.prototype.transitionIn = function(callback) {
-    console.warn('[Section] - You can override section.transitionIn to have a custom transition in');
+    console.info('[Section] - You can override section.transitionIn to have a custom transition in');
     if (callback && typeof(callback) === "function") {
         callback();
     }
 };
 
+/**
+ * Animation to play when section is destroyed
+ * @param  {Function} callback function to execute on transition complete
+ * @return {[type]}            [description]
+ */
 Section.prototype.transitionOut = function(callback) {
-    console.warn('[Section] - You can override section.transitionOut to have a custom transition out');
+    console.info('[Section] - You can override section.transitionOut to have a custom transition out');
     if (callback && typeof(callback) === "function") {
         callback();
     }
 };
 
-/************************
- *  Promises stuff
- ************************/
-/*
-    Push promises to the promises array
-    They will be resolved and parsed
-    eg. this.promises.push({id: 'products', promise: productsApi.getProducts()})
-*/
+/*===================================================
+   Promises
+===================================================*/
+/**
+ * Push promises to the promises array
+ * They will be resolved and parsed
+ * eg. this.promises.push({id: 'products', promise: productsApi.getProducts()})
+ */
 Section.prototype.createPromises = function() {
-    // Method to override
-    console.warn('[Section] - You need to override section.createPromises');
+    // Method overridable
+    console.info('[Section] - Override section.createPromises to resolve your promises');
 };
 
+/**
+ * Resolve all promises and save results in this.files
+ */
 Section.prototype.resolvePromises = function() {
     var promisesManifest = [],
         promisesResult = {};
@@ -85,18 +110,21 @@ Section.prototype.resolvePromises = function() {
     }));
 };
 
-/************************
- *  Preload stuff
- ************************/
-/*
-    Push files URL into the manifest array
-    eg. this.manifest.push(URL)
-*/
+/*===================================================
+   Preload
+===================================================*/
+/**
+ * Push files URL into the manifest array
+ * eg. this.manifest.push(URL)
+ */
 Section.prototype.createManifest = function() {
-    // Method to override
-    console.warn('[Section] - You need to override section.createManifest');
+    // Method overridable
+    console.info('[Section] - You can override section.createManifest to preload some files');
 };
 
+/**
+ * Add files to preloader
+ */
 Section.prototype.startPreload = function() {
     if(this.manifest && this.manifest.length > 0) {
         this.preloader = new PxLoader();
@@ -112,9 +140,10 @@ Section.prototype.startPreload = function() {
     }
 };
 
-/*
-    Handle preload progretion
-    progress = progretion between [0 - 1]
+/**
+ * Handle preload progretion
+ * progress = progretion between [0 - 1]
+ * @param  {object} event status of progression
  */
 Section.prototype.onPreloadProgress = function(event) {
     if(event.error) {
@@ -126,19 +155,16 @@ Section.prototype.onPreloadProgress = function(event) {
     this.emitter.emit('section:preloadProgress', progress);
 };
 
-Section.prototype.onPreloadError = function(event) {
+/**
+ * Handle preload error
+ */
+Section.prototype.onPreloadError = function() {
     this.emitter.emit('section:preloadError');
 };
 
-/*
-    Handle preload completion
-    e.g. stop loading animation and display content
+/**
+ * Play transition in when preload ended
  */
-Section.prototype.onPreloadComplete = function() {
-    // Method to override
-    console.warn('[Section] - You need to override section.onPreloadComplete');
-};
-
 Section.prototype.contentLoaded = function() {
     if(this.preloader) {
         this.preloader = null;
@@ -146,5 +172,15 @@ Section.prototype.contentLoaded = function() {
     this.onPreloadComplete();
     this.transitionIn();
 };
+
+/**
+ * Handle preload completion
+ * e.g. stop loading animation and display content
+ */
+Section.prototype.onPreloadComplete = function() {
+    // Method overridable
+    console.info('[Section] - You can override section.onPreloadComplete to handle preload completion');
+};
+
 
 module.exports = Section;
