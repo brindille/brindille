@@ -5,6 +5,7 @@ var View = require('./View'),
     PxLoader = require('PxLoader'),
     forEach = require('forEach'),
     TweenMax = require('TweenMax');
+var verbose = require('app/config').verbose;
 
 /**
  * class Section extends View
@@ -59,7 +60,7 @@ Section.prototype.routed = function() {
  * @param  {Function} callback function to execute whenever you want (onStart, onComplete, ...)
  */
 Section.prototype.transitionIn = function(callback) {
-    console.info('[Section] - You can override section.transitionIn to have a custom transition in');
+    if(verbose) console.info('[Section] - You can override section.transitionIn to have a custom transition in');
     if (callback && typeof(callback) === "function") {
         callback();
     }
@@ -71,7 +72,7 @@ Section.prototype.transitionIn = function(callback) {
  * @return {[type]}            [description]
  */
 Section.prototype.transitionOut = function(callback) {
-    console.info('[Section] - You can override section.transitionOut to have a custom transition out');
+    if(verbose) console.info('[Section] - You can override section.transitionOut to have a custom transition out');
     if (callback && typeof(callback) === "function") {
         callback();
     }
@@ -87,7 +88,7 @@ Section.prototype.transitionOut = function(callback) {
  */
 Section.prototype.createPromises = function() {
     // Method overridable
-    console.info('[Section] - Override section.createPromises to resolve your promises');
+    if(verbose) console.info('[Section] - Override section.createPromises to resolve your promises');
 };
 
 /**
@@ -119,7 +120,7 @@ Section.prototype.resolvePromises = function() {
  */
 Section.prototype.createManifest = function() {
     // Method overridable
-    console.info('[Section] - You can override section.createManifest to preload some files');
+    if(verbose) console.info('[Section] - You can override section.createManifest to preload some files');
 };
 
 /**
@@ -179,7 +180,7 @@ Section.prototype.contentLoaded = function() {
  */
 Section.prototype.onPreloadComplete = function() {
     // Method overridable
-    console.info('[Section] - You can override section.onPreloadComplete to handle preload completion');
+    if(verbose) console.info('[Section] - You can override section.onPreloadComplete to handle preload completion');
 };
 
 

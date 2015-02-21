@@ -4,8 +4,8 @@ var page = require('page'),
     forEach = require('forEach'),
     bindAll = require('bindall-standalone'),
     MobileDetect = require('mobile-detect'),
-    md = new MobileDetect(navigator.userAgent),
-    verbose = true;
+    md = new MobileDetect(window.navigator.userAgent),
+    verbose = require('app/config').verbose;
 
 /**
  * class Router

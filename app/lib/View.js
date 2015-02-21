@@ -1,6 +1,7 @@
 'use strict';
 
 var compiler = require('./compiler');
+var verbose = require('app/config').verbose;
 
 /**
  * class View
@@ -39,14 +40,14 @@ View.prototype.append = function(el) {
  *  Set all your events
  */
 View.prototype.addEvents = function() {
-    console.warn("[View] - You need to override view.addEvents");
+    if(verbose) console.warn("[View] - You need to override view.addEvents");
 };
 
 /**
  * Remove events to prevent memory leaks
  */
 View.prototype.removeEvents = function() {
-    console.warn("[View] - You need to override view.removeEvents");
+    if(verbose) console.warn("[View] - You need to override view.removeEvents");
 };
 
 /**

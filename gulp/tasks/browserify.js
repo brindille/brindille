@@ -21,6 +21,7 @@ gulp.task('browserify', function()
 {
     aliasify = require('aliasify').configure({
         aliases: {
+            'app': '../../app',
             'components': '../../app/components',
             'sections': '../../app/sections',
             'layouts': '../../app/layouts',
