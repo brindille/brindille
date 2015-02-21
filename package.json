@@ -37,7 +37,7 @@
     "fit": "soulwire/fit.js",
     "foreach.js": "toddmotto/foreach",
     "greensock": "greensock/GreenSock-JS",
-    "PxLoader": "thinkpixellab/PxLoader"
+    "PxLoader": "superguigui/PxLoader"
   },
   "devDependencies": {
     "aliasify": "^1.5.1",

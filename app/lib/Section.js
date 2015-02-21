@@ -2,10 +2,10 @@
 
 var View = require('./View'),
     EventEmitter = require('events').EventEmitter,
-    PxLoader = require('PxLoader'),
+    preloader = require('utils/preloader'),
     forEach = require('forEach'),
-    TweenMax = require('TweenMax');
-var verbose = require('app/config').verbose;
+    TweenMax = require('TweenMax'),
+    config= require('app/config');
 
 /**
  * class Section extends View
@@ -60,7 +60,7 @@ Section.prototype.routed = function() {
  * @param  {Function} callback function to execute whenever you want (onStart, onComplete, ...)
  */
 Section.prototype.transitionIn = function(callback) {
-    if(verbose) console.info('[Section] - You can override section.transitionIn to have a custom transition in');
+    if(config.verbose) console.info('[Section] - You can override section.transitionIn to have a custom transition in');
     if (callback && typeof(callback) === "function") {
         callback();
     }
@@ -72,7 +72,7 @@ Section.prototype.transitionIn = function(callback) {
  * @return {[type]}            [description]
  */
 Section.prototype.transitionOut = function(callback) {
-    if(verbose) console.info('[Section] - You can override section.transitionOut to have a custom transition out');
+    if(config.verbose) console.info('[Section] - You can override section.transitionOut to have a custom transition out');
     if (callback && typeof(callback) === "function") {
         callback();
     }
@@ -88,7 +88,7 @@ Section.prototype.transitionOut = function(callback) {
  */
 Section.prototype.createPromises = function() {
     // Method overridable
-    if(verbose) console.info('[Section] - Override section.createPromises to resolve your promises');
+    if(config.verbose) console.info('[Section] - Override section.createPromises to resolve your promises');
 };
 
 /**
@@ -120,7 +120,7 @@ Section.prototype.resolvePromises = function() {
  */
 Section.prototype.createManifest = function() {
     // Method overridable
-    if(verbose) console.info('[Section] - You can override section.createManifest to preload some files');
+    if(config.verbose) console.info('[Section] - You can override section.createManifest to preload some files');
 };
 
 /**
@@ -128,13 +128,13 @@ Section.prototype.createManifest = function() {
  */
 Section.prototype.startPreload = function() {
     if(this.manifest && this.manifest.length > 0) {
-        this.preloader = new PxLoader();
-        forEach(this.manifest, function (img, i) {
-            this.preloader.addImage(img);
-        }.bind(this));
-        this.preloader.addProgressListener(this.onPreloadProgress.bind(this));
-        this.preloader.addCompletionListener(this.contentLoaded.bind(this));
-        this.preloader.start();
+        preloader.load({
+            root: config.assetsRoot,
+            manifest: this.manifest,
+            handleProgress: this.onPreloadProgress.bind(this),
+            handleError: this.onPreloadError.bind(this),
+            handleComplete: this.contentLoaded.bind(this)
+        });
     }
     else {
         this.contentLoaded();
@@ -147,11 +147,6 @@ Section.prototype.startPreload = function() {
  * @param  {object} event status of progression
  */
 Section.prototype.onPreloadProgress = function(event) {
-    if(event.error) {
-        this.onPreloadError();
-        return;
-    }
-
     var progress = event.completedCount/event.totalCount;
     this.emitter.emit('section:preloadProgress', progress);
 };
@@ -159,7 +154,7 @@ Section.prototype.onPreloadProgress = function(event) {
 /**
  * Handle preload error
  */
-Section.prototype.onPreloadError = function() {
+Section.prototype.onPreloadError = function(event) {
     this.emitter.emit('section:preloadError');
 };
 
@@ -167,9 +162,6 @@ Section.prototype.onPreloadError = function() {
  * Play transition in when preload ended
  */
 Section.prototype.contentLoaded = function() {
-    if(this.preloader) {
-        this.preloader = null;
-    }
     this.onPreloadComplete();
     this.transitionIn();
 };
@@ -180,7 +172,7 @@ Section.prototype.contentLoaded = function() {
  */
 Section.prototype.onPreloadComplete = function() {
     // Method overridable
-    if(verbose) console.info('[Section] - You can override section.onPreloadComplete to handle preload completion');
+    if(config.verbose) console.info('[Section] - You can override section.onPreloadComplete to handle preload completion');
 };
 
 
