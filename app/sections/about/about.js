@@ -10,12 +10,16 @@ var about = new Section({
     transitionType: 'outAndAfterIn'
 });
 
-about.transitionIn = function (callback) {
+about.ready = function () {
     var $el = document.querySelector('.about h1');
-    this.tlTransition  = new TimelineMax({
-        onComplete: callback
-    });
+    this.tlTransition  = new TimelineMax();
     this.tlTransition.fromTo($el, 0.7, {y: 100, alpha: 0}, {y: 0, alpha: 1, ease: Expo.easeInOut}, 0.3);
+    this.tlTransition.pause(0);
+};
+
+about.transitionIn = function (callback) {
+    this.tlTransition.eventCallback('onComplete', callback);
+    this.tlTransition.play(0);
 };
 
 about.onPreloadComplete = function() {

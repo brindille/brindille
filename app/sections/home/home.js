@@ -11,17 +11,20 @@ var home = new Section({
     }
 });
 
-home.transitionIn = function (callback) {
+home.ready = function () {
     var $els = [
         document.querySelector('.home h1'),
         document.querySelector('.home h2'),
         document.querySelector('.home a')
     ];
-
-    this.tlTransition  = new TimelineMax({
-        onComplete: callback
-    });
+    this.tlTransition = new TimelineMax();
     this.tlTransition.staggerFromTo($els, 0.7, {y: 100, alpha: 0}, {y: 0, alpha: 1, ease: Expo.easeInOut}, 0.08, 0);
+    this.tlTransition.pause(0);
+};
+
+home.transitionIn = function (callback) {
+    this.tlTransition.eventCallback('onComplete', callback);
+    this.tlTransition.play(0);
 };
 
 home.transitionOut = function(callback) {

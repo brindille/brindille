@@ -33,8 +33,14 @@ View.prototype.append = function(el) {
     // Append template
     $el.innerHTML = compiler.render(this.template, this.data);
 
+    this.ready();
     this.addEvents();
 };
+
+/**
+ * Operations you want to do when the view is ready (created + mounted)
+ */
+View.prototype.ready = function() {};
 
 /**
  *  Set all your events
