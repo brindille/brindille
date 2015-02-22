@@ -160,17 +160,17 @@ Router.prototype.afterRouted = function(context) {
  */
 Router.prototype.setDefault = function(defaultRoute) {
     this.defaultRoute = defaultRoute;
-    page('*', this.onDefaultRoute);
-    this.start();
+    page('*', this.onDefaultRoute, this.afterRouted);
 };
 
 /**
  * When requested route does not exists, redirects to proper default route
  * @param  {object}   context route context
  */
-Router.prototype.onDefaultRoute = function(context) {
+Router.prototype.onDefaultRoute = function(context, next) {
     history.replaceState({}, '', this.defaultRoute);
     this.redirect(this.defaultRoute);
+    next();
 };
 
 /*===================================================

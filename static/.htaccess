@@ -2,10 +2,10 @@ Options +FollowSymlinks
 RewriteEngine On
 RewriteBase /
 
-# Rewrite everything (except file or directory) to index.html
+# Rewrite everything (except file or directory) to index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.+)$ index.html [L]
+RewriteRule ^(.+)$ index.php [L]
 
 # Video types
 # AddType video/mp4 .mp4 .m4v

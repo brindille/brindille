@@ -2,6 +2,7 @@
 
 var View = require('./View'),
     EventEmitter = require('events').EventEmitter,
+    Promise = require('promise'),
     preloader = require('utils/preloader'),
     forEach = require('forEach'),
     TweenMax = require('TweenMax'),

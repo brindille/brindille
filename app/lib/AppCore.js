@@ -34,7 +34,6 @@ function AppCore (options) {
  * Initialization
  */
 AppCore.prototype.init = function() {
-    // Router.emitter.on('router:update', this.onRoute.bind(this));
     // Append layouts
     this.addLayouts();
     // Add routes to router and start it
