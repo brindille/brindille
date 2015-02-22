@@ -1,3 +1,5 @@
+'use strict';
+
 var AppCore = require('lib/AppCore');
 var domready = require('domready');
 

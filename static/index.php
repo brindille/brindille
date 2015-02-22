@@ -27,7 +27,7 @@
 
         <link rel="shortcut icon" href="path/to/favicon.ico" type="image/x-icon">
         <link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
-        <link rel="stylesheet" href="./build/styles.css" />
+        <link rel="stylesheet" href="/build/styles.css" />
         <meta name="fragment" content="!">
     </head>
 
@@ -36,12 +36,12 @@
         <div id="view"></div>
         <footer></footer>
 
-        <script src="shims/bind.min.js"></script>
+        <script src="/shims/bind.min.js"></script>
         <!--[if lt IE 10]>
-        <script src="shims/history.min.js"></script>
-        <script src="shims/requestanimationframe.js"></script>
+        <script src="/shims/history.min.js"></script>
+        <script src="/shims/requestanimationframe.js"></script>
         <![endif]-->
-        <script src="./build/build.js"></script>
+        <script src="/build/build.js"></script>
         <!-- Google Analytics -->
     </body>
 </html>

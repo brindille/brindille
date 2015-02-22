@@ -1,3 +1,5 @@
+'use strict';
+
 var bindAll = require('bindall-standalone'),
     PxLoader = require('PxLoader'),
     verbose = require('app/config').verbose;

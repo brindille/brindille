@@ -1,3 +1,5 @@
+'use strict';
+
 var doT = require('dot');
 
 var compiler = {

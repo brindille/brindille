@@ -52,7 +52,7 @@ AppCore.prototype.addRoutes = function() {
         if(route[0] !== '/') continue;
 
         Router.addRoute({
-            id: route.slice(1),
+            id: this.routes[route].section,
             path: route
         });
         if(this.routes[route].isDefault) defaultRoute = route;

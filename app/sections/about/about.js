@@ -1,3 +1,5 @@
+'use strict';
+
 var Section = require('lib/Section');
 var fs = require('fs');
 var TweenMax = require('TweenMax');

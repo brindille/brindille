@@ -58,6 +58,7 @@ Router.prototype.addRoute = function(route) {
         path: route.path
     });
     page(route.path, this.beforeRouted, this.onRoute, this.afterRouted);
+
     if(verbose) console.debug('[Router] add route "' + route.path + '"');
 };
 
@@ -138,6 +139,7 @@ Router.prototype.onRoute = function(context, next) {
     }
 
     this.currentSection = this.sections[this.context.id];
+    this.currentSection.params = this.context.params;
     this.currentSection.append(this.domContainer);
     this.currentSection.routed();
 

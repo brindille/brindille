@@ -25,6 +25,10 @@ function Section (options) {
      */
     this.data = options.data || {};
     /*
+        parameters coming from route path
+     */
+    this.params = {};
+    /*
         event emitter
      */
     this.emitter = new EventEmitter();

@@ -9,6 +9,7 @@
         "Bounce": false,
         "Cubic": false,
         "Linear": false,
-        "google": false
+        "scroll": false,
+        "Promise": true
     }
 }

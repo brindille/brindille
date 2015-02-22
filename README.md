@@ -5,10 +5,10 @@ Boilerplate for single page website without using framework.
 
 TODO
 ====
-- [ ] Routing
+- [x] Routing
     - [x] Display correct view in function of route
     - [x] Make transition between views
-    - [ ] Take care of route params in view
+    - [x] Take care of route params in view
 - [ ] Templating (maybe use Handlebar or an other)
     - [x] easily append view template such as `<div data-template="my-template"></div>`
     - [x] bind data such as `<h1>{{ title }}</h1>`
