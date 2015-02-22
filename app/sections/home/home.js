@@ -9,7 +9,16 @@ var bindAll = require('bindall-standalone');
 var home = new Section({
     template: fs.readFileSync(__dirname + '/home.html', 'utf8'),
     data: {
-        'name': 'John'
+        name: 'John'
+    },
+    components: {
+        test: {
+            componentId: 'component-test',
+            data: {
+                url: 'http://perdu.com',
+                label: 'test from home'
+            }
+        }
     }
 });
 

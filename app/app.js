@@ -23,7 +23,9 @@ var app = new AppCore({
         'header': require('layouts/header/header'),
         'footer': require('layouts/footer/footer')
     },
-    components: {}
+    components: {
+        'component-test': require('components/component-test/componentTest')
+    }
 });
 
 domready(function() {

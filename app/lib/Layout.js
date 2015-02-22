@@ -13,6 +13,7 @@ function Layout (options) {
     this.el = document.querySelector( options.el ) || document.body;
     this.template = options.template || '';
     this.data = options.data || {};
+    this.components = options.components || {};
 }
 
 Layout.prototype = new View; // jshint ignore:line

@@ -13,13 +13,14 @@ TODO
     - [x] easily append view template such as `<div data-template="my-template"></div>`
     - [x] bind data such as `<h1>{{ title }}</h1>`
     - [ ] recompile template when data change
-    - [ ] append components
+    - [x] append components
 - [ ] Component building
-    - [ ] easily register component in view
-    - [ ] use component template inside a view
-    - [ ] data binding
+    - [x] easily register component in view
+    - [x] use component template inside a view
+    - [x] data binding
+    - [ ] recompile template when data change
     - [ ] events handlers
-    - [ ] maybe give some parameters by the parent view
+    - [x] maybe give some parameters by the parent view
 - [x] Serve page to crawlers
     - [x] redirect crawlers
     - [x] render requested page using PhantomJS

@@ -1,6 +1,7 @@
 'use strict';
 
 var Router = require('./Router');
+var verbose = require('app/config').verbose;
 
 /**
  * class AppCore
@@ -34,13 +35,20 @@ function AppCore (options) {
  * Initialization
  */
 AppCore.prototype.init = function() {
+    // Set references to main app
+    for(var i in this.layouts) {
+        this.layouts[i].app = this;
+    }
+    for(var j in this.sections) {
+        this.sections[j].app = this;
+    }
     // Append layouts
     this.addLayouts();
     // Add routes to router and start it
-    Router.setContainer(this.el);
     Router.setSections(this.sections);
     this.addRoutes();
     Router.start();
+    if(verbose) console.debug('[AppCore] init');
 };
 
 /**
@@ -68,6 +76,11 @@ AppCore.prototype.addLayouts = function() {
     for(var layout in this.layouts) {
         this.layouts[layout].append();
     }
+};
+
+AppCore.prototype.getComponent = function (id) {
+    console.log(this);
+    return this.components[id];
 };
 
 module.exports = AppCore;

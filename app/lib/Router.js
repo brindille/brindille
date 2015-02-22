@@ -13,10 +13,6 @@ var page = require('page'),
  */
 function Router() {
     /*
-        DOM Element where append sections
-     */
-    this.domContainer = document.body;
-    /*
         This object is dispatched on each locationChange.
         It holds the current path, the route params...
      */
@@ -69,14 +65,6 @@ Router.prototype.addRoute = function(route) {
 Router.prototype.setSections = function(sections) {
     this.sections = sections;
     if(verbose) console.debug('[Router] set sections');
-};
-
-/**
- * Set DOM Element where append sections
- * @param {DOMElement} el Element where append sections
- */
-Router.prototype.setContainer = function(el) {
-    this.domContainer = el;
 };
 
 /**
@@ -140,7 +128,7 @@ Router.prototype.onRoute = function(context, next) {
 
     this.currentSection = this.sections[this.context.id];
     this.currentSection.params = this.context.params;
-    this.currentSection.append(this.domContainer);
+    this.currentSection.append();
     this.currentSection.routed();
 
     next();

@@ -24,6 +24,8 @@ function Section (options) {
        data for template
      */
     this.data = options.data || {};
+
+    this.components = options.components || {};
     /*
         parameters coming from route path
      */
@@ -167,6 +169,7 @@ Section.prototype.onPreloadError = function(event) {
  * Play transition in when preload ended
  */
 Section.prototype.contentLoaded = function() {
+    this.ready();
     this.onPreloadComplete();
     this.transitionIn();
 };
