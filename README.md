@@ -14,6 +14,7 @@ TODO
     - [x] bind data such as `<h1>{{ title }}</h1>`
     - [ ] recompile template when data change
     - [x] append components
+    - [ ] create pool object to prevent `this.components.foo.data.bar = something`
 - [ ] Component building
     - [x] easily register component in view
     - [x] use component template inside a view
