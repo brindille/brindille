@@ -2,4 +2,7 @@
 
 %font-name {
     font-family: 'FontName';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
