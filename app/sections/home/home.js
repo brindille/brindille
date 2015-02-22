@@ -22,6 +22,10 @@ home.ready = function () {
     this.tlTransition.pause(0);
 };
 
+home.beforeDestroy = function () {
+    this.tlTransition = null;
+};
+
 home.transitionIn = function (callback) {
     this.tlTransition.eventCallback('onComplete', callback);
     this.tlTransition.play(0);

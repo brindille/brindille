@@ -57,6 +57,11 @@ View.prototype.removeEvents = function() {
 };
 
 /**
+ * Operations to do before destroying vien
+ */
+View.prototype.beforeDestroy = function() {};
+
+/**
  * Destroy view when it is not needed anymore
  */
 View.prototype.destroy = function() {

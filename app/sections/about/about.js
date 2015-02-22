@@ -17,6 +17,10 @@ about.ready = function () {
     this.tlTransition.pause(0);
 };
 
+about.beforeDestroy = function () {
+    this.tlTransition = null;
+};
+
 about.transitionIn = function (callback) {
     this.tlTransition.eventCallback('onComplete', callback);
     this.tlTransition.play(0);
