@@ -1,6 +1,8 @@
 'use strict';
 
-var View = require('./View');
+var View = require('./View'),
+    inherits = require('inherits'),
+    verbose = require('app/config').verbose;
 
 /**
  * class Layout extends View
@@ -8,15 +10,37 @@ var View = require('./View');
  * @param {object} options
  */
 function Layout (options) {
-    View.call(this);
-
+    /*
+        Node where append layout
+     */
     this.el = document.querySelector( options.el ) || document.body;
+    /*
+        html template
+     */
     this.template = options.template || '';
+    /*
+       data for template
+     */
     this.data = options.data || {};
+    /*
+        components of layout
+     */
     this.components = options.components || {};
 }
+inherits(Layout, View);
 
-Layout.prototype = new View; // jshint ignore:line
-Layout.prototype.constructor = Layout;
+/**
+ *  Set all your events
+ */
+Layout.prototype.addEvents = function() {
+    if(verbose) console.warn("[Layout] You need to override layout.addEvents");
+};
+
+/**
+ * Remove events to prevent memory leaks
+ */
+Layout.prototype.removeEvents = function() {
+    if(verbose) console.warn("[Layout] You need to override layout.removeEvents");
+};
 
 module.exports = Layout;

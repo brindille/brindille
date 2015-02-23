@@ -6,7 +6,8 @@ var View = require('./View'),
     preloader = require('utils/preloader'),
     forEach = require('forEach'),
     TweenMax = require('TweenMax'),
-    config= require('app/config');
+    config = require('app/config'),
+    inherits = require('inherits');
 
 /**
  * class Section extends View
@@ -14,8 +15,6 @@ var View = require('./View'),
  * @param {object} options
  */
 function Section (options) {
-    View.call(this);
-
     /*
         html template
      */
@@ -24,7 +23,9 @@ function Section (options) {
        data for template
      */
     this.data = options.data || {};
-
+    /*
+        components of section
+     */
     this.components = options.components || {};
     /*
         parameters coming from route path
@@ -47,16 +48,45 @@ function Section (options) {
      */
     this.files = {};
 }
+inherits(Section, View);
 
-Section.prototype = new View; // jshint ignore:line
-Section.prototype.constructor = Section;
-
-Section.prototype.routed = function() {
+/*===================================================
+   Lifecycle
+===================================================*/
+/**
+ * Bind section
+ * @param  {Function} callback function to call when transition in is complete
+ */
+Section.prototype.bind = function(callback) {
+    this.transitionInCallback = callback;
+    this.append();
     this.createPromises();
     this.resolvePromises().then(function() {
         this.createManifest();
         this.startPreload();
     }.bind(this));
+};
+
+/**
+ *  Set all your events
+ */
+Section.prototype.addEvents = function() {
+    if(config.verbose) console.warn("[Section] You need to override section.addEvents");
+};
+
+/**
+ * Remove events to prevent memory leaks
+ */
+Section.prototype.removeEvents = function() {
+    if(config.verbose) console.warn("[Section] You need to override section.removeEvents");
+};
+
+/**
+ * Unbind section
+ * @param  {Function} callback function to call when transition out is complete
+ */
+Section.prototype.unbind = function (callback) {
+    this.transitionOut(callback);
 };
 
 /*===================================================
@@ -67,7 +97,7 @@ Section.prototype.routed = function() {
  * @param  {Function} callback function to execute whenever you want (onStart, onComplete, ...)
  */
 Section.prototype.transitionIn = function(callback) {
-    if(config.verbose) console.info('[Section] - You can override section.transitionIn to have a custom transition in');
+    if(config.verbose) console.info('[Section] You can override section.transitionIn to have a custom transition in');
     if (callback && typeof(callback) === "function") {
         callback();
     }
@@ -79,7 +109,7 @@ Section.prototype.transitionIn = function(callback) {
  * @return {[type]}            [description]
  */
 Section.prototype.transitionOut = function(callback) {
-    if(config.verbose) console.info('[Section] - You can override section.transitionOut to have a custom transition out');
+    if(config.verbose) console.info('[Section] You can override section.transitionOut to have a custom transition out');
     if (callback && typeof(callback) === "function") {
         callback();
     }
@@ -95,7 +125,7 @@ Section.prototype.transitionOut = function(callback) {
  */
 Section.prototype.createPromises = function() {
     // Method overridable
-    if(config.verbose) console.info('[Section] - Override section.createPromises to resolve your promises');
+    if(config.verbose) console.info('[Section] Override section.createPromises to resolve your promises');
 };
 
 /**
@@ -127,7 +157,7 @@ Section.prototype.resolvePromises = function() {
  */
 Section.prototype.createManifest = function() {
     // Method overridable
-    if(config.verbose) console.info('[Section] - You can override section.createManifest to preload some files');
+    if(config.verbose) console.info('[Section] You can override section.createManifest to preload some files');
 };
 
 /**
@@ -171,7 +201,7 @@ Section.prototype.onPreloadError = function(event) {
 Section.prototype.contentLoaded = function() {
     this.ready();
     this.onPreloadComplete();
-    this.transitionIn();
+    this.transitionIn(this.transitionInCallback);
 };
 
 /**
@@ -180,7 +210,7 @@ Section.prototype.contentLoaded = function() {
  */
 Section.prototype.onPreloadComplete = function() {
     // Method overridable
-    if(config.verbose) console.info('[Section] - You can override section.onPreloadComplete to handle preload completion');
+    if(config.verbose) console.info('[Section] You can override section.onPreloadComplete to handle preload completion');
 };
 
 

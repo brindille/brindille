@@ -103,7 +103,7 @@ Router.prototype.beforeRouted = function(context, next) {
     this.context.path = context.path;
 
     if(this.currentSection) {
-        this.currentSection.transitionOut(function() {
+        this.currentSection.unbind(function() {
             this.currentSection.destroy();
             this.currentSection = null;
             next();
@@ -128,8 +128,7 @@ Router.prototype.onRoute = function(context, next) {
 
     this.currentSection = this.sections[this.context.id];
     this.currentSection.params = this.context.params;
-    this.currentSection.append();
-    this.currentSection.routed();
+    this.currentSection.bind();
 
     next();
 };

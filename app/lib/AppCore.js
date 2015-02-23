@@ -10,7 +10,7 @@ var verbose = require('app/config').verbose;
  */
 function AppCore (options) {
     /*
-        Node where append section
+        Node where append sections
      */
     this.el = document.querySelector( options.el ) || document.body;
     /*
@@ -41,6 +41,9 @@ AppCore.prototype.init = function() {
     }
     for(var j in this.sections) {
         this.sections[j].app = this;
+    }
+    for(var k in this.components) {
+        this.components[k].app = this;
     }
     // Append layouts
     this.addLayouts();
@@ -79,7 +82,6 @@ AppCore.prototype.addLayouts = function() {
 };
 
 AppCore.prototype.getComponent = function (id) {
-    console.log(this);
     return this.components[id];
 };
 

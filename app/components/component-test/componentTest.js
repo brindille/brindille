@@ -2,18 +2,15 @@
 
 var Component = require('lib/Component');
 var fs = require('fs');
+var inherits = require('inherits');
 
 function ComponentTest() {
-    Component.call(this);
-
     this.template = fs.readFileSync(__dirname + '/componentTest.html', 'utf8');
     this.data = {
         url: 'http://google.com',
         label: 'test'
     };
 }
-
-ComponentTest.prototype = new Component; // jshint ignore:line
-ComponentTest.prototype.constructor = ComponentTest;
+inherits(ComponentTest, Component);
 
 module.exports = ComponentTest;

@@ -68,6 +68,7 @@
     "debounce": "^1.0.0",
     "domready": "^1.0.7",
     "dot": "^1.0.3",
+    "inherits": "^2.0.1",
     "mobile-detect": "^0.4.3",
     "page": "^1.6.0",
     "promise": "^6.1.0"
