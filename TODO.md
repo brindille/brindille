@@ -8,6 +8,7 @@ TODO
     - [x] easily append view template such as `<div data-template="my-template"></div>`
     - [x] bind data such as `<h1>{{ title }}</h1>`
     - [ ] recompile template when data change
+    - [ ] hide views on append, show them on transitionIn
     - [x] make correct DOM tree
     - [x] append components
     - [ ] create pool object to prevent `this.components.foo.data.bar = something`
@@ -22,4 +23,4 @@ TODO
     - [x] redirect crawlers
     - [x] render requested page using PhantomJS
 - [ ] Global
-    - [ ] remove unused components from package.json
+    - [x] remove unused components from package.json
