@@ -5,7 +5,7 @@ var fs = require('fs');
 
 var footer = new Layout({
     el: 'footer',
-    template: fs.readFileSync(__dirname + '/footer.html', 'utf8'),
+    template: require('./footer.html'),
     data: {},
     components: {
         simpleLink: {

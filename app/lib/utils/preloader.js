@@ -2,7 +2,7 @@
 
 var bindAll = require('bindall-standalone'),
     PxLoader = require('PxLoader'),
-    verbose = require('app/config').verbose;
+    verbose = require('config').verbose;
 
 var preloader = {
     opts: undefined,

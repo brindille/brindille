@@ -2,6 +2,7 @@
 
 var AppCore = require('lib/AppCore');
 var domready = require('domready');
+var gsap = require('gsap');
 
 var app = new AppCore({
     el: '#view',

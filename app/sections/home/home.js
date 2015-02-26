@@ -2,12 +2,11 @@
 
 var Section = require('lib/Section');
 var fs = require('fs');
-var TweenMax = require('TweenMax');
 var resizeUtil = require('utils/resize');
 var bindAll = require('bindall-standalone');
 
 var home = new Section({
-    template: fs.readFileSync(__dirname + '/home.html', 'utf8'),
+    template: require('./home.html'),
     data: {
         name: 'John'
     },

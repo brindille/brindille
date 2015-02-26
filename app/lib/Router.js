@@ -1,11 +1,11 @@
 'use strict';
 
 var page = require('page'),
-    forEach = require('forEach'),
+    forEach = require('for-each'),
     bindAll = require('bindall-standalone'),
     MobileDetect = require('mobile-detect'),
     md = new MobileDetect(window.navigator.userAgent),
-    verbose = require('app/config').verbose;
+    verbose = require('config').verbose;
 
 /**
  * class Router

@@ -2,7 +2,7 @@
 
 var View = require('./View'),
     inherits = require('inherits'),
-    verbose = require('app/config').verbose;
+    verbose = require('config').verbose;
 
 /**
  * class Layout extends View

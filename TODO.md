@@ -21,3 +21,5 @@ TODO
 - [x] Serve page to crawlers
     - [x] redirect crawlers
     - [x] render requested page using PhantomJS
+- [ ] Global
+    - [ ] remove unused components from package.json

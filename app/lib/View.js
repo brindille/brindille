@@ -1,7 +1,7 @@
 'use strict';
 
 var compiler = require('utils/compiler');
-var verbose = require('app/config').verbose;
+var verbose = require('config').verbose;
 
 /**
  * class View

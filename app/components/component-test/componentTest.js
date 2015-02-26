@@ -5,7 +5,7 @@ var fs = require('fs');
 var inherits = require('inherits');
 
 function ComponentTest() {
-    this.template = fs.readFileSync(__dirname + '/componentTest.html', 'utf8');
+    this.template = require('./componentTest.html');
     this.data = {
         url: 'http://google.com',
         label: 'test'

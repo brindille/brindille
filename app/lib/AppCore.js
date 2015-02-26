@@ -1,7 +1,7 @@
 'use strict';
 
 var Router = require('./Router');
-var verbose = require('app/config').verbose;
+var verbose = require('config').verbose;
 
 /**
  * class AppCore

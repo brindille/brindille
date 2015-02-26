@@ -1,62 +1,53 @@
-// Uncomment to debug browserify + shim
-// process.env.BROWSERIFYSHIM_DIAGNOSTICS = 1;
+'use strict';
 
-var gulp = require('gulp'),
-    plumber = require('gulp-plumber'),
-    gutil = require('gulp-util'),
-    notify = require("gulp-notify"),
-    argv = require('yargs').argv,
-    browserify = require('browserify'),
-    watchify = require('watchify'),
-    gStreamify = require('gulp-streamify'),
-    uglify = require('gulp-uglify'),
-    source = require('vinyl-source-stream'),
-    bundleLogger = require('../utils/bundleLogger'),
-    handleErrors = require('../utils/handleErrors'),
-    options = require('../options');
+var gulp = require('gulp');
+var vinyl = require('vinyl-source-stream');
+var envify = require('envify/custom');
+var stringify = require('stringify');
+var stripify = require('stripify');
+var watchify = require('watchify');
+var opts = require('../options');
+var cfg = require('../config');
+var aliasify = require('aliasify').configure(cfg.aliasify);
+var bundleLogger = require('../utils/time-logger')('bundle');
+var errorNotif = require('../utils/error-notification');
 
-var env = argv.env != "production";
-
-gulp.task('browserify', function()
-{
-    aliasify = require('aliasify').configure({
-        aliases: {
-            'app': '../../app',
-            'components': '../../app/components',
-            'sections': '../../app/sections',
-            'layouts': '../../app/layouts',
-            'lib': '../../app/lib',
-            'utils': '../../app/lib/utils',
-        },
-        configDir: __dirname,
-        verbose: false
-    });
-
-    var b = browserify(process.cwd() + '/app/app.js', {
+gulp.task('browserify', function() {
+    var bundler = require('browserify')({
+        entries: cfg.entry.scripts,
         cache: {},
         packageCache: {},
-        debug: env,
-        fullPaths: true
+        fullPaths: opts.debug,
+        debug: opts.debug
     });
-    var file = 'build.js';
-    var folder = process.cwd() +'/static/build/';
 
-    b.transform(aliasify);
+    if (opts.watch) {
+        bundler = watchify(bundler);
+        bundler.on('update', bundle);
+    }
 
-    var bundler = options.isWatching ? watchify(b) : b;
+    applyTransform(bundler);
 
-    var bundle = function() {
+    return bundle();
+
+    function bundle() {
         bundleLogger.start();
 
         return bundler.bundle()
-            .on('error', handleErrors)
-            .pipe(source(file))
-            .pipe(argv.env != "production" ? gutil.noop() : gStreamify(uglify()))
-            .pipe(gulp.dest(folder))
+            .on('error', errorNotif)
+            .pipe(vinyl(cfg.output.filename + '.js'))
+            .pipe(gulp.dest(cfg.output.path))
             .on('end', bundleLogger.end);
-    };
-
-    if(options.isWatching) bundler.on('update', bundle);
-
-    return bundle();
+    }
 });
+
+function applyTransform(bundler) {
+    bundler.transform(envify({
+        NODE_ENV: opts.env
+    }));
+    bundler.transform(stringify(['.html']));
+    bundler.transform(aliasify);
+    if(opts.production) {
+        bundler.transform(stripify);
+    }
+}

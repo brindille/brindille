@@ -4,9 +4,8 @@ var View = require('./View'),
     EventEmitter = require('events').EventEmitter,
     Promise = require('promise'),
     preloader = require('utils/preloader'),
-    forEach = require('forEach'),
-    TweenMax = require('TweenMax'),
-    config = require('app/config'),
+    forEach = require('for-each'),
+    config = require('config'),
     inherits = require('inherits');
 
 /**

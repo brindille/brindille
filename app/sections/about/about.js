@@ -2,10 +2,9 @@
 
 var Section = require('lib/Section');
 var fs = require('fs');
-var TweenMax = require('TweenMax');
 
 var about = new Section({
-    template: fs.readFileSync(__dirname + '/about.html', 'utf8'),
+    template: require('./about.html'),
     data: {
         'title': 'About'
     },
