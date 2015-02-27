@@ -1,6 +1,7 @@
 'use strict';
 
-var doT = require('dot');
+var doT = require('dot'),
+    domify = require('domify');
 
 var compiler = {
     settings: {
@@ -30,6 +31,9 @@ var compiler = {
         var t = doT.template(tmpl);
 
         return t(data);
+    },
+    domify: function(string) {
+        return domify(string);
     }
 };
 

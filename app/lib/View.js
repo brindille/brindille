@@ -1,7 +1,8 @@
 'use strict';
 
-var compiler = require('utils/compiler');
-var verbose = require('config').verbose;
+var compiler = require('utils/compiler'),
+    nextTick = require('just-next-tick'),
+    verbose = require('config').verbose;
 
 /**
  * class View
@@ -46,18 +47,20 @@ View.prototype.append = function() {
         return;
     }
 
-    var $el = this.el || this.app.el;
+    this.$el = this.el || this.app.el;
 
-    if(!$el) {
+    if(!this.$el) {
         console.error('Cannot append to null node');
         return;
     }
 
     // Append template
-    $el.setAttribute('hidden', '');
-    $el.innerHTML = compiler.render(this.template, this.data);
+    this.$el.setAttribute('hidden', '');
+    this.$el.innerHTML = compiler.render(this.template, this.data);
     this.appendComponents();
-    $el.removeAttribute('hidden');
+
+    // to move somewhere later in lifecycle
+    this.$el.removeAttribute('hidden');
 
     this.addEvents();
 };

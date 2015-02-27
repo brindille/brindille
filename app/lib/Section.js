@@ -5,6 +5,7 @@ var View = require('./View'),
     Promise = require('promise'),
     preloader = require('utils/preloader'),
     forEach = require('for-each'),
+    nextTick = require('just-next-tick'),
     config = require('config'),
     inherits = require('inherits');
 

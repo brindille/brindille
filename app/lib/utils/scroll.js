@@ -1,11 +1,8 @@
 'use strict';
 
-var EventEmitter = require('events').EventEmitter,
+var Emitter = require('emitter-component'),
     debounce = require('debounce'),
-    emitter = new EventEmitter();
-
-emitter.setMaxListeners(50);
-var frequency = 1000/60;
+    frequency = 1000/60;
 
 var scrollUtil = module.exports = {
     doScroll: function() {
@@ -15,16 +12,17 @@ var scrollUtil = module.exports = {
         this.y = window.scrollY || window.pageYOffset;
 
         this.direction = this.y - this.oy;
-        emitter.emit('scroll');
+        this.emit('scroll');
     },
     addListener: function(listener) {
-        emitter.on('scroll', listener);
+        this.on('scroll', listener);
     },
     removeListener: function(listener) {
-        if(listener) emitter.removeListener('scroll', listener);
+        if(listener) this.off('scroll', listener);
     }
 };
 
+Emitter(scrollUtil);
 scrollUtil.debouncedScroll = debounce(scrollUtil.doScroll, frequency);
 scrollUtil.doScroll();
 window.addEventListener('scroll', scrollUtil.debouncedScroll.bind(scrollUtil));

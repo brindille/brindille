@@ -19,6 +19,7 @@ module.exports = {
             'layouts': './layouts/',
             'config': './config/',
             'lib': './lib/',
+            'base': './base/',
             'utils': './lib/utils/',
             'components': './components/'
         },

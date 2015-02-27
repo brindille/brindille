@@ -24,3 +24,7 @@ TODO
     - [x] render requested page using PhantomJS
 - [ ] Global
     - [x] remove unused components from package.json
+
+- [ ] View 2.0 (GG)
+    -   add possibility to add more global components
+    -

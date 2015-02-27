@@ -2,6 +2,7 @@
 
 var page = require('page'),
     forEach = require('for-each'),
+    nextTick = require('just-next-tick'),
     bindAll = require('bindall-standalone'),
     MobileDetect = require('mobile-detect'),
     md = new MobileDetect(window.navigator.userAgent),
@@ -104,9 +105,11 @@ Router.prototype.beforeRouted = function(context, next) {
 
     if(this.currentSection) {
         this.currentSection.unbind(function() {
-            this.currentSection.destroy();
-            this.currentSection = null;
             next();
+            nextTick(function() {
+                this.currentSection.destroy();
+                this.currentSection = null;
+            }.bind(this));
         }.bind(this));
     } else {
         next();
