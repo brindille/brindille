@@ -109,6 +109,7 @@ View.prototype.appendComponents = function() {
             if (cTor !== undefined) {
                 var data = domUtils.attributesToData(node);
                 var component = new cTor(data);
+                console.log(component);
                 this._componentsInstances.push(component);
                 node.parentNode.replaceChild(component.$el, node);
             }
