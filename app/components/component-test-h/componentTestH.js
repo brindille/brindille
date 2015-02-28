@@ -1,6 +1,6 @@
 'use strict';
 
-var ComponentFactory = require('base/ComponentFactory');
+var ComponentFactory = require('base/utils/componentFactory');
 
 var ComponentTestH = ComponentFactory.create({
     template: require('./componentTestH.html'),
