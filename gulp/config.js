@@ -10,7 +10,7 @@ module.exports = {
 
     entry: {
         scripts: ['./app/index.js'],
-        styles: ['./app/main.styl']
+        styles: ['./app/stylus/main.styl']
     },
 
     aliasify: {

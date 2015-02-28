@@ -1,0 +1,14 @@
+/*
+    Font-face
+*/
+font-face(family, src, weight = normal, style = normal)
+    @font-face
+        font-family: family
+        src: url(src + ".eot")
+        src: url(src + ".eot?#iefix") format('embedded-opentype'),
+            url(src + ".woff") format("woff"),
+            url(src + ".ttf") format("truetype"),
+            url(src + ".svg#" + family) format('svg')
+
+        font-style: style
+        font-weight: weight
