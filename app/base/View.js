@@ -70,7 +70,7 @@ inherits(View, Emitter);
  */
 View.prototype.appendTo = function(domElement) {
     if (!domElement.tagName) {
-        console.warn('[View] appendTo() - param must be a DOMElement')
+        console.warn('[View] appendTo() - param must be a DOMElement');
         return;
     }
     this.$parentEl = domElement;
@@ -84,7 +84,7 @@ View.prototype.appendTo = function(domElement) {
  */
 View.prototype.prependTo = function(domElement) {
     if (!domElement.tagName) {
-        console.warn('[View] appendTo() - param must be a DOMElement')
+        console.warn('[View] appendTo() - param must be a DOMElement');
         return;
     }
     this.$parentEl = domElement;
@@ -105,11 +105,10 @@ View.prototype.appendComponents = function() {
     this._componentsInstances = [];
     walk(this.$el, function(node) {
         if (node.nodeType === 1) {
-            var cTor = this.components[node.nodeName.toLowerCase()];
-            if (cTor !== undefined) {
+            var Ctor = this.components[node.nodeName.toLowerCase()];
+            if (Ctor !== undefined) {
                 var data = domUtils.attributesToData(node);
-                var component = new cTor(data);
-                console.log(component);
+                var component = new Ctor(data);
                 this._componentsInstances.push(component);
                 node.parentNode.replaceChild(component.$el, node);
             }
