@@ -11,7 +11,7 @@ TODO
     - [ ] hide views on append, show them on transitionIn
     - [x] make correct DOM tree
     - [x] append components
-    - [ ] create pool object to prevent `this.components.foo.data.bar = something`
+    - [x] create pool object to prevent `this.components.foo.data.bar = something`
 - [ ] Component building
     - [x] easily register component in view
     - [x] use component template inside a view

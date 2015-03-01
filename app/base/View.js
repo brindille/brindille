@@ -43,6 +43,11 @@ function View(options) {
     this.components = options.components || {};
     this._componentsInstances = [];
 
+    /*
+        reference to view's components
+     */
+    this.refs = {};
+
     // Bind context to sensitive methods
     bindAll(this, 'render', 'onTransitionInComplete', 'onTransitionOutComplete');
 
@@ -136,7 +141,15 @@ View.prototype.appendComponents = function() {
             var Ctor = this.components[node.nodeName.toLowerCase()];
             if (Ctor !== undefined) {
                 var data = domUtils.attributesToData(node);
+                var r;
+                if(data.ref) {
+                    r = data.ref;
+                    delete data.ref; // delete ref to don't inject it in data
+                }
                 var component = new Ctor(data);
+                if(r) {
+                    this.refs[r] = component;
+                }
                 this._componentsInstances.push(component);
                 node.parentNode.replaceChild(component.$el, node);
             }

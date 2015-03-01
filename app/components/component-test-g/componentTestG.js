@@ -10,4 +10,8 @@ var ComponentTestG = Factory.view({
     }
 });
 
+ComponentTestG.prototype.ready = function() {
+    console.log('Ref: ', this.refs.componentTestH);
+};
+
 module.exports = ComponentTestG;
