@@ -5,6 +5,7 @@ var domready = require('domready');
 var gsap = require('gsap');
 var scroll = require('utils/scroll');
 var View = require('base/View');
+var Router = require('base/Router');
 
 var app = new AppCore({
     el: '#view',
@@ -38,9 +39,17 @@ domready(function() {
     // var component = new Component();
     // console.log(component);
 
+    Router.init({
+        routes: {
+            '/home': {
+                section: require('sections/home-g/homeG'),
+                isDefault: true
+            }
+        }
+    });
 
     var view = new View({
-        template: '<div style="border: 1px solid white; padding: 10px;margin: 10px;"><h1>I\'m a view with child components</h1><br/><h2>Rapidly changing value: {{=data.time}}</h2><br/><test title="{{=data.firstTitle}}" bidule="toto"></test><test title="{{=data.secondTitle}}" bidule="guigui"></test><ul>{{~data.list :value:index }}<li>{{=index}} - {{=value}}</li>{{~}}</ul></div>',
+        template: '<div style="border: 1px solid white; padding: 10px;margin: 10px;"><h1>I\'m a view with child components</h1><br/><h2>Rapidly changing value: {{=data.time}}</h2><br/><div><a href="/home">home</a> - <a href="/about">about</a></div><test title="{{=data.firstTitle}}" bidule="toto"></test><test title="{{=data.secondTitle}}" bidule="guigui"></test><ul>{{~data.list :value:index }}<li>{{=index}} - {{=value}}</li>{{~}}</ul></div>',
         data: {
             title: 'bonjour',
             subtitle: 'monde',
@@ -53,19 +62,18 @@ domready(function() {
             "test": require('components/component-test-g/componentTestG')
         }
     });
-
-
     view.appendTo(document.body);
-    view.data.title = 'aurevoir';
-    setInterval(function() {
-        view.data.time += 1;
-    }, 10);
-    setTimeout(function() {
-        view.data.title = 'coucou';
-        view.data.secondTitle = 'olé';
-        view.data.firstTitle = 'PROUUUUT';
-        view.data.list = ['banana', 'apple', 'orange', 'apple', 'orange', 'apple', 'orange', 'apple', 'orange', 'apple', 'orange', 'apple', 'orange'];
-    }, 1000);
+    
+    // view.data.title = 'aurevoir';
+    // setInterval(function() {
+    //     view.data.time += 1;
+    // }, 10);
+    // setTimeout(function() {
+    //     view.data.title = 'coucou';
+    //     view.data.secondTitle = 'olé';
+    //     view.data.firstTitle = 'PROUUUUT';
+    //     view.data.list = ['banana', 'apple', 'orange', 'apple', 'orange', 'apple', 'orange', 'apple', 'orange', 'apple', 'orange', 'apple', 'orange'];
+    // }, 1000);
 
 
 });

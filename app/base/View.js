@@ -3,7 +3,6 @@
 var renderer = require('base/renderer'),
     domUtils = require('base/utils/dom'),
     Emitter = require('emitter-component'),
-    nextTick = require('just-next-tick'),
     forEach = require('for-each'),
     bindAll = require('bindall-standalone'),
     verbose = require('config').verbose,
@@ -24,7 +23,7 @@ function View(options) {
     this.$el = null;
 
     /*
-        html template, must be encapsulated in a tag element (div or other)
+        html string template, must be encapsulated in a single tag element (div or other)
      */
     this.template = options.template || '';
 
@@ -44,18 +43,22 @@ function View(options) {
     this.components = options.components || {};
     this._componentsInstances = [];
 
+    // Bin context to sensitive methods
+    bindAll(this, 'render', 'onTransitionInComplete', 'onTransitionOutComplete');
+
     /*
         Data observer for rerendering when necessary
         LA VIOLENCE !!!
         Pour plus tard on va essayer de stocker des 'micros bouts de templates'
         puis on render uniquement les micros bouts en fonction de quel data à été updated
      */
-    observer.watch(this.data, this.render.bind(this));
+    observer.watch(this.data, this.render);
 
 
     // When ready launch first render
     this.compile();
     this.render();
+
 }
 
 // Make View an event emitter
@@ -93,6 +96,28 @@ View.prototype.prependTo = function(domElement) {
 };
 
 /**
+ * Remove view from parent and start destroy process
+ */
+View.prototype.remove = function() {
+    if(this.$el.parentNode) {
+        this.$el.parentNode.removeChild(this.$el);
+    }
+    this.destroy();
+};
+
+/**
+ * Destroying the view and its child components
+ */
+View.prototype.destroy = function() {
+    observer.unwatch(this.data, this.render);
+    forEach(this._componentsInstances, function(value, index) {
+        value.destroy();
+    });
+    this._destroying();
+    this._destroyed();
+};
+
+/**
  * Compile Template string (this.template) to a template function to
  * use for render (this.templateFn)
  */
@@ -101,6 +126,9 @@ View.prototype.compile = function() {
     this._compiled();
 };
 
+/**
+ * Parse view dom to check if we need to add child Views (components)
+ */
 View.prototype.appendComponents = function() {
     this._componentsInstances = [];
     walk(this.$el, function(node) {
@@ -129,6 +157,14 @@ View.prototype.render = function() {
     this._rendered();
 };
 
+View.prototype.transitionIn = function() {
+    this.onTransitionInComplete();  
+};
+
+View.prototype.transitionOut = function() {
+    this.onTransitionOutComplete();
+};
+
 /*========================================================
     LIFECYCLE
 ========================================================*/
@@ -139,7 +175,6 @@ View.prototype.compiled = function() {}; // to override if you want
 View.prototype._compiled = function() {
     this.compiled();
     this.emit('compiled');
-    // console.log('compiled');
 };
 
 /**
@@ -149,7 +184,6 @@ View.prototype.rendered = function() {}; // to override if you want
 View.prototype._rendered = function() {
     this.rendered();
     this.emit('rendered');
-    // console.log('rendered');
 };
 
 /**
@@ -166,7 +200,36 @@ View.prototype._ready = function() {
     });
     this.ready();
     this.emit('ready');
-    // console.log('ready');
+};
+
+/**
+ * The moment you want to kill eventListeners, raf, tweens etc..
+*/
+View.prototype.destroying = function() {};
+View.prototype._destroying = function() {
+    this.destroying();
+    this.emit('destroying');
+};
+
+/**
+ * Here everything should be clean and ready for GC
+*/
+View.prototype.destroyed = function() {};
+View.prototype._destroyed = function() {
+    this.destroyed();
+    this.emit('destroyed');
+};
+
+View.prototype.onTransitionInComplete = function() {};
+View.prototype._onTransitionInComplete = function() {
+    this.onTransitionInComplete();
+    this.emit('onTransitionInComplete');
+};
+
+View.prototype.onTransitionOutComplete = function() {};
+View.prototype._onTransitionOutComplete = function() {
+    this.onTransitionOutComplete();
+    this.emit('onTransitionOutComplete');
 };
 
 module.exports = View;
