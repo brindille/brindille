@@ -17,7 +17,7 @@
     "gulp",
     "browserify"
   ],
-  "author": "vdaguenet",
+  "author": "vdaguenet, superguigui",
   "license": "MIT",
   "browserify": {
     "transform": [
@@ -64,22 +64,23 @@
     "browser-sync": "^2.2.1"
   },
   "dependencies": {
-    "gsap": "^1.15.1",
     "bindall-standalone": "^1.0.5",
     "debounce": "^1.0.0",
+    "dom-walk": "^0.1.1",
+    "domify": "^1.3.1",
     "domready": "^1.0.7",
     "dot": "^1.0.3",
+    "emitter-component": "^1.1.1",
+    "extend": "^2.0.0",
+    "for-each": "^0.3.2",
+    "gsap": "^1.15.1",
     "inherits": "^2.0.1",
+    "just-next-tick": "0.0.0",
     "mobile-detect": "^0.4.3",
     "page": "^1.6.0",
     "promise": "^6.1.0",
-    "stylus-media-queries": "^1.0.0",
     "stylus-easing": "^1.0.0",
-    "for-each": "^0.3.2",
-    "just-next-tick": "0.0.0",
-    "emitter-component": "^1.1.1",
-    "dom-walk": "^0.1.1",
-    "domify": "^1.3.1",
+    "stylus-media-queries": "^1.0.0",
     "watchjs": "0.0.0"
   }
 }

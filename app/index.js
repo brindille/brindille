@@ -63,17 +63,7 @@ domready(function() {
         }
     });
     view.appendTo(document.body);
-    
-    // view.data.title = 'aurevoir';
-    // setInterval(function() {
-    //     view.data.time += 1;
-    // }, 10);
-    // setTimeout(function() {
-    //     view.data.title = 'coucou';
-    //     view.data.secondTitle = 'olé';
-    //     view.data.firstTitle = 'PROUUUUT';
-    //     view.data.list = ['banana', 'apple', 'orange', 'apple', 'orange', 'apple', 'orange', 'apple', 'orange', 'apple', 'orange', 'apple', 'orange'];
-    // }, 1000);
+
 
 
 });

@@ -1,14 +1,9 @@
 /*======================================================================
-    MIXINS
+    MIXINS & EXTENDS
 ======================================================================*/
-@import "../node_modules/stylus-media-queries/index.styl";
-@import "../node_modules/stylus-easing/index.styl";
-
-// Find a way to better fragment the following (and better location)
-@import "utils/stylus-utils.styl";
-
-
-
+@import "../../node_modules/stylus-media-queries/index.styl";
+@import "../../node_modules/stylus-easing/index.styl";
+@import "utils/*";
 
 /*======================================================================
     BASE
@@ -30,7 +25,6 @@ html {
 /*======================================================================
     COMPONENTS
 ======================================================================*/
-
-@import "components/*";
-@import "layouts/*";
-@import "sections/*";
+@import "../components/*";
+@import "../layouts/*";
+@import "../sections/*";

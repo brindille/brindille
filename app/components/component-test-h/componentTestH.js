@@ -1,15 +1,20 @@
 'use strict';
 
-var View = require('base/View'),
-    inherits = require('inherits');
+var ComponentFactory = require('base/utils/componentFactory');
 
-function ComponentTestH(data) {
-    View.call(this, {
-        template: require('./componentTestH.html'),
-        data: data // if you want you can extend
-    });
-}
+var ComponentTestH = ComponentFactory.create({
+    template: require('./componentTestH.html'),
+    data: {
+        test: false
+    }
+});
 
-inherits(ComponentTestH, View);
+ComponentTestH.prototype.fnTest = function() {
+    console.log('Crazy test');
+};
+
+ComponentTestH.prototype.ready = function() {
+    this.fnTest();
+};
 
 module.exports = ComponentTestH;
