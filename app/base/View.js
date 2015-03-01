@@ -43,7 +43,7 @@ function View(options) {
     this.components = options.components || {};
     this._componentsInstances = [];
 
-    // Bin context to sensitive methods
+    // Bind context to sensitive methods
     bindAll(this, 'render', 'onTransitionInComplete', 'onTransitionOutComplete');
 
     /*
@@ -158,7 +158,7 @@ View.prototype.render = function() {
 };
 
 View.prototype.transitionIn = function() {
-    this.onTransitionInComplete();  
+    this.onTransitionInComplete();
 };
 
 View.prototype.transitionOut = function() {
