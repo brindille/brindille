@@ -1,8 +1,8 @@
 'use strict';
 
-var ComponentFactory = require('base/utils/componentFactory');
+var Factory = require('base/utils/factory');
 
-var ComponentTestH = ComponentFactory.create({
+var ComponentTestH = Factory.view({
     template: require('./componentTestH.html'),
     data: {
         test: false

@@ -1,12 +1,7 @@
-var inherits = require('inherits'),
-	View = require('base/View');
+var Factory = require('base/utils/factory');
 
-function HomeG() {
-	View.call(this, {
-		template: require('sections/home-g/homeG.html')
-	});
-}
-
-inherits(HomeG, View);
+HomeG = Factory.view({
+    template: require('sections/home-g/homeG.html')
+});
 
 module.exports = HomeG;
