@@ -1,26 +1,178 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'node', '/usr/local/bin/npm', 'start' ]
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'i', 'page', '1.5.0', '--save' ]
 2 info using npm@1.4.28
 3 info using node@v0.10.33
-4 verbose run-script [ 'prestart', 'start', 'poststart' ]
-5 info prestart no-framework-boilerplate@0.0.0
-6 info start no-framework-boilerplate@0.0.0
-7 verbose unsafe-perm in lifecycle true
-8 info no-framework-boilerplate@0.0.0 Failed to exec start script
-9 error no-framework-boilerplate@0.0.0 start: `npm run server`
-9 error Exit status 1
-10 error Failed at the no-framework-boilerplate@0.0.0 start script.
-10 error This is most likely a problem with the no-framework-boilerplate package,
-10 error not with npm itself.
-10 error Tell the author that this fails on your system:
-10 error     npm run server
-10 error You can get their info via:
-10 error     npm owner ls no-framework-boilerplate
-10 error There is likely additional logging output above.
-11 error System Darwin 14.1.0
-12 error command "node" "/usr/local/bin/npm" "start"
-13 error cwd /Volumes/Datas/Users/guillaumegouessan/Sites/no-framework-boilerplate
-14 error node -v v0.10.33
-15 error npm -v 1.4.28
-16 error code ELIFECYCLE
-17 verbose exit [ 1, true ]
+4 warn package.json no-framework-boilerplate@0.0.0 No repository field.
+5 warn package.json no-framework-boilerplate@0.0.0 scripts['server'] should probably be scripts['start'].
+6 warn package.json pxloader@1.0.3 No repository field.
+7 verbose readDependencies using package.json deps
+8 verbose cache add [ 'page@^1.5.0', null ]
+9 verbose cache add name=undefined spec="page@^1.5.0" args=["page@^1.5.0",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: 'page@^1.5.0',
+10 verbose parsed url   path: 'page@^1.5.0',
+10 verbose parsed url   href: 'page@^1.5.0' }
+11 verbose cache add [ '1.5.0', null ]
+12 verbose cache add name=undefined spec="1.5.0" args=["1.5.0",null]
+13 verbose parsed url { protocol: null,
+13 verbose parsed url   slashes: null,
+13 verbose parsed url   auth: null,
+13 verbose parsed url   host: null,
+13 verbose parsed url   port: null,
+13 verbose parsed url   hostname: null,
+13 verbose parsed url   hash: null,
+13 verbose parsed url   search: null,
+13 verbose parsed url   query: null,
+13 verbose parsed url   pathname: '1.5.0',
+13 verbose parsed url   path: '1.5.0',
+13 verbose parsed url   href: '1.5.0' }
+14 verbose cache add name="page" spec="^1.5.0" args=["page","^1.5.0"]
+15 verbose parsed url { protocol: null,
+15 verbose parsed url   slashes: null,
+15 verbose parsed url   auth: null,
+15 verbose parsed url   host: null,
+15 verbose parsed url   port: null,
+15 verbose parsed url   hostname: null,
+15 verbose parsed url   hash: null,
+15 verbose parsed url   search: null,
+15 verbose parsed url   query: null,
+15 verbose parsed url   pathname: '^1.5.0',
+15 verbose parsed url   path: '^1.5.0',
+15 verbose parsed url   href: '^1.5.0' }
+16 verbose addNamed [ 'page', '^1.5.0' ]
+17 verbose addNamed [ null, '>=1.5.0-0 <2.0.0-0' ]
+18 silly lockFile a0070e5b-page-1-5-0 page@^1.5.0
+19 verbose lock page@^1.5.0 /Users/guillaume/.npm/a0070e5b-page-1-5-0.lock
+20 silly lockFile 3591720d-1-5-0 1.5.0
+21 verbose lock 1.5.0 /Users/guillaume/.npm/3591720d-1-5-0.lock
+22 silly addNameRange { name: 'page', range: '>=1.5.0-0 <2.0.0-0', hasData: false }
+23 silly lockFile 3591720d-1-5-0 1.5.0
+24 silly lockFile 3591720d-1-5-0 1.5.0
+25 verbose addNamed [ '1.5.0', '' ]
+26 verbose addNamed [ null, '*' ]
+27 silly lockFile 2054c0da-1-5-0 1.5.0@
+28 verbose lock 1.5.0@ /Users/guillaume/.npm/2054c0da-1-5-0.lock
+29 verbose request where is /page
+30 verbose request registry https://registry.npmjs.org/
+31 verbose request id 8beac775a175c11d
+32 verbose url raw /page
+33 verbose url resolving [ 'https://registry.npmjs.org/', './page' ]
+34 verbose url resolved https://registry.npmjs.org/page
+35 verbose request where is https://registry.npmjs.org/page
+36 info trying registry request attempt 1 at 13:39:22
+37 verbose etag "B1UWCE9QVYF6JMPE2RUE88QGN"
+38 http GET https://registry.npmjs.org/page
+39 silly addNameRange { name: '1.5.0', range: '*', hasData: false }
+40 verbose request where is /1.5.0
+41 verbose request registry https://registry.npmjs.org/
+42 verbose url raw /1.5.0
+43 verbose url resolving [ 'https://registry.npmjs.org/', './1.5.0' ]
+44 verbose url resolved https://registry.npmjs.org/1.5.0
+45 verbose request where is https://registry.npmjs.org/1.5.0
+46 info trying registry request attempt 1 at 13:39:22
+47 http GET https://registry.npmjs.org/1.5.0
+48 http 304 https://registry.npmjs.org/page
+49 silly registry.get cb [ 304,
+49 silly registry.get   { date: 'Sun, 01 Mar 2015 12:39:22 GMT',
+49 silly registry.get     server: 'Apache',
+49 silly registry.get     via: '1.1 varnish',
+49 silly registry.get     'last-modified': 'Sun, 01 Mar 2015 12:39:22 GMT',
+49 silly registry.get     'cache-control': 'max-age=60',
+49 silly registry.get     etag: '"B1UWCE9QVYF6JMPE2RUE88QGN"',
+49 silly registry.get     age: '13',
+49 silly registry.get     'x-served-by': 'cache-fra1237-FRA',
+49 silly registry.get     'x-cache': 'HIT',
+49 silly registry.get     'x-cache-hits': '1',
+49 silly registry.get     'x-timer': 'S1425213562.502749,VS0,VE0',
+49 silly registry.get     vary: 'Accept',
+49 silly registry.get     'content-length': '0',
+49 silly registry.get     'keep-alive': 'timeout=10, max=50',
+49 silly registry.get     connection: 'Keep-Alive' } ]
+50 verbose etag https://registry.npmjs.org/page from cache
+51 silly addNameRange number 2 { name: 'page', range: '>=1.5.0-0 <2.0.0-0', hasData: true }
+52 silly addNameRange versions [ 'page',
+52 silly addNameRange   [ '0.0.1',
+52 silly addNameRange     '0.0.2',
+52 silly addNameRange     '1.0.0',
+52 silly addNameRange     '1.1.0',
+52 silly addNameRange     '1.1.1',
+52 silly addNameRange     '1.1.2',
+52 silly addNameRange     '1.1.3',
+52 silly addNameRange     '1.2.0',
+52 silly addNameRange     '1.2.1',
+52 silly addNameRange     '1.3.0',
+52 silly addNameRange     '1.3.1',
+52 silly addNameRange     '1.3.2',
+52 silly addNameRange     '1.3.3',
+52 silly addNameRange     '1.3.4',
+52 silly addNameRange     '1.3.5',
+52 silly addNameRange     '1.3.6',
+52 silly addNameRange     '1.3.7',
+52 silly addNameRange     '1.4.0',
+52 silly addNameRange     '1.4.1',
+52 silly addNameRange     '1.5.0',
+52 silly addNameRange     '1.6.0',
+52 silly addNameRange     '1.6.1' ] ]
+53 verbose addNamed [ 'page', '1.6.1' ]
+54 verbose addNamed [ '1.6.1', '1.6.1' ]
+55 silly lockFile 910e3923-page-1-6-1 page@1.6.1
+56 verbose lock page@1.6.1 /Users/guillaume/.npm/910e3923-page-1-6-1.lock
+57 silly lockFile 910e3923-page-1-6-1 page@1.6.1
+58 silly lockFile 910e3923-page-1-6-1 page@1.6.1
+59 silly lockFile a0070e5b-page-1-5-0 page@^1.5.0
+60 silly lockFile a0070e5b-page-1-5-0 page@^1.5.0
+61 http 404 https://registry.npmjs.org/1.5.0
+62 verbose headers { date: 'Sun, 01 Mar 2015 12:39:23 GMT',
+62 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+62 verbose headers   'content-type': 'application/json',
+62 verbose headers   'cache-control': 'max-age=0',
+62 verbose headers   'content-length': '52',
+62 verbose headers   'accept-ranges': 'bytes',
+62 verbose headers   via: '1.1 varnish',
+62 verbose headers   age: '0',
+62 verbose headers   'x-served-by': 'cache-fra1222-FRA',
+62 verbose headers   'x-cache': 'MISS',
+62 verbose headers   'x-cache-hits': '0',
+62 verbose headers   'x-timer': 'S1425213562.506287,VS0,VE705',
+62 verbose headers   'keep-alive': 'timeout=10, max=50',
+62 verbose headers   connection: 'Keep-Alive' }
+63 silly registry.get cb [ 404,
+63 silly registry.get   { date: 'Sun, 01 Mar 2015 12:39:23 GMT',
+63 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+63 silly registry.get     'content-type': 'application/json',
+63 silly registry.get     'cache-control': 'max-age=0',
+63 silly registry.get     'content-length': '52',
+63 silly registry.get     'accept-ranges': 'bytes',
+63 silly registry.get     via: '1.1 varnish',
+63 silly registry.get     age: '0',
+63 silly registry.get     'x-served-by': 'cache-fra1222-FRA',
+63 silly registry.get     'x-cache': 'MISS',
+63 silly registry.get     'x-cache-hits': '0',
+63 silly registry.get     'x-timer': 'S1425213562.506287,VS0,VE705',
+63 silly registry.get     'keep-alive': 'timeout=10, max=50',
+63 silly registry.get     connection: 'Keep-Alive' } ]
+64 silly lockFile 2054c0da-1-5-0 1.5.0@
+65 silly lockFile 2054c0da-1-5-0 1.5.0@
+66 error 404 404 Not Found: 1.5.0
+66 error 404
+66 error 404 '1.5.0' is not in the npm registry.
+66 error 404 You should bug the author to publish it
+66 error 404 It was specified as a dependency of 'no-framework-boilerplate'
+66 error 404
+66 error 404 Note that you can also install from a
+66 error 404 tarball, folder, or http url, or git url.
+67 error System Darwin 14.1.0
+68 error command "node" "/usr/local/bin/npm" "i" "page" "1.5.0" "--save"
+69 error cwd /Volumes/Datas/Users/guillaumegouessan/Sites/no-framework-boilerplate
+70 error node -v v0.10.33
+71 error npm -v 1.4.28
+72 error code E404
+73 verbose exit [ 1, true ]
