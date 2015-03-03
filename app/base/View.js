@@ -7,6 +7,7 @@ var renderer = require('base/renderer'),
     bindAll = require('bindall-standalone'),
     verbose = require('config').verbose,
     walk = require('dom-walk'),
+    domify = require('domify'),
     observer = require('watchjs'),
     inherits = require('inherits');
 
@@ -38,6 +39,11 @@ function View(options) {
     this.data = options.data || {};
 
     /*
+        save html node where each data is used
+     */
+    this.dataTemplates = {};
+
+    /*
         components of view
      */
     this.components = options.components || {};
@@ -49,7 +55,7 @@ function View(options) {
     this.refs = {};
 
     // Bind context to sensitive methods
-    bindAll(this, 'render', 'onTransitionInComplete', 'onTransitionOutComplete');
+    bindAll(this, 'render', 'update', 'onTransitionInComplete', 'onTransitionOutComplete');
 
     /*
         Data observer for rerendering when necessary
@@ -57,8 +63,7 @@ function View(options) {
         Pour plus tard on va essayer de stocker des 'micros bouts de templates'
         puis on render uniquement les micros bouts en fonction de quel data à été updated
      */
-    observer.watch(this.data, this.render);
-
+    observer.watch(this.data, this.update);
 
     // When ready launch first render
     this.compile();
@@ -128,6 +133,21 @@ View.prototype.destroy = function() {
  */
 View.prototype.compile = function() {
     this.templateFn = renderer.compile(this.template);
+
+    // Save micro templates
+    for (var data in this.data) {
+        var re = new RegExp("data." + data, "g");
+        this.dataTemplates[data] = [];
+        walk(domify(this.template), function(node) {
+            if(node.innerHTML && node.innerHTML.match(re) && node.parentNode) {
+                this.dataTemplates[data].push({
+                    template: node.outerHTML,
+                    el: renderer.render(renderer.compile(node.outerHTML), this.data)
+                });
+            }
+        }.bind(this));
+    }
+
     this._compiled();
 };
 
@@ -168,6 +188,19 @@ View.prototype.render = function() {
     this.$el = $el;
     this.appendComponents();
     this._rendered();
+};
+
+View.prototype.update = function(prop, action, newvalue, oldvalue) {
+    forEach(this.dataTemplates[prop], function(value, index) {
+        var tmplFn = renderer.compile(value.template);
+        var $el = renderer.render(tmplFn, this.data);
+
+        forEach(this.$el.children, function(child, index) {
+            if(child.outerHTML === value.el.outerHTML) {
+                this.$el.replaceChild($el, child);
+            }
+        }.bind(this));
+    }.bind(this));
 };
 
 View.prototype.transitionIn = function() {

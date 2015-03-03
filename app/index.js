@@ -49,7 +49,7 @@ domready(function() {
     });
 
     var view = new View({
-        template: '<div style="border: 1px solid white; padding: 10px;margin: 10px;"><h1>I\'m a view with child components</h1><br/><h2>Rapidly changing value: {{=data.time}}</h2><br/><div><a href="/home">home</a> - <a href="/about">about</a></div><test title="{{=data.firstTitle}}" bidule="toto"></test><test title="{{=data.secondTitle}}" bidule="guigui"></test><ul>{{~data.list :value:index }}<li>{{=index}} - {{=value}}</li>{{~}}</ul></div>',
+        template: '<div style="border: 1px solid white; padding: 10px;margin: 10px;"><h1>I\'m a view with child components</h1><br/><h2>Rapidly changing value: {{=data.time}}</h2><br/><div><a href="/home">home</a> - <a href="/about">about</a></div><ul>{{~data.list :value:index }}<li>{{=index}} - {{=value}}</li>{{~}}</ul></div>',
         data: {
             title: 'bonjour',
             subtitle: 'monde',
@@ -64,6 +64,8 @@ domready(function() {
     });
     view.appendTo(document.body);
 
-
+    setTimeout(function() {
+        view.data.time = 1;
+    }, 10);
 
 });
