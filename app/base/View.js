@@ -190,6 +190,13 @@ View.prototype.render = function() {
     this._rendered();
 };
 
+/**
+ * Update template rendered with new data
+ * TODO:
+ * - think about node changes since compilation and first rendering, eg: adding class or style
+ * - if it's a component, update component
+ * - think about templating conditions, loops, etc.
+ */
 View.prototype.update = function(prop, action, newvalue, oldvalue) {
     forEach(this.dataTemplates[prop], function(value, index) {
         var tmplFn = renderer.compile(value.template);
