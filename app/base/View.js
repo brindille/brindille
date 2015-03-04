@@ -55,7 +55,7 @@ function View(options) {
     this.refs = {};
 
     // Bind context to sensitive methods
-    bindAll(this, 'render', 'update', 'onTransitionInComplete', 'onTransitionOutComplete');
+    bindAll(this, 'render', 'onTransitionInComplete', 'onTransitionOutComplete');
 
     /*
         Data observer for rerendering when necessary
@@ -63,7 +63,7 @@ function View(options) {
         Pour plus tard on va essayer de stocker des 'micros bouts de templates'
         puis on render uniquement les micros bouts en fonction de quel data à été updated
      */
-    observer.watch(this.data, this.update);
+    observer.watch(this.data, this.render);
 
     // When ready launch first render
     this.compile();
@@ -188,26 +188,6 @@ View.prototype.render = function() {
     this.$el = $el;
     this.appendComponents();
     this._rendered();
-};
-
-/**
- * Update template rendered with new data
- * TODO:
- * - think about node changes since compilation and first rendering, eg: adding class or style
- * - if it's a component, update component
- * - think about templating conditions, loops, etc.
- */
-View.prototype.update = function(prop, action, newvalue, oldvalue) {
-    forEach(this.dataTemplates[prop], function(value, index) {
-        var tmplFn = renderer.compile(value.template);
-        var $el = renderer.render(tmplFn, this.data);
-
-        forEach(this.$el.children, function(child, index) {
-            if(child.outerHTML === value.el.outerHTML) {
-                this.$el.replaceChild($el, child);
-            }
-        }.bind(this));
-    }.bind(this));
 };
 
 View.prototype.transitionIn = function() {
