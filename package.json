@@ -61,7 +61,10 @@
     "watchify": "^2.3.0",
     "minimist": "^1.1.0",
     "connect-history-api-fallback": "0.0.5",
-    "browser-sync": "^2.2.1"
+    "browser-sync": "^2.2.1",
+    "domthing": "^0.4.0",
+    "domthingify": "^0.2.0",
+    "domthingify-html": "^0.2.0"
   },
   "dependencies": {
     "bindall-standalone": "^1.0.5",
@@ -79,8 +82,10 @@
     "mobile-detect": "^0.4.3",
     "page": "^1.6.0",
     "promise": "^6.1.0",
+    "q": "^1.2.0",
     "stylus-easing": "^1.0.0",
     "stylus-media-queries": "^1.0.0",
-    "watchjs": "0.0.0"
+    "watchjs": "0.0.0",
+    "clone": "^1.0.1"
   }
 }

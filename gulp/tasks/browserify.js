@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var vinyl = require('vinyl-source-stream');
 var envify = require('envify/custom');
 var stringify = require('stringify');
+var domthingify = require('domthingify');
 var stripify = require('stripify');
 var watchify = require('watchify');
 var opts = require('../options');
@@ -45,8 +46,8 @@ function applyTransform(bundler) {
     bundler.transform(envify({
         NODE_ENV: opts.env
     }));
-    bundler.transform(stringify(['.html']));
     bundler.transform(aliasify);
+    bundler.transform(domthingify);
     if(opts.production) {
         bundler.transform(stripify);
     }

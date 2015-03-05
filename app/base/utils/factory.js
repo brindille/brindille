@@ -1,6 +1,7 @@
-var View = require('base/View'),
-    inherits = require('inherits'),
-    extend = require('extend');
+var View = require('base/View2');
+var inherits = require('inherits');
+var extend = require('extend');
+var clone = require('clone');
 
 module.exports = {
     /**
@@ -10,9 +11,9 @@ module.exports = {
      */
     view: function (opt) {
         var f = new Function( // jshint ignore:line
-            'opt', 'extend', 'ViewBase',
-            'return function View (data) { if(data) {opt.data = extend(opt.data, data);} ViewBase.call(this, opt); };'
-        )(opt, extend, View);
+            'opt', 'extend', 'ViewBase', 'clone',
+            'return function View (model) { if(model) {opt.model = extend(opt.model, model);} ViewBase.call(this, clone(opt)); };'
+        )(opt, extend, View, clone);
         inherits(f, View);
 
         return f;

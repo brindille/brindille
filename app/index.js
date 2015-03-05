@@ -4,70 +4,34 @@ var AppCore = require('lib/AppCore');
 var domready = require('domready');
 var gsap = require('gsap');
 var scroll = require('utils/scroll');
-var View = require('base/View');
+var View = require('base/View2');
 var Router = require('base/Router');
-
-var app = new AppCore({
-    el: '#view',
-    sections: {
-        'home': require('sections/home/home'),
-        'about': require('sections/about/about')
-    },
-    routes: {
-        '/home': {
-            section: 'home',
-            isDefault: true
-        },
-        '/about': {
-            section: 'about',
-            isDefault: false
-        }
-    },
-    layouts: {
-        'header': require('layouts/header/header'),
-        'footer': require('layouts/footer/footer')
-    },
-    components: {
-        'component-test': require('components/component-test/componentTest')
-    }
-});
+var Q = require('q');
 
 domready(function() {
-    // app.init();
-
-    // var Component = require('components/component-test-g/componentTestG');
-    // var component = new Component();
-    // console.log(component);
-
-    Router.init({
-        el: '#view',
-        routes: {
-            '/home': {
-                section: require('sections/home-g/homeG'),
-                isDefault: true
-            },
-            '/about': {
-                section: require('sections/home-g/homeG')
-            }
-        }
-    });
 
     var view = new View({
-        template: '<div style="border: 1px solid white; padding: 10px;margin: 10px;"><h1>I\'m a view with child components</h1><br/><h2>Rapidly changing value: {{=data.time}}</h2><br/><div><a href="/home">home</a> - <a href="/about">about</a> - <a href="/contact">contact</a></div><test title="{{=data.firstTitle}}" bidule="toto"></test><test title="{{=data.secondTitle}}" bidule="guigui"></test><ul>{{~data.list :value:index }}<li>{{=index}} - {{=value}}</li>{{~}}</ul></div>',
-        data: {
+        template: require('components/dom-component/domComponent.dom'),
+        model: {
             title: 'bonjour',
+            sub: {
+                trou: 'couche'
+            },
             subtitle: 'monde',
             firstTitle: 'coucou',
-            secondTitle: 'hello',
+            secondTitle: 'hello2',
             time: 0,
             list: ['banana', 'apple', 'orange']
         },
-        components: {
-            "test": require('components/component-test-g/componentTestG')
+        compose: {
+            'test': require('components/component-test-g/componentTestG')
         }
     });
     view.appendTo(document.body);
 
-
-
+    setTimeout(function() {
+        view.model.title = 'zob';
+        view.model.sub.trou = 'foot';
+        view.model.firstTitle = 'ojsf';
+    }, 2000);
 });

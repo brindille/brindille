@@ -7,7 +7,7 @@ TODO
 - [ ] Templating (maybe use Handlebar or an other)
     - [x] easily append view template such as `<div data-template="my-template"></div>`
     - [x] bind data such as `<h1>{{ title }}</h1>`
-    - [ ] recompile template when data change
+    - [x] recompile template when data change
     - [ ] hide views on append, show them on transitionIn
     - [x] make correct DOM tree
     - [x] append components
@@ -16,7 +16,7 @@ TODO
     - [x] easily register component in view
     - [x] use component template inside a view
     - [x] data binding
-    - [ ] recompile template when data change
+    - [x] recompile template when data change
     - [ ] events handlers
     - [x] maybe give some parameters by the parent view
 - [x] Serve page to crawlers
@@ -26,5 +26,4 @@ TODO
     - [x] remove unused components from package.json
 
 - [ ] View 2.0 (GG)
-    - [ ] add possibility to add more global components
-    -
+    - [ ] Add resolve param and methods to handle promise resolving before transitioning (if it exists)

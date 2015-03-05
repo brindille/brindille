@@ -1,6 +1,6 @@
 'use strict';
 
-var renderer = require('base/renderer');
+// var renderer = require('base/renderer');
 var domUtils = require('base/utils/dom');
 var Q = require('q');
 var domify = require('domify');
@@ -20,41 +20,30 @@ function View(options) {
     options = options || {};
 
     /*
-        Compiled Dom object of the view
+        Compiled Dom (domthing) object of the view
      */
     this.$el = null;
 
     /*
-        html string template, must be encapsulated in a single tag element (div or other)
+        html template function from domthing
      */
-    this.template = options.template || '';
+    this.templateFn = options.template;
 
     /*
-        html template function from doT
-     */
-    this.templateFn = null;
-
-
-    /*
-        Array of promises to be resolved before the view start transitioning  
+        Array of promises to be resolved before the view start transitioning
      */
     this.resolve = options.resolve || [];
 
     /*
         data for template
      */
-    this.data = options.data || {};
-
-    /*
-        save html node where each data is used
-     */
-    this.dataTemplates = {};
+    this.model = options.model || {};
 
     /*
         components of view
      */
-    this.components = options.components || {};
-    this._componentsInstances = [];
+    this.compose = options.compose || {};
+    this.componentsInstances = [];
 
     /*
         reference to view's components
@@ -62,7 +51,7 @@ function View(options) {
     this.refs = {};
 
     // Bind context to sensitive methods
-    bindAll(this, 'render', 'onTransitionInComplete', 'onTransitionOutComplete', '_onTransitionInComplete', '_onTransitionOutComplete', '_resolved');
+    bindAll(this, 'dataUpdated', 'render', 'onTransitionInComplete', 'onTransitionOutComplete', '_onTransitionInComplete', '_onTransitionOutComplete', '_resolved');
 
     /*
         Data observer for rerendering when necessary
@@ -70,12 +59,12 @@ function View(options) {
         Pour plus tard on va essayer de stocker des 'micros bouts de templates'
         puis on render uniquement les micros bouts en fonction de quel data à été updated
      */
-    observer.watch(this.data, this.render);
+    observer.watch(this.model, this.dataUpdated);
 
     // When ready launch first render
-    this.compile();
+    // this.compile();
     this.render();
-    this.startResolve();
+    // this.startResolve();
 }
 
 // Make View an event emitter
@@ -84,6 +73,10 @@ inherits(View, Emitter);
 /*========================================================
     PUBLIC API
 ========================================================*/
+View.prototype.createTemplateFromString = function(templateString) {
+
+};
+
 /**
  * Append (add at end) the view to a DOM element
  * @param  {DOMElement} domElement - Element where to append view
@@ -126,8 +119,8 @@ View.prototype.remove = function() {
  * Destroying the view and its child components
  */
 View.prototype.destroy = function() {
-    observer.unwatch(this.data, this.render);
-    forEach(this._componentsInstances, function(value, index) {
+    observer.unwatch(this.model, this.render);
+    forEach(this.componentsInstances, function(value, index) {
         value.destroy();
     });
     this._destroying();
@@ -135,39 +128,16 @@ View.prototype.destroy = function() {
 };
 
 /**
- * Compile Template string (this.template) to a template function to
- * use for render (this.templateFn)
- */
-View.prototype.compile = function() {
-    this.templateFn = renderer.compile(this.template);
-
-    // Save micro templates
-    for (var data in this.data) {
-        var re = new RegExp("data." + data, "g");
-        this.dataTemplates[data] = [];
-        walk(domify(this.template), function(node) {
-            if(node.innerHTML && node.innerHTML.match(re) && node.parentNode) {
-                this.dataTemplates[data].push({
-                    template: node.outerHTML,
-                    el: renderer.render(renderer.compile(node.outerHTML), this.data)
-                });
-            }
-        }.bind(this));
-    }
-
-    this._compiled();
-};
-
-/**
  * Parse view dom to check if we need to add child Views (components)
  */
 View.prototype.appendComponents = function() {
-    this._componentsInstances = [];
+    this.componentsInstances = [];
     walk(this.$el, function(node) {
         if (node.nodeType === 1) {
-            var Ctor = this.components[node.nodeName.toLowerCase()];
+            var Ctor = this.compose[node.nodeName.toLowerCase()];
             if (Ctor !== undefined) {
                 var data = domUtils.attributesToData(node);
+                console.log('dataCtor', data);
                 var r;
                 if(data.ref) {
                     r = data.ref;
@@ -177,29 +147,30 @@ View.prototype.appendComponents = function() {
                 if(r) {
                     this.refs[r] = component;
                 }
-                this._componentsInstances.push(component);
+                this.componentsInstances.push(component);
                 node.parentNode.replaceChild(component.$el, node);
             }
         }
     }.bind(this));
+    if(this.componentsInstances.length) {
+        console.log('instances', this.componentsInstances, this.componentsInstances[0] === this.componentsInstances[1]);
+    }
 };
 
 /**
- * Use template function to create DOM Element populated from view datas
+ * Use template function to create DOM Element populated from view model
  */
 View.prototype.render = function() {
-    var $el = renderer.render(this.templateFn, this.data);
-    if (this.$parentEl && this.$el) {
-        this.$parentEl.replaceChild($el, this.$el);
-    }
-    this.$el = $el;
+    this.$el = this.templateFn(this.model);
+    console.log('Render', this.$el);
+
     this.appendComponents();
-    this._rendered();
+    // this._rendered();
 };
 
 View.prototype.startResolve = function() {
     var promises = [];
-    
+
     for(var i = 0, l = this.resolve.length; i < l; i++) {
         promises.push(Q(this.resolve[i]));
     }
@@ -218,13 +189,21 @@ View.prototype.transitionOut = function() {
 /*========================================================
     LIFECYCLE
 ========================================================*/
-/**
- * When the view has its template function ready
-*/
-View.prototype.compiled = function() {}; // to override if you want
-View.prototype._compiled = function() {
-    this.compiled();
-    this.emit('compiled');
+View.prototype.dataUpdated = function(prop, action, difference, oldvalue) {
+    // console.log('dataUpdated', arguments);
+    if(this.$el) {
+        this.$el.update(prop, this.model[prop]);
+    }
+    forEach(this.componentsInstances, function(value, index) {
+        // console.log('component', value.model, prop, value.model['prop']);
+    });
+
+    if(this.componentsInstances.length) {
+        // this.componentsInstances[0].$el.update('title', 'yoyouooyuyo');
+        this.componentsInstances[0].model.title = 'wesh';
+        console.log(this.componentsInstances[0].model, this.componentsInstances[1].model, this.componentsInstances[0].model === this.componentsInstances[1].model);
+        // this.componentsInstances[1].model.title = '######';
+    }
 };
 
 /**
@@ -245,7 +224,7 @@ View.prototype._rendered = function() {
 */
 View.prototype.ready = function() {}; // to override if you want
 View.prototype._ready = function() {
-    forEach(this._componentsInstances, function(value, index) {
+    forEach(this.componentsInstances, function(value, index) {
         value._ready();
     });
     this.ready();
