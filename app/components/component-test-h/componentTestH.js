@@ -10,7 +10,7 @@ var ComponentTestH = Factory.view({
 });
 
 ComponentTestH.prototype.fnTest = function() {
-    console.log('Crazy test');
+    // console.log('Crazy test');
 };
 
 ComponentTestH.prototype.ready = function() {

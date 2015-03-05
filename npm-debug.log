@@ -1,13 +1,13 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'node', '/usr/local/bin/npm', 'i', 'page', '1.5.0', '--save' ]
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'i', 'q', '--save' ]
 2 info using npm@1.4.28
 3 info using node@v0.10.33
 4 warn package.json no-framework-boilerplate@0.0.0 No repository field.
 5 warn package.json no-framework-boilerplate@0.0.0 scripts['server'] should probably be scripts['start'].
 6 warn package.json pxloader@1.0.3 No repository field.
 7 verbose readDependencies using package.json deps
-8 verbose cache add [ 'page@^1.5.0', null ]
-9 verbose cache add name=undefined spec="page@^1.5.0" args=["page@^1.5.0",null]
+8 verbose cache add [ 'q', null ]
+9 verbose cache add name=undefined spec="q" args=["q",null]
 10 verbose parsed url { protocol: null,
 10 verbose parsed url   slashes: null,
 10 verbose parsed url   auth: null,
@@ -17,162 +17,150 @@
 10 verbose parsed url   hash: null,
 10 verbose parsed url   search: null,
 10 verbose parsed url   query: null,
-10 verbose parsed url   pathname: 'page@^1.5.0',
-10 verbose parsed url   path: 'page@^1.5.0',
-10 verbose parsed url   href: 'page@^1.5.0' }
-11 verbose cache add [ '1.5.0', null ]
-12 verbose cache add name=undefined spec="1.5.0" args=["1.5.0",null]
-13 verbose parsed url { protocol: null,
-13 verbose parsed url   slashes: null,
-13 verbose parsed url   auth: null,
-13 verbose parsed url   host: null,
-13 verbose parsed url   port: null,
-13 verbose parsed url   hostname: null,
-13 verbose parsed url   hash: null,
-13 verbose parsed url   search: null,
-13 verbose parsed url   query: null,
-13 verbose parsed url   pathname: '1.5.0',
-13 verbose parsed url   path: '1.5.0',
-13 verbose parsed url   href: '1.5.0' }
-14 verbose cache add name="page" spec="^1.5.0" args=["page","^1.5.0"]
-15 verbose parsed url { protocol: null,
-15 verbose parsed url   slashes: null,
-15 verbose parsed url   auth: null,
-15 verbose parsed url   host: null,
-15 verbose parsed url   port: null,
-15 verbose parsed url   hostname: null,
-15 verbose parsed url   hash: null,
-15 verbose parsed url   search: null,
-15 verbose parsed url   query: null,
-15 verbose parsed url   pathname: '^1.5.0',
-15 verbose parsed url   path: '^1.5.0',
-15 verbose parsed url   href: '^1.5.0' }
-16 verbose addNamed [ 'page', '^1.5.0' ]
-17 verbose addNamed [ null, '>=1.5.0-0 <2.0.0-0' ]
-18 silly lockFile a0070e5b-page-1-5-0 page@^1.5.0
-19 verbose lock page@^1.5.0 /Users/guillaume/.npm/a0070e5b-page-1-5-0.lock
-20 silly lockFile 3591720d-1-5-0 1.5.0
-21 verbose lock 1.5.0 /Users/guillaume/.npm/3591720d-1-5-0.lock
-22 silly addNameRange { name: 'page', range: '>=1.5.0-0 <2.0.0-0', hasData: false }
-23 silly lockFile 3591720d-1-5-0 1.5.0
-24 silly lockFile 3591720d-1-5-0 1.5.0
-25 verbose addNamed [ '1.5.0', '' ]
-26 verbose addNamed [ null, '*' ]
-27 silly lockFile 2054c0da-1-5-0 1.5.0@
-28 verbose lock 1.5.0@ /Users/guillaume/.npm/2054c0da-1-5-0.lock
-29 verbose request where is /page
-30 verbose request registry https://registry.npmjs.org/
-31 verbose request id 8beac775a175c11d
-32 verbose url raw /page
-33 verbose url resolving [ 'https://registry.npmjs.org/', './page' ]
-34 verbose url resolved https://registry.npmjs.org/page
-35 verbose request where is https://registry.npmjs.org/page
-36 info trying registry request attempt 1 at 13:39:22
-37 verbose etag "B1UWCE9QVYF6JMPE2RUE88QGN"
-38 http GET https://registry.npmjs.org/page
-39 silly addNameRange { name: '1.5.0', range: '*', hasData: false }
-40 verbose request where is /1.5.0
-41 verbose request registry https://registry.npmjs.org/
-42 verbose url raw /1.5.0
-43 verbose url resolving [ 'https://registry.npmjs.org/', './1.5.0' ]
-44 verbose url resolved https://registry.npmjs.org/1.5.0
-45 verbose request where is https://registry.npmjs.org/1.5.0
-46 info trying registry request attempt 1 at 13:39:22
-47 http GET https://registry.npmjs.org/1.5.0
-48 http 304 https://registry.npmjs.org/page
-49 silly registry.get cb [ 304,
-49 silly registry.get   { date: 'Sun, 01 Mar 2015 12:39:22 GMT',
-49 silly registry.get     server: 'Apache',
-49 silly registry.get     via: '1.1 varnish',
-49 silly registry.get     'last-modified': 'Sun, 01 Mar 2015 12:39:22 GMT',
-49 silly registry.get     'cache-control': 'max-age=60',
-49 silly registry.get     etag: '"B1UWCE9QVYF6JMPE2RUE88QGN"',
-49 silly registry.get     age: '13',
-49 silly registry.get     'x-served-by': 'cache-fra1237-FRA',
-49 silly registry.get     'x-cache': 'HIT',
-49 silly registry.get     'x-cache-hits': '1',
-49 silly registry.get     'x-timer': 'S1425213562.502749,VS0,VE0',
-49 silly registry.get     vary: 'Accept',
-49 silly registry.get     'content-length': '0',
-49 silly registry.get     'keep-alive': 'timeout=10, max=50',
-49 silly registry.get     connection: 'Keep-Alive' } ]
-50 verbose etag https://registry.npmjs.org/page from cache
-51 silly addNameRange number 2 { name: 'page', range: '>=1.5.0-0 <2.0.0-0', hasData: true }
-52 silly addNameRange versions [ 'page',
-52 silly addNameRange   [ '0.0.1',
-52 silly addNameRange     '0.0.2',
-52 silly addNameRange     '1.0.0',
-52 silly addNameRange     '1.1.0',
-52 silly addNameRange     '1.1.1',
-52 silly addNameRange     '1.1.2',
-52 silly addNameRange     '1.1.3',
-52 silly addNameRange     '1.2.0',
-52 silly addNameRange     '1.2.1',
-52 silly addNameRange     '1.3.0',
-52 silly addNameRange     '1.3.1',
-52 silly addNameRange     '1.3.2',
-52 silly addNameRange     '1.3.3',
-52 silly addNameRange     '1.3.4',
-52 silly addNameRange     '1.3.5',
-52 silly addNameRange     '1.3.6',
-52 silly addNameRange     '1.3.7',
-52 silly addNameRange     '1.4.0',
-52 silly addNameRange     '1.4.1',
-52 silly addNameRange     '1.5.0',
-52 silly addNameRange     '1.6.0',
-52 silly addNameRange     '1.6.1' ] ]
-53 verbose addNamed [ 'page', '1.6.1' ]
-54 verbose addNamed [ '1.6.1', '1.6.1' ]
-55 silly lockFile 910e3923-page-1-6-1 page@1.6.1
-56 verbose lock page@1.6.1 /Users/guillaume/.npm/910e3923-page-1-6-1.lock
-57 silly lockFile 910e3923-page-1-6-1 page@1.6.1
-58 silly lockFile 910e3923-page-1-6-1 page@1.6.1
-59 silly lockFile a0070e5b-page-1-5-0 page@^1.5.0
-60 silly lockFile a0070e5b-page-1-5-0 page@^1.5.0
-61 http 404 https://registry.npmjs.org/1.5.0
-62 verbose headers { date: 'Sun, 01 Mar 2015 12:39:23 GMT',
-62 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
-62 verbose headers   'content-type': 'application/json',
-62 verbose headers   'cache-control': 'max-age=0',
-62 verbose headers   'content-length': '52',
-62 verbose headers   'accept-ranges': 'bytes',
-62 verbose headers   via: '1.1 varnish',
-62 verbose headers   age: '0',
-62 verbose headers   'x-served-by': 'cache-fra1222-FRA',
-62 verbose headers   'x-cache': 'MISS',
-62 verbose headers   'x-cache-hits': '0',
-62 verbose headers   'x-timer': 'S1425213562.506287,VS0,VE705',
-62 verbose headers   'keep-alive': 'timeout=10, max=50',
-62 verbose headers   connection: 'Keep-Alive' }
-63 silly registry.get cb [ 404,
-63 silly registry.get   { date: 'Sun, 01 Mar 2015 12:39:23 GMT',
-63 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
-63 silly registry.get     'content-type': 'application/json',
-63 silly registry.get     'cache-control': 'max-age=0',
-63 silly registry.get     'content-length': '52',
-63 silly registry.get     'accept-ranges': 'bytes',
-63 silly registry.get     via: '1.1 varnish',
-63 silly registry.get     age: '0',
-63 silly registry.get     'x-served-by': 'cache-fra1222-FRA',
-63 silly registry.get     'x-cache': 'MISS',
-63 silly registry.get     'x-cache-hits': '0',
-63 silly registry.get     'x-timer': 'S1425213562.506287,VS0,VE705',
-63 silly registry.get     'keep-alive': 'timeout=10, max=50',
-63 silly registry.get     connection: 'Keep-Alive' } ]
-64 silly lockFile 2054c0da-1-5-0 1.5.0@
-65 silly lockFile 2054c0da-1-5-0 1.5.0@
-66 error 404 404 Not Found: 1.5.0
-66 error 404
-66 error 404 '1.5.0' is not in the npm registry.
-66 error 404 You should bug the author to publish it
-66 error 404 It was specified as a dependency of 'no-framework-boilerplate'
-66 error 404
-66 error 404 Note that you can also install from a
-66 error 404 tarball, folder, or http url, or git url.
-67 error System Darwin 14.1.0
-68 error command "node" "/usr/local/bin/npm" "i" "page" "1.5.0" "--save"
-69 error cwd /Volumes/Datas/Users/guillaumegouessan/Sites/no-framework-boilerplate
-70 error node -v v0.10.33
-71 error npm -v 1.4.28
-72 error code E404
-73 verbose exit [ 1, true ]
+10 verbose parsed url   pathname: 'q',
+10 verbose parsed url   path: 'q',
+10 verbose parsed url   href: 'q' }
+11 silly lockFile 22ea1c64-q q
+12 verbose lock q /Users/guillaume/.npm/22ea1c64-q.lock
+13 silly lockFile 22ea1c64-q q
+14 silly lockFile 22ea1c64-q q
+15 verbose addNamed [ 'q', '' ]
+16 verbose addNamed [ null, '*' ]
+17 silly lockFile f83edb5d-q q@
+18 verbose lock q@ /Users/guillaume/.npm/f83edb5d-q.lock
+19 silly addNameRange { name: 'q', range: '*', hasData: false }
+20 verbose request where is /q
+21 verbose request registry https://registry.npmjs.org/
+22 verbose request id e2dc1aa7b09e27c2
+23 verbose url raw /q
+24 verbose url resolving [ 'https://registry.npmjs.org/', './q' ]
+25 verbose url resolved https://registry.npmjs.org/q
+26 verbose request where is https://registry.npmjs.org/q
+27 info trying registry request attempt 1 at 00:03:14
+28 verbose etag "E36PV5E2WKD2JGT7HJ7PUX113"
+29 http GET https://registry.npmjs.org/q
+30 http 304 https://registry.npmjs.org/q
+31 silly registry.get cb [ 304,
+31 silly registry.get   { date: 'Wed, 04 Mar 2015 23:03:14 GMT',
+31 silly registry.get     server: 'Apache',
+31 silly registry.get     via: '1.1 varnish',
+31 silly registry.get     'last-modified': 'Wed, 04 Mar 2015 23:03:14 GMT',
+31 silly registry.get     'cache-control': 'max-age=60',
+31 silly registry.get     etag: '"E36PV5E2WKD2JGT7HJ7PUX113"',
+31 silly registry.get     age: '49',
+31 silly registry.get     'x-served-by': 'cache-lhr6333-LHR',
+31 silly registry.get     'x-cache': 'HIT',
+31 silly registry.get     'x-cache-hits': '1',
+31 silly registry.get     'x-timer': 'S1425510194.570873,VS0,VE2',
+31 silly registry.get     vary: 'Accept',
+31 silly registry.get     'content-length': '0',
+31 silly registry.get     'keep-alive': 'timeout=10, max=50',
+31 silly registry.get     connection: 'Keep-Alive' } ]
+32 verbose etag https://registry.npmjs.org/q from cache
+33 silly addNameRange number 2 { name: 'q', range: '*', hasData: true }
+34 silly addNameRange versions [ 'q',
+34 silly addNameRange   [ '0.0.0',
+34 silly addNameRange     '0.0.1',
+34 silly addNameRange     '0.0.2',
+34 silly addNameRange     '0.0.3',
+34 silly addNameRange     '0.1.0',
+34 silly addNameRange     '0.1.1',
+34 silly addNameRange     '0.1.2',
+34 silly addNameRange     '0.1.3',
+34 silly addNameRange     '0.1.4',
+34 silly addNameRange     '0.1.5',
+34 silly addNameRange     '0.1.6',
+34 silly addNameRange     '0.1.7',
+34 silly addNameRange     '0.1.8',
+34 silly addNameRange     '0.1.9',
+34 silly addNameRange     '0.2.0-rc1',
+34 silly addNameRange     '0.2.0',
+34 silly addNameRange     '0.2.1',
+34 silly addNameRange     '0.2.2',
+34 silly addNameRange     '0.2.3',
+34 silly addNameRange     '0.2.4',
+34 silly addNameRange     '0.2.5',
+34 silly addNameRange     '0.2.6',
+34 silly addNameRange     '0.2.7',
+34 silly addNameRange     '0.2.8',
+34 silly addNameRange     '0.2.9',
+34 silly addNameRange     '0.3.0',
+34 silly addNameRange     '0.2.10',
+34 silly addNameRange     '0.4.0',
+34 silly addNameRange     '0.4.1',
+34 silly addNameRange     '0.4.2',
+34 silly addNameRange     '0.4.4',
+34 silly addNameRange     '0.5.0',
+34 silly addNameRange     '0.5.1',
+34 silly addNameRange     '0.5.2',
+34 silly addNameRange     '0.5.3',
+34 silly addNameRange     '0.6.0',
+34 silly addNameRange     '0.7.0',
+34 silly addNameRange     '0.7.1',
+34 silly addNameRange     '0.7.2',
+34 silly addNameRange     '0.8.0',
+34 silly addNameRange     '0.8.1',
+34 silly addNameRange     '0.8.2',
+34 silly addNameRange     '0.8.3',
+34 silly addNameRange     '0.8.4',
+34 silly addNameRange     '0.8.5',
+34 silly addNameRange     '0.8.6',
+34 silly addNameRange     '0.8.7',
+34 silly addNameRange     '0.8.8',
+34 silly addNameRange     '0.8.9',
+34 silly addNameRange     '0.8.10',
+34 silly addNameRange     '0.8.11',
+34 silly addNameRange     '0.8.12',
+34 silly addNameRange     '0.9.0',
+34 silly addNameRange     '0.9.1',
+34 silly addNameRange     '0.9.2',
+34 silly addNameRange     '0.9.3',
+34 silly addNameRange     '0.9.4',
+34 silly addNameRange     '0.9.5',
+34 silly addNameRange     '0.9.6',
+34 silly addNameRange     '0.9.7',
+34 silly addNameRange     '1.0.0',
+34 silly addNameRange     '1.0.1',
+34 silly addNameRange     '2.0.0',
+34 silly addNameRange     '2.0.1',
+34 silly addNameRange     '2.0.2',
+34 silly addNameRange     '1.1.0',
+34 silly addNameRange     '1.1.1',
+34 silly addNameRange     '1.1.2',
+34 silly addNameRange     '2.0.3',
+34 silly addNameRange     '1.2.0' ] ]
+35 verbose addNamed [ 'q', '1.2.0' ]
+36 verbose addNamed [ '1.2.0', '1.2.0' ]
+37 silly lockFile 0069ac1d-q-1-2-0 q@1.2.0
+38 verbose lock q@1.2.0 /Users/guillaume/.npm/0069ac1d-q-1-2-0.lock
+39 silly lockFile a55c401a-registry-npmjs-org-q-q-1-2-0-tgz https://registry.npmjs.org/q/-/q-1.2.0.tgz
+40 verbose lock https://registry.npmjs.org/q/-/q-1.2.0.tgz /Users/guillaume/.npm/a55c401a-registry-npmjs-org-q-q-1-2-0-tgz.lock
+41 verbose addRemoteTarball [ 'https://registry.npmjs.org/q/-/q-1.2.0.tgz',
+41 verbose addRemoteTarball   '811705ce4a9802adff811ab0fcdbd01946e1fe22' ]
+42 info retry fetch attempt 1 at 00:03:14
+43 verbose fetch to= /var/folders/q2/cf24gk2n6r14ny98zqctzw7r0000gn/T/npm-12876-IpWqXWpN/registry.npmjs.org/q/-/q-1.2.0.tgz
+44 http GET https://registry.npmjs.org/q/-/q-1.2.0.tgz
+45 http 200 https://registry.npmjs.org/q/-/q-1.2.0.tgz
+46 silly lockFile a55c401a-registry-npmjs-org-q-q-1-2-0-tgz https://registry.npmjs.org/q/-/q-1.2.0.tgz
+47 silly lockFile a55c401a-registry-npmjs-org-q-q-1-2-0-tgz https://registry.npmjs.org/q/-/q-1.2.0.tgz
+48 silly lockFile 0069ac1d-q-1-2-0 q@1.2.0
+49 silly lockFile 0069ac1d-q-1-2-0 q@1.2.0
+50 silly lockFile f83edb5d-q q@
+51 silly lockFile f83edb5d-q q@
+52 error Error: EACCES, mkdir '/Users/guillaume/.npm/q/1.2.0'
+52 error  { [Error: EACCES, mkdir '/Users/guillaume/.npm/q/1.2.0']
+52 error   errno: 3,
+52 error   code: 'EACCES',
+52 error   path: '/Users/guillaume/.npm/q/1.2.0',
+52 error   parent: 'no-framework-boilerplate' }
+53 error Please try running this command again as root/Administrator.
+54 error System Darwin 14.1.0
+55 error command "node" "/usr/local/bin/npm" "i" "q" "--save"
+56 error cwd /Volumes/Datas/Users/guillaumegouessan/Sites/no-framework-boilerplate
+57 error node -v v0.10.33
+58 error npm -v 1.4.28
+59 error path /Users/guillaume/.npm/q/1.2.0
+60 error code EACCES
+61 error errno 3
+62 error stack Error: EACCES, mkdir '/Users/guillaume/.npm/q/1.2.0'
+63 verbose exit [ 3, true ]

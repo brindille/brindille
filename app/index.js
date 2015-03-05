@@ -6,6 +6,7 @@ var gsap = require('gsap');
 var scroll = require('utils/scroll');
 var View = require('base/View');
 var Router = require('base/Router');
+var Q = require('q');
 
 var app = new AppCore({
     el: '#view',
@@ -38,6 +39,14 @@ domready(function() {
     // var Component = require('components/component-test-g/componentTestG');
     // var component = new Component();
     // console.log(component);
+    var promiseTest = function(ms, res) {
+        var deferred = Q.defer();
+        setTimeout(function() {
+            console.log('wesh');
+            deferred.resolve(res);
+        }, ms);
+        return deferred.promise;
+    };
 
     Router.init({
         el: '#view',
@@ -62,6 +71,10 @@ domready(function() {
             time: 0,
             list: ['banana', 'apple', 'orange']
         },
+        resolve: [
+            promiseTest(1000, 'coucou'),
+            promiseTest(1000, 'caca')
+        ],
         components: {
             "test": require('components/component-test-g/componentTestG')
         }

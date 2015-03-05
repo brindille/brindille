@@ -1,14 +1,15 @@
 'use strict';
 
-var renderer = require('base/renderer'),
-    domUtils = require('base/utils/dom'),
-    Emitter = require('emitter-component'),
-    forEach = require('for-each'),
-    bindAll = require('bindall-standalone'),
-    verbose = require('config').verbose,
-    walk = require('dom-walk'),
-    observer = require('watchjs'),
-    inherits = require('inherits');
+var renderer = require('base/renderer');
+var domUtils = require('base/utils/dom');
+var Q = require('q');
+var Emitter = require('emitter-component');
+var forEach = require('for-each');
+var bindAll = require('bindall-standalone');
+var verbose = require('config').verbose;
+var walk = require('dom-walk');
+var observer = require('watchjs');
+var inherits = require('inherits');
 
 /**
  * class View
@@ -32,6 +33,12 @@ function View(options) {
      */
     this.templateFn = null;
 
+
+    /*
+        Array of promises to be resolved before the view start transitioning  
+     */
+    this.resolve = options.resolve || [];
+
     /*
         data for template
      */
@@ -49,7 +56,7 @@ function View(options) {
     this.refs = {};
 
     // Bind context to sensitive methods
-    bindAll(this, 'render', 'onTransitionInComplete', 'onTransitionOutComplete');
+    bindAll(this, 'render', 'onTransitionInComplete', 'onTransitionOutComplete', '_onTransitionInComplete', '_onTransitionOutComplete', '_resolved');
 
     /*
         Data observer for rerendering when necessary
@@ -63,7 +70,7 @@ function View(options) {
     // When ready launch first render
     this.compile();
     this.render();
-
+    this.startResolve();
 }
 
 // Make View an event emitter
@@ -170,6 +177,16 @@ View.prototype.render = function() {
     this._rendered();
 };
 
+View.prototype.startResolve = function() {
+    var promises = [];
+    
+    for(var i = 0, l = this.resolve.length; i < l; i++) {
+        promises.push(Q(this.resolve[i]));
+    }
+
+    return Q.all(promises).then(this._resolved);
+};
+
 View.prototype.transitionIn = function() {
     this.onTransitionInComplete();
 };
@@ -232,6 +249,14 @@ View.prototype._destroyed = function() {
     this.destroyed();
     this.emit('destroyed');
 };
+
+View.prototype.resolved = function() {};
+View.prototype._resolved = function(data) {
+    if(data.length) console.log('Resolved', data);
+    this.resolved();
+    this.emit('resolved');
+};
+
 
 View.prototype.onTransitionInComplete = function() {};
 View.prototype._onTransitionInComplete = function() {
