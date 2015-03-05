@@ -63,8 +63,7 @@
     "connect-history-api-fallback": "0.0.5",
     "browser-sync": "^2.2.1",
     "domthing": "^0.4.0",
-    "domthingify": "^0.2.0",
-    "domthingify-html": "^0.2.0"
+    "domthingify": "^0.2.0"
   },
   "dependencies": {
     "bindall-standalone": "^1.0.5",
