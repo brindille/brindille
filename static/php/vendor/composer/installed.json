@@ -1,0 +1,43 @@
+[
+    {
+        "name": "vdaguenet/one-page-seo",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/vdaguenet/one-page-seo.git",
+            "reference": "de5d504da4f1a402ae2ecbd63cf07ee499ce35ca"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/vdaguenet/one-page-seo/zipball/de5d504da4f1a402ae2ecbd63cf07ee499ce35ca",
+            "reference": "de5d504da4f1a402ae2ecbd63cf07ee499ce35ca",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.0.0"
+        },
+        "time": "2015-03-05 11:41:00",
+        "type": "library",
+        "installation-source": "source",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Valentin Daguenet",
+                "email": "valentin.daguenet@gmail.com"
+            }
+        ],
+        "description": "Serve static content of a one-page website to crawlers (e.g. Facebook, Google or Twitter) using PhantomJS",
+        "homepage": "https://github.com/vdaguenet/one-page-seo",
+        "keywords": [
+            "bot",
+            "crawler",
+            "one page",
+            "phantomjs",
+            "seo"
+        ]
+    }
+]
