@@ -3,6 +3,7 @@
 var renderer = require('base/renderer');
 var domUtils = require('base/utils/dom');
 var Q = require('q');
+var domify = require('domify');
 var Emitter = require('emitter-component');
 var forEach = require('for-each');
 var bindAll = require('bindall-standalone');
@@ -45,6 +46,11 @@ function View(options) {
     this.data = options.data || {};
 
     /*
+        save html node where each data is used
+     */
+    this.dataTemplates = {};
+
+    /*
         components of view
      */
     this.components = options.components || {};
@@ -65,7 +71,6 @@ function View(options) {
         puis on render uniquement les micros bouts en fonction de quel data à été updated
      */
     observer.watch(this.data, this.render);
-
 
     // When ready launch first render
     this.compile();
@@ -135,6 +140,21 @@ View.prototype.destroy = function() {
  */
 View.prototype.compile = function() {
     this.templateFn = renderer.compile(this.template);
+
+    // Save micro templates
+    for (var data in this.data) {
+        var re = new RegExp("data." + data, "g");
+        this.dataTemplates[data] = [];
+        walk(domify(this.template), function(node) {
+            if(node.innerHTML && node.innerHTML.match(re) && node.parentNode) {
+                this.dataTemplates[data].push({
+                    template: node.outerHTML,
+                    el: renderer.render(renderer.compile(node.outerHTML), this.data)
+                });
+            }
+        }.bind(this));
+    }
+
     this._compiled();
 };
 

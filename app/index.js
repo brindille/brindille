@@ -81,6 +81,8 @@ domready(function() {
     });
     view.appendTo(document.body);
 
-
+    setTimeout(function() {
+        view.data.time = 1;
+    }, 10);
 
 });
