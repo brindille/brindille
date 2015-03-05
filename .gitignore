@@ -3,3 +3,4 @@ npm-debug.log
 .sass-cache
 node_modules/
 static/build/
+static/php/vendor
