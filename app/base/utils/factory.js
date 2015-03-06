@@ -1,4 +1,4 @@
-var View = require('base/View2');
+var View = require('base/View');
 var inherits = require('inherits');
 var extend = require('extend');
 var clone = require('clone');
