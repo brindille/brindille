@@ -1,7 +1,5 @@
 'use strict';
 
-// var renderer = require('base/renderer');
-var domUtils = require('base/utils/dom');
 var Q = require('q');
 var domify = require('domify');
 var Emitter = require('emitter-component');
@@ -11,6 +9,7 @@ var verbose = require('config').verbose;
 var walk = require('dom-walk');
 var observer = require('watchjs');
 var inherits = require('inherits');
+var clone = require('clone');
 
 /**
  * class View
@@ -138,18 +137,32 @@ View.prototype.destroy = function() {
  */
 View.prototype.appendComponents = function() {
     this.componentsInstances = [];
+
     walk(this.$el, function(node) {
         if (node.nodeType === 1) {
             // Get Component constructor
             var Ctor = this.compose[node.nodeName.toLowerCase()];
             if (Ctor === undefined) return;
-                
-            // Inject component attributes to its model
-            var attributesInfos = domUtils.attributesToData(node, this.model);
-            var model = attributesInfos.model;
-            var binders = attributesInfos.binders;
+
+            var attributes = node.attributes;
+            var model = {};
+            var binders = [];
+            var bindId;
             var r;
             var component;
+
+            // Inject component attributes to its model and save binders attribute if needed
+            forEach(attributes, function(value, index) {
+                if(value.name === undefined) return;
+                if(value.name.indexOf('bind-') === 0) {
+                    bindId = value.name.replace('bind-', '');
+                    model[bindId] = this.model[value.value];
+                    binders.push({source: value.value, target: bindId});
+                }
+                else {
+                    model[value.name] = value.value;
+                }
+            }.bind(this));
 
             // Special attribute ref is used to keep a ref of the component to the current view
             if(model.ref) {
@@ -183,7 +196,7 @@ View.prototype.appendComponents = function() {
 
             // Inject component dom to view dom
             node.parentNode.replaceChild(component.$el, node);
-            
+
         }
     }.bind(this));
 };
