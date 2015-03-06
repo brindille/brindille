@@ -1,6 +1,5 @@
 'use strict';
 
-var bindAll = require('bindall-standalone');
 var PxLoader = require('PxLoader');
 var inherits = require('inherits');
 var Emitter = require('emitter-component');
@@ -18,8 +17,6 @@ function Preloader() {
     this.imagesContent = [];
     this.soundsContent = [];
     this.videosContent = [];
-
-    bindAll(this, 'load', '_handleProgress', '_handleComplete', 'getImage', 'getSound', 'getVideo');
 }
 // Make preloader an event emitter
 inherits(Preloader, Emitter);
@@ -31,8 +28,8 @@ inherits(Preloader, Emitter);
  *                          {id: 'someId', src: 'myUrl', priority: 0, origin:  'anonymous'}
  */
 Preloader.prototype.load = function(manifest) {
-    this._loader.addCompletionListener(this._handleComplete);
-    this._loader.addProgressListener(this._handleProgress);
+    this._loader.addCompletionListener(_handleComplete.bind(this));
+    this._loader.addProgressListener(_handleProgress.bind(this));
 
     for(var i = 0, l = manifest.length; i < l; i++) {
         if(manifest[i].src.match(IMAGE_PATTERN)) this.addImage(manifest[i]);
@@ -44,33 +41,92 @@ Preloader.prototype.load = function(manifest) {
     return this;
 };
 
+/**
+ * Return promise for projects based on it
+ * @return {Promise}
+ */
+Preloader.prototype.getPromise = function() {
+    return this._deferred.promise;
+};
+
+/**
+ * Add image to preload
+ * @param {Object} infos object following manifest object structure (see above)
+ */
 Preloader.prototype.addImage = function(infos) {
     this.imagesContent[infos.id] = this._loader.addImage(infos.src, infos.id, infos.priority, infos.origin);
 };
 
+/**
+ * Find image desired
+ * @param  {String} id image name
+ * @return {Image}
+ */
+Preloader.prototype.getImage = function(id) {
+    return this.imagesContent[id];
+};
+
+/**
+ * Add sound to preload
+ * @param {Object} infos object following manifest object structure (see above)
+ */
 Preloader.prototype.addSound = function(infos) {
     this.soundsContent[infos.id] = this._loader.addSound(infos.id, infos.src, null, infos.priority);
 };
 
+/**
+ * Find sound desired
+ * @param  {String} id sound name
+ * @return {Image}
+ */
+Preloader.prototype.getSound = function(id) {
+    return this.soundsContent[id];
+};
+
+/**
+ * Add video to preload
+ * @param {Object} infos object following manifest object structure (see above)
+ */
 Preloader.prototype.addVideo = function(infos) {
     this.videosContent[infos.id] = this._loader.addVideo(infos.src, infos.id, infos.priority, infos.origin);
 };
 
-Preloader.prototype._handleProgress = function(e) {
+/**
+ * Find video desired
+ * @param  {String} id video name
+ * @return {Image}
+ */
+Preloader.prototype.getVideo = function(id) {
+    return this.videosContent[id];
+};
+
+/**
+ * Handle preload progression
+ * @param  {Object} e
+ */
+function _handleProgress (e) {
     if(e.error || e.timeout) {
-        this.handleError(e);
+        _handleError.call(this, e);
         return;
     }
 
-    this.emit('preload:progress', e);
-};
+    this.emit('progress', e);
+}
 
-Preloader.prototype.handleError = function(e) {
+/**
+ * Handle preload errors and reject promise
+ * @param  {Object} e
+ */
+function _handleError (e) {
     this._deferred.reject();
-    this.emit('preload:error', e);
-};
+    this.emit('error', e);
+}
 
-Preloader.prototype._handleComplete = function(e) {
+/**
+ * Handle preload complete and resolve promise
+ * @param  {Object} e
+ */
+function _handleComplete (e) {
     var res = [];
 
     for(var i in this.imagesContent) {
@@ -86,23 +142,7 @@ Preloader.prototype._handleComplete = function(e) {
     }
 
     this._deferred.resolve(res);
-    this.emit('preload:complete', res);
-};
-
-Preloader.prototype.getPromise = function() {
-    return this._deferred.promise;
-};
-
-Preloader.prototype.getImage = function(id) {
-    return this.imagesContent[id];
-};
-
-Preloader.prototype.getSound = function(id) {
-    return this.soundsContent[id];
-};
-
-Preloader.prototype.getVideo = function(id) {
-    return this.videosContent[id];
-};
+    this.emit('complete', res);
+}
 
 module.exports = new Preloader();

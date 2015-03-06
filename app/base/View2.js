@@ -285,7 +285,6 @@ function _resolved(data) {
         this.resolvedFiles[i] = data[j];
         j++;
     }
-
     this.resolved();
     this.emit('resolved');
 };
