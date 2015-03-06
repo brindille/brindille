@@ -2,7 +2,7 @@
 
 var Section = require('lib/Section');
 var fs = require('fs');
-var resizeUtil = require('utils/resize');
+var resizeUtil = require('brindille-resize');
 var bindAll = require('bindall-standalone');
 
 var home = new Section({
