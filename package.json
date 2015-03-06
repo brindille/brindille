@@ -31,7 +31,7 @@
     "PxLoader": "PxLoader"
   },
   "napa": {
-    "PxLoader": "superguigui/PxLoader"
+    "PxLoader": "thinkpixellab/PxLoader"
   },
   "devDependencies": {
     "aliasify": "^1.5.1",

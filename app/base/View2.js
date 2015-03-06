@@ -144,10 +144,17 @@ View.prototype.appendComponents = function() {
             var Ctor = this.compose[node.nodeName.toLowerCase()];
             if (Ctor === undefined) return;
 
+<<<<<<< HEAD
             var attributes = node.attributes;
             var model = {};
             var binders = [];
             var bindId;
+=======
+            // Inject component attributes to its model
+            var attributesInfos = domUtils.attributesToData(node, this.model);
+            var model = attributesInfos.model;
+            var binders = attributesInfos.binders;
+>>>>>>> 12c811c534a2c6f901e11e4d4d3cad001c05bcdd
             var r;
             var component;
 
@@ -299,7 +306,6 @@ function _resolved(data) {
         j++;
     }
 
-    console.log('Resolved', this.resolvedFiles);
     this.resolved();
     this.emit('resolved');
 };
