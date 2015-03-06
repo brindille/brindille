@@ -10,6 +10,7 @@ var walk = require('dom-walk');
 var observer = require('watchjs');
 var inherits = require('inherits');
 var clone = require('clone');
+var objectUtils = require('base/utils/object');
 
 /**
  * class View
@@ -160,7 +161,7 @@ View.prototype.appendComponents = function() {
                 if(value.name === undefined) return;
                 if(value.name.indexOf('bind-') === 0) {
                     bindId = value.name.replace('bind-', '');
-                    model[bindId] = this.model[value.value];
+                    model[bindId] = objectUtils.findPathValue(this.model, value.value);
                     binders.push({source: value.value, target: bindId});
                 }
                 else {
@@ -182,10 +183,13 @@ View.prototype.appendComponents = function() {
                 // We keep a reference to the binding function to unwatch on destroy
                 var binding = {
                     fn: function() {
-                        component.model[value.target] = this.model[value.source];
+                        console.log('binders updated', value.target, value.source);
+                        component.model[value.target] = objectUtils.findPathValue(this.model, value.source);
                     }.bind(this),
                     source: value.source
                 };
+
+                // for now does not work if binding source goes deeper than level 1 in model
                 observer.watch(this.model, binding.source, binding.fn);
                 this.bindFunctions.push(binding);
             }.bind(this));
@@ -267,7 +271,10 @@ View.prototype.transitionOut = function() {
 View.prototype.updated = function(prop, action, difference, oldvalue) {}; // to override if you want
 function _updated(prop, action, difference, oldvalue) {
     if(this.$el) {
-        this.$el.update(prop, this.model[prop]);
+        var propPaths = objectUtils.findKeyPaths(this.model, prop);
+        forEach(propPaths, function(value, index) {
+            this.$el.update(value, objectUtils.findPathValue(this.model, value));
+        }.bind(this));
     }
     this.updated(prop, action, difference, oldvalue);
     this.emit('updated');

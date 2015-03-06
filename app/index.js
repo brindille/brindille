@@ -30,6 +30,14 @@ domready(function() {
             subtitle: 'monde',
             firstTitle: 'coucou',
             secondTitle: 'hello2',
+            trou: 'wesh',
+            test: {
+                deep: {
+                    stuff: {
+                        trou: 'O'
+                    }
+                }
+            },
             time: 0,
             list: ['banana', 'apple', 'orange']
         },
@@ -47,9 +55,6 @@ domready(function() {
     });
     view.appendTo(document.body);
 
-    var autreView = new View({
-        template: '<div>sdfsdf</div>'
-    });
 
     var interval = setInterval(function() {
         view.model.time += 1;
@@ -59,6 +64,7 @@ domready(function() {
         view.model.title = 'zob';
         view.model.sub.trou = 'foot';
         view.model.firstTitle = 'ojsf';
+        view.model.secondTitle = '#######';
         clearInterval(interval);
     }, 1000);
 
