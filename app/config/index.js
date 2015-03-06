@@ -7,5 +7,5 @@ module.exports = {
         Where yours assets are.
         Can be your CDN URL or a folder
      */
-    assetsRoot: 'assets'
+    assetsRoot: 'assets/'
 };
