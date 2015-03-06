@@ -143,7 +143,7 @@ View.prototype.appendComponents = function() {
             // Get Component constructor
             var Ctor = this.compose[node.nodeName.toLowerCase()];
             if (Ctor === undefined) return;
-                
+
             // Inject component attributes to its model
             var attributesInfos = domUtils.attributesToData(node, this.model);
             var model = attributesInfos.model;
@@ -183,7 +183,7 @@ View.prototype.appendComponents = function() {
 
             // Inject component dom to view dom
             node.parentNode.replaceChild(component.$el, node);
-            
+
         }
     }.bind(this));
 };
@@ -286,7 +286,6 @@ function _resolved(data) {
         j++;
     }
 
-    console.log('Resolved', this.resolvedFiles);
     this.resolved();
     this.emit('resolved');
 };

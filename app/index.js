@@ -6,8 +6,9 @@ var gsap = require('gsap');
 var scroll = require('utils/scroll');
 var View = require('base/View2');
 var Router = require('base/Router');
+var config = require(config);
 var Q = require('q');
-var preloader = require('base/utils/preloader');
+var preloader = require('base/utils/Preloader');
 
 domready(function() {
 
@@ -36,8 +37,8 @@ domready(function() {
             p1: promiseTest(1000, 'coucou'),
             p2: promiseTest(4000, 'coucou2'),
             assets: preloader.load([
-                { id: 'imgTest1', src: 'images/61.jpg' },
-                { id: 'imgTest2', src: 'images/62.jpg' }
+                { id: 'imgTest1', src: config.assetsRoot + 'images/61.jpg' },
+                { id: 'imgTest2', src: config.assetsRoot + 'images/62.jpg' }
             ]).getPromise()
         },
         compose: {

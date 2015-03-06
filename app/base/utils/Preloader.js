@@ -2,7 +2,6 @@
 
 var bindAll = require('bindall-standalone');
 var PxLoader = require('PxLoader');
-var config = require('config');
 var inherits = require('inherits');
 var Emitter = require('emitter-component');
 var Q = require('q');
@@ -14,49 +13,50 @@ var SOUND_PATTERN = /([a-z\-_0-9\/\:\.]*\.(mp3|wav))/gi;
 
 
 function Preloader() {
-    this.assetsRoot = config.assetsRoot || '';
-    this.loader = new PxLoader();
-    this.deferred = Q.defer();
+    this._loader = new PxLoader();
+    this._deferred = Q.defer();
     this.imagesContent = [];
     this.soundsContent = [];
     this.videosContent = [];
 
-    bindAll(this, 'load', 'handleProgress', 'handleComplete', 'getImage', 'getSound', 'getVideo');
+    bindAll(this, 'load', '_handleProgress', '_handleComplete', 'getImage', 'getSound', 'getVideo');
 }
 // Make preloader an event emitter
 inherits(Preloader, Emitter);
 
 /**
  * Load manifest using PxLoader
- * @param  {array} manifest array of object add to manifest
- *                          following this structure: {id: 'somId', src: 'myUrl'}
+ * @param  {array} manifest array of object added to manifest
+ *                          following this structure:
+ *                          {id: 'someId', src: 'myUrl', priority: 0, origin:  'anonymous'}
  */
 Preloader.prototype.load = function(manifest) {
-    if(config.verbose) console.debug('[Preloader] Start with root :', this.assetsRoot);
-    this.loader.addCompletionListener(this.handleComplete);
-    this.loader.addProgressListener(this.handleProgress);
+    this._loader.addCompletionListener(this._handleComplete);
+    this._loader.addProgressListener(this._handleProgress);
+
     for(var i = 0, l = manifest.length; i < l; i++) {
         if(manifest[i].src.match(IMAGE_PATTERN)) this.addImage(manifest[i]);
         if(manifest[i].src.match(SOUND_PATTERN)) this.addSound(manifest[i]);
         if(manifest[i].src.match(VIDEO_PATTERN)) this.addVideo(manifest[i]);
     }
-    this.loader.start();
+
+    this._loader.start();
     return this;
 };
 
 Preloader.prototype.addImage = function(infos) {
-    this.imagesContent[infos.id] = this.loader.addImage(this.assetsRoot + infos.src, infos.id, null, '');
+    this.imagesContent[infos.id] = this._loader.addImage(infos.src, infos.id, infos.priority, infos.origin);
 };
 
 Preloader.prototype.addSound = function(infos) {
-    this.soundsContent[infos.id] = this.loader.addSound(infos.id, this.assetsRoot + infos.src);
+    this.soundsContent[infos.id] = this._loader.addSound(infos.id, infos.src, null, infos.priority);
 };
 
 Preloader.prototype.addVideo = function(infos) {
-    this.videosContent[infos.id] = this.loader.addVideo(this.assetsRoot + infos.src, infos.id);
+    this.videosContent[infos.id] = this._loader.addVideo(infos.src, infos.id, infos.priority, infos.origin);
 };
 
-Preloader.prototype.handleProgress = function(e) {
+Preloader.prototype._handleProgress = function(e) {
     if(e.error || e.timeout) {
         this.handleError(e);
         return;
@@ -66,18 +66,31 @@ Preloader.prototype.handleProgress = function(e) {
 };
 
 Preloader.prototype.handleError = function(e) {
-    this.deferred.reject();
+    this._deferred.reject();
     this.emit('preload:error', e);
 };
 
-Preloader.prototype.handleComplete = function(e) {
-    var res = this.imagesContent.concat(this.soundsContent, this.videosContent);
-    this.deferred.resolve(res);
-    this.emit('preload:complete', e);
+Preloader.prototype._handleComplete = function(e) {
+    var res = [];
+
+    for(var i in this.imagesContent) {
+        res[i] = this.imagesContent[i];
+    }
+
+    for(var j in this.soundsContent) {
+        res[j] = this.soundsContent[j];
+    }
+
+    for(var k in this.videosContent) {
+        res[k] = this.videosContent[k];
+    }
+
+    this._deferred.resolve(res);
+    this.emit('preload:complete', res);
 };
 
 Preloader.prototype.getPromise = function() {
-    return this.deferred.promise;
+    return this._deferred.promise;
 };
 
 Preloader.prototype.getImage = function(id) {
