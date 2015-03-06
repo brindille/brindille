@@ -17,13 +17,13 @@ TODO
     - [x] use component template inside a view
     - [x] data binding
     - [x] recompile template when data change
-    - [ ] events handlers
+    - [x] events handlers
     - [x] maybe give some parameters by the parent view
 - [x] Serve page to crawlers
     - [x] redirect crawlers
     - [x] render requested page using PhantomJS
 - [ ] Global
-    - [x] remove unused components from package.json
+    - [ ] remove unused components from package.json
 
 - [ ] View 2.0 (GG)
-    - [ ] Add resolve param and methods to handle promise resolving before transitioning (if it exists)
+    - [x] Add resolve param and methods to handle promise resolving before transitioning (if it exists)

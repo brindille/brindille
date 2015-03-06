@@ -32,7 +32,12 @@ function View(options) {
     /*
         Array of promises to be resolved before the view start transitioning
      */
-    this.resolve = options.resolve || [];
+    this.resolve = options.resolve;
+
+    /*
+        The result of promises given in resolve
+     */
+    this.resolvedFiles = {};
 
     /*
         data for template
@@ -62,7 +67,7 @@ function View(options) {
     // When ready launch first render
     // this.compile();
     this.render();
-    // this.startResolve();
+    this.startResolve();
 }
 
 // Make View an event emitter
@@ -197,10 +202,12 @@ View.prototype.parentIsReady = function() {
 };
 
 View.prototype.startResolve = function() {
+    if(!this.resolve) return;
+
     var promises = [];
 
-    for(var i = 0, l = this.resolve.length; i < l; i++) {
-        promises.push(Q(this.resolve[i]));
+    for(var i in this.resolve) {
+        promises.push(this.resolve[i]);
     }
 
     return Q.all(promises).then(_resolved.bind(this));
@@ -271,7 +278,15 @@ function _destroyed() {
 
 View.prototype.resolved = function() {};
 function _resolved(data) {
-    if(data.length) console.log('Resolved', data);
+    if(data.length === 0) return;
+
+    var j = 0;
+    for(var i in this.resolve) {
+        this.resolvedFiles[i] = data[j];
+        j++;
+    }
+
+    console.log('Resolved', this.resolvedFiles);
     this.resolved();
     this.emit('resolved');
 };
