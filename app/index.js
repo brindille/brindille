@@ -47,6 +47,10 @@ domready(function() {
     });
     view.appendTo(document.body);
 
+    var autreView = new View({
+        template: '<div>sdfsdf</div>'
+    });
+
     var interval = setInterval(function() {
         view.model.time += 1;
     }, 10);

@@ -18,6 +18,10 @@ var clone = require('clone');
 function View(options) {
     options = options || {};
 
+    if(options.template === undefined) {
+        throw new Error('[View] A Template must be present in view options');
+    }
+
     /*
         Compiled Dom (domthing) object of the view
      */
@@ -203,6 +207,9 @@ View.prototype.appendComponents = function() {
 
 /**
  * Use template function to create DOM Element populated from view model
+ * This method should not be called again to change values in the dom, to do
+ * that you should just change values from the model, data-binding will do the rest.
+ * Call render method only if you want to start anew with a new template function
  */
 View.prototype.render = function() {
     this.$el = this.templateFn(this.model);
@@ -210,10 +217,17 @@ View.prototype.render = function() {
     _rendered.call(this);
 };
 
+/**
+ * When current view is a composant of another view this method is called by parent to significate
+ * than parent is ready (ready will propagate through child components)
+ */
 View.prototype.parentIsReady = function() {
     _ready.call(this);
 };
 
+/**
+ * Check if param promised are resolved
+ */
 View.prototype.startResolve = function() {
     if(!this.resolve) return;
 
@@ -226,10 +240,16 @@ View.prototype.startResolve = function() {
     return Q.all(promises).then(_resolved.bind(this));
 };
 
+/**
+ * Launch transition in of the view, Call onTransitionInComplete when done
+ */
 View.prototype.transitionIn = function() {
     this.onTransitionInComplete();
 };
 
+/**
+ * Launch transition out of the view, Call onTransitionOutComplete when done
+ */
 View.prototype.transitionOut = function() {
     this.onTransitionOutComplete();
 };
@@ -237,6 +257,13 @@ View.prototype.transitionOut = function() {
 /*========================================================
     LIFECYCLE
 ========================================================*/
+/**
+ * Called each time the model is updated, it will update the dom accordingly
+ * @param  {string} prop       name of the updated property from model
+ * @param  {string} action     set, pop, shift, push, unshift, splice
+ * @param  {string} difference new value of prop
+ * @param  {string} oldvalue   value of prop before change
+ */
 View.prototype.updated = function(prop, action, difference, oldvalue) {}; // to override if you want
 function _updated(prop, action, difference, oldvalue) {
     if(this.$el) {
@@ -303,7 +330,7 @@ function _resolved(data) {
     this.emit('resolved');
 };
 
-
+// TODO change way to do things here
 View.prototype.onTransitionInComplete = function() {};
 View.prototype._onTransitionInComplete = function() {
     this.onTransitionInComplete();
