@@ -29,9 +29,15 @@ domready(function() {
     });
     view.appendTo(document.body);
 
+    var interval = setInterval(function() {
+        view.model.time += 1;
+    }, 10);
+
     setTimeout(function() {
         view.model.title = 'zob';
         view.model.sub.trou = 'foot';
         view.model.firstTitle = 'ojsf';
-    }, 2000);
+        clearInterval(interval);
+    }, 1000);
+
 });

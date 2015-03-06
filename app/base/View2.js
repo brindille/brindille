@@ -44,6 +44,7 @@ function View(options) {
      */
     this.compose = options.compose || {};
     this.componentsInstances = [];
+    this.bindFunctions = [];
 
     /*
         reference to view's components
@@ -51,15 +52,12 @@ function View(options) {
     this.refs = {};
 
     // Bind context to sensitive methods
-    bindAll(this, 'dataUpdated', 'render', 'onTransitionInComplete', 'onTransitionOutComplete', '_onTransitionInComplete', '_onTransitionOutComplete', '_resolved');
+    bindAll(this, 'render', 'onTransitionInComplete', 'onTransitionOutComplete', '_onTransitionInComplete', '_onTransitionOutComplete');
 
     /*
-        Data observer for rerendering when necessary
-        LA VIOLENCE !!!
-        Pour plus tard on va essayer de stocker des 'micros bouts de templates'
-        puis on render uniquement les micros bouts en fonction de quel data à été updated
+        Data observer for repopulating when necessary
      */
-    observer.watch(this.model, this.dataUpdated);
+    observer.watch(this.model, _updated.bind(this));
 
     // When ready launch first render
     // this.compile();
@@ -88,7 +86,7 @@ View.prototype.appendTo = function(domElement) {
     }
     this.$parentEl = domElement;
     this.$parentEl.appendChild(this.$el);
-    this._ready();
+    _ready.call(this);
 };
 
 /**
@@ -102,7 +100,7 @@ View.prototype.prependTo = function(domElement) {
     }
     this.$parentEl = domElement;
     this.$parentEl.insertBefore(this.$el, this.$parentEl.firstChild);
-    this._ready();
+    _ready.call(this);
 };
 
 /**
@@ -119,12 +117,15 @@ View.prototype.remove = function() {
  * Destroying the view and its child components
  */
 View.prototype.destroy = function() {
-    observer.unwatch(this.model, this.render);
+    observer.unwatch(this.model, _updated.bind(this));
+    forEach(this.bindFunctions, function(value, index) {
+        observer.unwatch(this.model, value.source, value.fn);
+    }.bind(this));
     forEach(this.componentsInstances, function(value, index) {
         value.destroy();
     });
-    this._destroying();
-    this._destroyed();
+    _destroying.call(this);
+    _destroyed.call(this);
 };
 
 /**
@@ -134,27 +135,52 @@ View.prototype.appendComponents = function() {
     this.componentsInstances = [];
     walk(this.$el, function(node) {
         if (node.nodeType === 1) {
+            // Get Component constructor
             var Ctor = this.compose[node.nodeName.toLowerCase()];
-            if (Ctor !== undefined) {
-                var data = domUtils.attributesToData(node);
-                console.log('dataCtor', data);
-                var r;
-                if(data.ref) {
-                    r = data.ref;
-                    delete data.ref; // delete ref to don't inject it in data
-                }
-                var component = new Ctor(data);
-                if(r) {
-                    this.refs[r] = component;
-                }
-                this.componentsInstances.push(component);
-                node.parentNode.replaceChild(component.$el, node);
+            if (Ctor === undefined) return;
+                
+            // Inject component attributes to its model
+            var attributesInfos = domUtils.attributesToData(node, this.model);
+            var model = attributesInfos.model;
+            var binders = attributesInfos.binders;
+            var r;
+            var component;
+
+            // Special attribute ref is used to keep a ref of the component to the current view
+            if(model.ref) {
+                r = model.ref;
+                delete model.ref; // delete ref to don't inject it in model
             }
+
+            // Create the component instance
+            component = new Ctor(model);
+
+            // Bind / watch attributes that need it from this view model to the component model
+            forEach(binders, function(value, index) {
+                // We keep a reference to the binding function to unwatch on destroy
+                var binding = {
+                    fn: function() {
+                        component.model[value.target] = this.model[value.source];
+                    }.bind(this),
+                    source: value.source
+                };
+                observer.watch(this.model, binding.source, binding.fn);
+                this.bindFunctions.push(binding);
+            }.bind(this));
+
+            // Save component reference if ref attribute was specified
+            if(r) {
+                this.refs[r] = component;
+            }
+
+            // Save component instance
+            this.componentsInstances.push(component);
+
+            // Inject component dom to view dom
+            node.parentNode.replaceChild(component.$el, node);
+            
         }
     }.bind(this));
-    if(this.componentsInstances.length) {
-        console.log('instances', this.componentsInstances, this.componentsInstances[0] === this.componentsInstances[1]);
-    }
 };
 
 /**
@@ -162,10 +188,12 @@ View.prototype.appendComponents = function() {
  */
 View.prototype.render = function() {
     this.$el = this.templateFn(this.model);
-    console.log('Render', this.$el);
-
     this.appendComponents();
-    // this._rendered();
+    _rendered.call(this);
+};
+
+View.prototype.parentIsReady = function() {
+    _ready.call(this);
 };
 
 View.prototype.startResolve = function() {
@@ -175,7 +203,7 @@ View.prototype.startResolve = function() {
         promises.push(Q(this.resolve[i]));
     }
 
-    return Q.all(promises).then(this._resolved);
+    return Q.all(promises).then(_resolved.bind(this));
 };
 
 View.prototype.transitionIn = function() {
@@ -189,31 +217,23 @@ View.prototype.transitionOut = function() {
 /*========================================================
     LIFECYCLE
 ========================================================*/
-View.prototype.dataUpdated = function(prop, action, difference, oldvalue) {
-    // console.log('dataUpdated', arguments);
+View.prototype.updated = function(prop, action, difference, oldvalue) {}; // to override if you want
+function _updated(prop, action, difference, oldvalue) {
     if(this.$el) {
         this.$el.update(prop, this.model[prop]);
     }
-    forEach(this.componentsInstances, function(value, index) {
-        // console.log('component', value.model, prop, value.model['prop']);
-    });
-
-    if(this.componentsInstances.length) {
-        // this.componentsInstances[0].$el.update('title', 'yoyouooyuyo');
-        this.componentsInstances[0].model.title = 'wesh';
-        console.log(this.componentsInstances[0].model, this.componentsInstances[1].model, this.componentsInstances[0].model === this.componentsInstances[1].model);
-        // this.componentsInstances[1].model.title = '######';
-    }
-};
+    this.updated(prop, action, difference, oldvalue);
+    this.emit('updated');
+}
 
 /**
  * When the view has its template rendered into a populated domElement (this.$el)
 */
 View.prototype.rendered = function() {}; // to override if you want
-View.prototype._rendered = function() {
+function _rendered() {
     this.rendered();
     this.emit('rendered');
-};
+}
 
 /**
  * When the view has been added to the document, recursively calls ready function from all child
@@ -223,9 +243,9 @@ View.prototype._rendered = function() {
  *     - this.ready
 */
 View.prototype.ready = function() {}; // to override if you want
-View.prototype._ready = function() {
+function _ready() {
     forEach(this.componentsInstances, function(value, index) {
-        value._ready();
+        value.parentIsReady();
     });
     this.ready();
     this.emit('ready');
@@ -235,7 +255,7 @@ View.prototype._ready = function() {
  * The moment you want to kill eventListeners, raf, tweens etc..
 */
 View.prototype.destroying = function() {};
-View.prototype._destroying = function() {
+function _destroying() {
     this.destroying();
     this.emit('destroying');
 };
@@ -244,13 +264,13 @@ View.prototype._destroying = function() {
  * Here everything should be clean and ready for GC
 */
 View.prototype.destroyed = function() {};
-View.prototype._destroyed = function() {
+function _destroyed() {
     this.destroyed();
     this.emit('destroyed');
 };
 
 View.prototype.resolved = function() {};
-View.prototype._resolved = function(data) {
+function _resolved(data) {
     if(data.length) console.log('Resolved', data);
     this.resolved();
     this.emit('resolved');
