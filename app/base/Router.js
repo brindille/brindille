@@ -55,6 +55,7 @@ Router.prototype.init = function(options) {
     page('*', _onDefaultRoute.bind(this));
     page.base(window.location.pathname.substring(0, window.location.pathname - 1));
     _start.call(this);
+    this.emit('init');
 };
 
 /**
@@ -62,6 +63,7 @@ Router.prototype.init = function(options) {
  * @param  {string} path path where you want to go
  */
 Router.prototype.redirect = function (path) {
+    this.emit('redirect', path);
     page(path);
 };
 
@@ -104,10 +106,10 @@ function _start () {
 function _beforeRouted (context, next) {
     if(this._currentRouteId) {
         this._routes[this._currentRouteId].section.remove();
-        next();
-    } else {
-        next();
     }
+
+    this.emit('beforeRouted');
+    next();
 }
 
 /**
@@ -121,6 +123,7 @@ function _onRouted (context, next) {
 
     if(verbose) console.debug('[Router] on route "'+ this._currentRouteId + '"');
 
+    this.emit('onRouted', this._currentRouteId);
     next();
 }
 
@@ -131,6 +134,7 @@ function _onRouted (context, next) {
 function _afterRouted (context) {
     // TODO: set metas
 
+    this.emit('afterRouted');
     if(typeof window.callPhantom === 'function') window.callPhantom();
 }
 

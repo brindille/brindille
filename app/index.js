@@ -71,7 +71,6 @@ domready(function() {
         }
     });
 
-
     var interval = setInterval(function() {
         view.model.time += 1;
     }, 10);
