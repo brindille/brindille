@@ -10,6 +10,7 @@ var walk = require('dom-walk');
 var observer = require('watchjs');
 var inherits = require('inherits');
 var clone = require('clone');
+var objectUtils = require('base/utils/object');
 
 /**
  * class View
@@ -17,6 +18,10 @@ var clone = require('clone');
  */
 function View(options) {
     options = options || {};
+
+    if(options.template === undefined) {
+        throw new Error('[View] A Template must be present in view options');
+    }
 
     /*
         Compiled Dom (domthing) object of the view
@@ -156,7 +161,7 @@ View.prototype.appendComponents = function() {
                 if(value.name === undefined) return;
                 if(value.name.indexOf('bind-') === 0) {
                     bindId = value.name.replace('bind-', '');
-                    model[bindId] = this.model[value.value];
+                    model[bindId] = objectUtils.findPathValue(this.model, value.value);
                     binders.push({source: value.value, target: bindId});
                 }
                 else {
@@ -178,10 +183,13 @@ View.prototype.appendComponents = function() {
                 // We keep a reference to the binding function to unwatch on destroy
                 var binding = {
                     fn: function() {
-                        component.model[value.target] = this.model[value.source];
+                        console.log('binders updated', value.target, value.source);
+                        component.model[value.target] = objectUtils.findPathValue(this.model, value.source);
                     }.bind(this),
                     source: value.source
                 };
+
+                // for now does not work if binding source goes deeper than level 1 in model
                 observer.watch(this.model, binding.source, binding.fn);
                 this.bindFunctions.push(binding);
             }.bind(this));
@@ -203,6 +211,9 @@ View.prototype.appendComponents = function() {
 
 /**
  * Use template function to create DOM Element populated from view model
+ * This method should not be called again to change values in the dom, to do
+ * that you should just change values from the model, data-binding will do the rest.
+ * Call render method only if you want to start anew with a new template function
  */
 View.prototype.render = function() {
     this.$el = this.templateFn(this.model);
@@ -210,10 +221,17 @@ View.prototype.render = function() {
     _rendered.call(this);
 };
 
+/**
+ * When current view is a composant of another view this method is called by parent to significate
+ * than parent is ready (ready will propagate through child components)
+ */
 View.prototype.parentIsReady = function() {
     _ready.call(this);
 };
 
+/**
+ * Check if param promised are resolved
+ */
 View.prototype.startResolve = function() {
     if(!this.resolve) return;
 
@@ -226,10 +244,16 @@ View.prototype.startResolve = function() {
     return Q.all(promises).then(_resolved.bind(this));
 };
 
+/**
+ * Launch transition in of the view, Call onTransitionInComplete when done
+ */
 View.prototype.transitionIn = function() {
     this.onTransitionInComplete();
 };
 
+/**
+ * Launch transition out of the view, Call onTransitionOutComplete when done
+ */
 View.prototype.transitionOut = function() {
     this.onTransitionOutComplete();
 };
@@ -237,10 +261,20 @@ View.prototype.transitionOut = function() {
 /*========================================================
     LIFECYCLE
 ========================================================*/
+/**
+ * Called each time the model is updated, it will update the dom accordingly
+ * @param  {string} prop       name of the updated property from model
+ * @param  {string} action     set, pop, shift, push, unshift, splice
+ * @param  {string} difference new value of prop
+ * @param  {string} oldvalue   value of prop before change
+ */
 View.prototype.updated = function(prop, action, difference, oldvalue) {}; // to override if you want
 function _updated(prop, action, difference, oldvalue) {
     if(this.$el) {
-        this.$el.update(prop, this.model[prop]);
+        var propPaths = objectUtils.findKeyPaths(this.model, prop);
+        forEach(propPaths, function(value, index) {
+            this.$el.update(value, objectUtils.findPathValue(this.model, value));
+        }.bind(this));
     }
     this.updated(prop, action, difference, oldvalue);
     this.emit('updated');
@@ -303,7 +337,7 @@ function _resolved(data) {
     this.emit('resolved');
 };
 
-
+// TODO change way to do things here
 View.prototype.onTransitionInComplete = function() {};
 View.prototype._onTransitionInComplete = function() {
     this.onTransitionInComplete();
