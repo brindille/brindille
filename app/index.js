@@ -12,6 +12,8 @@ var preloader = require('base/utils/Preloader');
 
 domready(function() {
 
+
+
     var promiseTest = function(ms, res) {
         var deferred = Q.defer();
         setTimeout(function() {
@@ -45,7 +47,21 @@ domready(function() {
             'test': require('components/component-test-g/componentTestG')
         }
     });
-    view.appendTo(document.body);
+
+    Router.init({
+        el: '#view',
+        hashbang: false,
+        routes: {
+            '/home': {
+                section: view,
+                isDefault: true
+            },
+            '/about': {
+                section: view,
+                isDefault: false
+            }
+        }
+    });
 
     var interval = setInterval(function() {
         view.model.time += 1;
