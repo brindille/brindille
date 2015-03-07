@@ -3,7 +3,9 @@
 var page = require('page');
 var Emitter = require('emitter-component');
 var inherits = require('inherits');
+var clone = require('clone');
 var forEach = require('for-each');
+var meta = require('base/utils/meta');
 var MobileDetect = require('mobile-detect');
 var md = new MobileDetect(window.navigator.userAgent);
 var verbose = require('config').verbose;
@@ -26,6 +28,10 @@ function Router() {
      */
     this._currentRouteId = undefined;
     /*
+        Previous section displayed
+     */
+    this._previousRouteId = undefined;
+    /*
         Default route (can be a 404, or the index)
     */
     this._defaultRoute = '/';
@@ -40,29 +46,37 @@ inherits(Router, Emitter);
 /*===================================================
     Public API
 ===================================================*/
+/**
+ * Initialize router with routes, element containing views and hashbang usage
+ * @param  {object} options
+ */
 Router.prototype.init = function(options) {
     this.$el = document.querySelector(options.el) || document.body;
     this._routes = options.routes || {};
     this._useHashbang = options.hashbang || false;
 
+    // set routes
     forEach(this._routes, function(value, index) {
         _addRoute.call(this, index);
-        if(value.isDefault) {
+        if (value.isDefault) {
             this._defaultRoute = index;
         }
     }.bind(this));
 
+    // set default route
     page('*', _onDefaultRoute.bind(this));
+
+    // start router
+    this.emit('init');
     page.base(window.location.pathname.substring(0, window.location.pathname - 1));
     _start.call(this);
-    this.emit('init');
 };
 
 /**
  * Redirect to the specified route
  * @param  {string} path path where you want to go
  */
-Router.prototype.redirect = function (path) {
+Router.prototype.redirect = function(path) {
     this.emit('redirect', path);
     page(path);
 };
@@ -75,17 +89,19 @@ Router.prototype.redirect = function (path) {
  * Add route to the router
  * @param {strinh} path  route path
  */
-function _addRoute (path) {
+function _addRoute(path) {
     page(path, _beforeRouted.bind(this), _onRouted.bind(this), _afterRouted.bind(this));
 
-    if(verbose) console.debug('[Router] add route "' + path + '"');
+    if (verbose) {
+        console.debug('[Router] add route "' + path + '"');
+    }
 }
 
 /**
  * Start router
  */
-function _start () {
-    if(~~md.version('IE') === 9) {
+function _start() {
+    if (~~md.version('IE') === 9) {
         // F*cking IE
         history.redirect();
         page.base('/#');
@@ -103,8 +119,9 @@ function _start () {
  * @param  {object}   context route context
  * @param  {Function} next    next function to execute
  */
-function _beforeRouted (context, next) {
-    if(this._currentRouteId) {
+function _beforeRouted(context, next) {
+    if (this._currentRouteId) {
+        this._routes[this._currentRouteId].section.transitionOut();
         this._routes[this._currentRouteId].section.remove();
     }
 
@@ -117,11 +134,15 @@ function _beforeRouted (context, next) {
  * @param  {object}   context route context
  * @param  {Function} next    function to execute next
  */
-function _onRouted (context, next) {
+function _onRouted(context, next) {
     this._currentRouteId = _findCurrentRouteId.call(this, context.path);
+    this._routes[this._currentRouteId].section.model.routeParams = clone(context.params);
     this._routes[this._currentRouteId].section.appendTo(this.$el);
+    this._routes[this._currentRouteId].section.transitionIn();
 
-    if(verbose) console.debug('[Router] on route "'+ this._currentRouteId + '"');
+    if (verbose) {
+        console.debug('[Router] on route "' + this._currentRouteId + '"');
+    }
 
     this.emit('onRouted', this._currentRouteId);
     next();
@@ -131,11 +152,14 @@ function _onRouted (context, next) {
  * Set document metas and call PhantomJS to serve static content if a crawler is parsing the application
  * @param  {object}   context route context
  */
-function _afterRouted (context) {
-    // TODO: set metas
+function _afterRouted(context) {
+    meta.setTitle(this._routes[this._currentRouteId].title);
+    meta.setDescription(this._routes[this._currentRouteId].description);
 
     this.emit('afterRouted');
-    if(typeof window.callPhantom === 'function') window.callPhantom();
+    if (typeof window.callPhantom === 'function') {
+        window.callPhantom();
+    }
 }
 
 /**
@@ -143,7 +167,7 @@ function _afterRouted (context) {
  * @param  {object}   context route context
  * @param  {function} next next callback
  */
-function _onDefaultRoute (context, next) {
+function _onDefaultRoute(context, next) {
     history.replaceState({}, '', this._defaultRoute);
     this.redirect(this._defaultRoute);
     next();
@@ -159,10 +183,10 @@ function _onDefaultRoute (context, next) {
  */
 function _findCurrentRouteId(path) {
     var match, id;
-    forEach(this._routes, function(value, index){
+    forEach(this._routes, function(value, index) {
         match = path.match(new RegExp((index.replace(/:[a-z1-9]+/g, '[a-z1-9-]+')).replace(/\//g, '\\/'), 'g'));
 
-        if(match && match.length > 0) {
+        if (match && match.length > 0) {
             id = index;
         }
     });

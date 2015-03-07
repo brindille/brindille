@@ -62,11 +62,15 @@ domready(function() {
         routes: {
             '/home': {
                 section: view,
-                isDefault: true
+                isDefault: true,
+                title: 'Brindille - Home',
+                description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
             },
             '/about': {
                 section: view,
-                isDefault: false
+                isDefault: false,
+                title: 'Brindille - About',
+                description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
             }
         }
     });

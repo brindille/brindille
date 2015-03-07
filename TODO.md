@@ -3,7 +3,8 @@ TODO
 - [ ] Routing
     - [x] Display correct view in function of route
     - [ ] Make transition between views
-    - [ ] Take care of route params in view
+    - [x] Take care of route params in view
+    - [x] Set document metas
 - [ ] Templating (maybe use Handlebar or an other)
     - [x] easily append view template such as `<div data-template="my-template"></div>`
     - [x] bind data such as `<h1>{{ title }}</h1>`
