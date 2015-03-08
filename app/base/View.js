@@ -19,7 +19,7 @@ var objectUtils = require('base/utils/object');
 function View(options) {
     options = options || {};
 
-    if(options.template === undefined) {
+    if (options.template === undefined) {
         throw new Error('[View] A Template must be present in view options');
     }
 
@@ -60,6 +60,11 @@ function View(options) {
      */
     this.refs = {};
 
+    /*
+        Style of transition between the view and the next one
+     */
+    this.transitionMode = options.transitionMode || 'manual';
+
     // Bind context to sensitive methods
     bindAll(this, 'render', 'onTransitionInComplete', 'onTransitionOutComplete', '_onTransitionInComplete', '_onTransitionOutComplete');
 
@@ -80,9 +85,7 @@ inherits(View, Emitter);
 /*========================================================
     PUBLIC API
 ========================================================*/
-View.prototype.createTemplateFromString = function(templateString) {
-
-};
+View.prototype.createTemplateFromString = function(templateString) {};
 
 /**
  * Append (add at end) the view to a DOM element
@@ -116,7 +119,7 @@ View.prototype.prependTo = function(domElement) {
  * Remove view from parent and start destroy process
  */
 View.prototype.remove = function() {
-    if(this.$el.parentNode) {
+    if (this.$el.parentNode) {
         this.$el.parentNode.removeChild(this.$el);
     }
     this.destroy();
@@ -158,19 +161,21 @@ View.prototype.appendComponents = function() {
 
             // Inject component attributes to its model and save binders attribute if needed
             forEach(attributes, function(value, index) {
-                if(value.name === undefined) return;
-                if(value.name.indexOf('bind-') === 0) {
+                if (value.name === undefined) return;
+                if (value.name.indexOf('bind-') === 0) {
                     bindId = value.name.replace('bind-', '');
                     model[bindId] = objectUtils.findPathValue(this.model, value.value);
-                    binders.push({source: value.value, target: bindId});
-                }
-                else {
+                    binders.push({
+                        source: value.value,
+                        target: bindId
+                    });
+                } else {
                     model[value.name] = value.value;
                 }
             }.bind(this));
 
             // Special attribute ref is used to keep a ref of the component to the current view
-            if(model.ref) {
+            if (model.ref) {
                 r = model.ref;
                 delete model.ref; // delete ref to don't inject it in model
             }
@@ -195,7 +200,7 @@ View.prototype.appendComponents = function() {
             }.bind(this));
 
             // Save component reference if ref attribute was specified
-            if(r) {
+            if (r) {
                 this.refs[r] = component;
             }
 
@@ -233,29 +238,14 @@ View.prototype.parentIsReady = function() {
  * Check if param promised are resolved
  */
 View.prototype.startResolve = function() {
-    if(!this.resolve) return;
-
+    if (!this.resolve) return;
     var promises = [];
 
-    for(var i in this.resolve) {
+    for (var i in this.resolve) {
         promises.push(this.resolve[i]);
     }
 
     return Q.all(promises).then(_resolved.bind(this));
-};
-
-/**
- * Launch transition in of the view, Call onTransitionInComplete when done
- */
-View.prototype.transitionIn = function() {
-    this.onTransitionInComplete();
-};
-
-/**
- * Launch transition out of the view, Call onTransitionOutComplete when done
- */
-View.prototype.transitionOut = function() {
-    this.onTransitionOutComplete();
 };
 
 /*========================================================
@@ -270,7 +260,7 @@ View.prototype.transitionOut = function() {
  */
 View.prototype.updated = function(prop, action, difference, oldvalue) {}; // to override if you want
 function _updated(prop, action, difference, oldvalue) {
-    if(this.$el) {
+    if (this.$el) {
         var propPaths = objectUtils.findKeyPaths(this.model, prop);
         forEach(propPaths, function(value, index) {
             this.$el.update(value, objectUtils.findPathValue(this.model, value));
@@ -303,7 +293,7 @@ function _ready() {
     });
     this.ready();
     this.emit('ready');
-};
+}
 
 /**
  * The moment you want to kill eventListeners, raf, tweens etc..
@@ -312,7 +302,7 @@ View.prototype.destroying = function() {};
 function _destroying() {
     this.destroying();
     this.emit('destroying');
-};
+}
 
 /**
  * Here everything should be clean and ready for GC
@@ -321,33 +311,63 @@ View.prototype.destroyed = function() {};
 function _destroyed() {
     this.destroyed();
     this.emit('destroyed');
-};
+}
 
 View.prototype.resolved = function() {};
 function _resolved(data) {
-    if(data.length === 0) return;
+    if (data.length === 0) return;
 
     var j = 0;
-    for(var i in this.resolve) {
+    for (var i in this.resolve) {
         this.resolvedFiles[i] = data[j];
         j++;
     }
 
     this.resolved();
     this.emit('resolved');
+}
+
+/*========================================================
+    TRANSITIONS
+========================================================*/
+/**
+ * Launch transition in
+ */
+View.prototype.playTransitionIn = function() {
+    this.transitionIn(_onTransitionInComplete.bind(this));
 };
 
-// TODO change way to do things here
-View.prototype.onTransitionInComplete = function() {};
-View.prototype._onTransitionInComplete = function() {
-    this.onTransitionInComplete();
+/**
+ * Transition in of the view. Call callback function when done
+ */
+View.prototype.transitionIn = function(onCompleteCallback) {
+    if (onCompleteCallback && typeof onCompleteCallback === 'function') {
+        onCompleteCallback();
+    }
+};
+
+function _onTransitionInComplete() {
     this.emit('onTransitionInComplete');
+}
+
+/**
+ * Launch transition out
+ */
+View.prototype.playTransitionOut = function() {
+    this.transitionOut(_onTransitionOutComplete.bind(this));
 };
 
-View.prototype.onTransitionOutComplete = function() {};
-View.prototype._onTransitionOutComplete = function() {
-    this.onTransitionOutComplete();
-    this.emit('onTransitionOutComplete');
+/**
+ * Transition out of the view. Call callback function when done
+ */
+View.prototype.transitionOut = function(onCompleteCallback) {
+    if (onCompleteCallback && typeof onCompleteCallback === 'function') {
+        onCompleteCallback();
+    }
 };
+
+function _onTransitionOutComplete() {
+    this.emit('onTransitionOutComplete');
+}
 
 module.exports = View;
