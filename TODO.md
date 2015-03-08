@@ -1,19 +1,19 @@
 TODO
 ====
-- [ ] Routing
+- [x] Routing
     - [x] Display correct view in function of route
-    - [ ] Make transition between views
+    - [x] Make transition between views
     - [x] Take care of route params in view
     - [x] Set document metas
-- [ ] Templating (maybe use Handlebar or an other)
+- [x] Templating (maybe use Handlebar or an other)
     - [x] easily append view template such as `<div data-template="my-template"></div>`
     - [x] bind data such as `<h1>{{ title }}</h1>`
     - [x] recompile template when data change
-    - [ ] hide views on append, show them on transitionIn
+    - [x] hide views on append, show them on transitionIn
     - [x] make correct DOM tree
     - [x] append components
     - [x] create pool object to prevent `this.components.foo.data.bar = something`
-- [ ] Component building
+- [x] Component building
     - [x] easily register component in view
     - [x] use component template inside a view
     - [x] data binding

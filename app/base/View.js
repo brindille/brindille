@@ -6,6 +6,7 @@ var Emitter = require('emitter-component');
 var forEach = require('for-each');
 var bindAll = require('bindall-standalone');
 var verbose = require('config').verbose;
+var consts = require('config').constants;
 var walk = require('dom-walk');
 var observer = require('watchjs');
 var inherits = require('inherits');
@@ -63,10 +64,10 @@ function View(options) {
     /*
         Style of transition between the view and the next one
      */
-    this.transitionMode = options.transitionMode || 'manual';
+    this.transitionMode = options.transitionMode || consts.TRANSITION_NONE;
 
     // Bind context to sensitive methods
-    bindAll(this, 'render', 'onTransitionInComplete', 'onTransitionOutComplete', '_onTransitionInComplete', '_onTransitionOutComplete');
+    bindAll(this, 'render', '_onTransitionInComplete', '_onTransitionOutComplete');
 
     /*
         Data observer for repopulating when necessary
@@ -97,6 +98,7 @@ View.prototype.appendTo = function(domElement) {
         return;
     }
     this.$parentEl = domElement;
+    this.$el.setAttribute('hidden', '');
     this.$parentEl.appendChild(this.$el);
     _ready.call(this);
 };

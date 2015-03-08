@@ -12,8 +12,6 @@ var preloader = require('base/utils/Preloader');
 
 domready(function() {
 
-
-
     var promiseTest = function(ms, res) {
         var deferred = Q.defer();
         setTimeout(function() {
@@ -55,6 +53,18 @@ domready(function() {
             'test': require('components/component-test-g/componentTestG')
         }
     });
+    view.transitionIn = function(onCompleteCallback) {
+        var tl = new TimelineMax({
+            onComplete: onCompleteCallback
+        });
+        tl.fromTo(this.$el, 0.4, {alpha: 0, y: 150}, {alpha: 1, y: 0, ease: Expo.easeInOut});
+    };
+    view.transitionOut = function(onCompleteCallback) {
+        var tl = new TimelineMax({
+            onComplete: onCompleteCallback
+        });
+        tl.to(this.$el, 0.4, {scale: 3, ease: Expo.easeInOut, clearProps: 'transform'});
+    };
 
     Router.init({
         el: '#view',
@@ -67,7 +77,7 @@ domready(function() {
                 description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
             },
             '/about': {
-                section: view,
+                section: require('sections/about/about'),
                 isDefault: false,
                 title: 'Brindille - About',
                 description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'

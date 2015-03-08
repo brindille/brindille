@@ -9,6 +9,7 @@ var meta = require('base/utils/meta');
 var MobileDetect = require('mobile-detect');
 var md = new MobileDetect(window.navigator.userAgent);
 var verbose = require('config').verbose;
+var consts = require('config').constants;
 
 /**
  * class Router
@@ -121,23 +122,12 @@ function _start() {
  */
 function _beforeRouted(context, next) {
     if (this._currentRouteId) {
-        this.emit('beforeRouted');
-
-        if (this._routes[this._currentRouteId].section.transitionMode === 'manual') {
-            this._routes[this._currentRouteId].section.once('onTransitionOutComplete', function() {
-                this._routes[this._currentRouteId].section.remove();
-                next();
-            }.bind(this));
-            this._routes[this._currentRouteId].section.playTransitionOut();
-        } else {
-            this._previousRouteId = this._currentRouteId;
-            this._currentRouteId = null;
-            next();
-        }
-
-    } else {
-        next();
+        this._previousRouteId = this._currentRouteId;
+        this._currentRouteId = null;
     }
+
+    this.emit('beforeRouted');
+    next();
 }
 
 /**
@@ -149,9 +139,13 @@ function _onRouted(context, next) {
     this._currentRouteId = _findCurrentRouteId.call(this, context.path);
     this._routes[this._currentRouteId].section.model.routeParams = clone(context.params);
     this._routes[this._currentRouteId].section.appendTo(this.$el);
-    if (this._routes[this._currentRouteId].section.transitionMode === 'manual') {
-        // TODO: remove hidden attribute on current view
-        this._routes[this._currentRouteId].section.playTransitionIn();
+
+    if(!this._previousRouteId || this._previousRouteId === this._currentRouteId) {
+        this._routes[this._currentRouteId].section.$el.removeAttribute('hidden');
+
+        if(this._routes[this._currentRouteId].section.transitionMode !== consts.TRANSITION_NONE) {
+            this._routes[this._currentRouteId].section.playTransitionIn();
+        }
     } else {
         transition.call(this, this._routes[this._currentRouteId].section.transitionMode);
     }
@@ -213,36 +207,37 @@ function _findCurrentRouteId(path) {
 /*===================================================
     Transitions
 ===================================================*/
+/**
+ * Display desired transition
+ * @param  {String} transitionMode
+ */
 function transition(transitionMode) {
     switch (transitionMode) {
-        case 'inAndAfterOut':
+        case consts.TRANSITION_IN_AFTER_OUT:
             transitionInAndAfterOut.call(this);
             break;
-        case 'outAndAfterIn':
+        case consts.TRANSITION_OUT_AFTER_IN:
             transitionOutAndAfterIn.call(this);
             break;
-        case 'inAndOutTogether':
+        case consts.TRANSITION_IN_OUT_TOGETHER:
             transitionInAndOutTogether.call(this);
             break;
-        case 'transitionInOnly':
-            this._routes[this._previousRouteId].section.remove();
-            // TODO: remove hidden attribute on current view
-            this._routes[this._currentRouteId].section.playTransitionIn();
+        case consts.TRANSITION_IN_ONLY:
+            transitionInOnly.call(this);
             break;
-        case 'transitionOutOnly':
-            this._routes[this._previousRouteId].section.once('onTransitionOutComplete', function() {
-                this._routes[this._previousRouteId].section.remove();
-                // TODO: remove hidden attribute on current view
-            }.bind(this));
-            this._routes[this._previousRouteId].section.playTransitionOut();
+        case consts.TRANSITION_OUT_ONLY:
+            transitionOutOnly.call(this);
             break;
         default:
             this._routes[this._previousRouteId].section.remove();
-            // TODO: remove hidden attribute on current view
+            this._routes[this._currentRouteId].section.$el.removeAttribute('hidden');
             break;
     }
 }
 
+/**
+ * The current view plays transition in, at its end the previous view plays transition out
+ */
 function transitionInAndAfterOut() {
     this._routes[this._currentRouteId].section.once('onTransitionInComplete', function() {
         this._routes[this._previousRouteId].section.once('onTransitionOutComplete', function() {
@@ -250,26 +245,54 @@ function transitionInAndAfterOut() {
         }.bind(this));
         this._routes[this._previousRouteId].section.playTransitionOut();
     }.bind(this));
-    // TODO: remove hidden attribute on current view
+    this._routes[this._currentRouteId].section.$el.removeAttribute('hidden');
     this._routes[this._currentRouteId].section.playTransitionIn();
 }
 
+/**
+ * The previous view plays transition out, at its end the current view plays transition in
+ */
 function transitionOutAndAfterIn() {
     this._routes[this._previousRouteId].section.once('onTransitionOutComplete', function() {
         this._routes[this._previousRouteId].section.remove();
-        // TODO: remove hidden attribute on current view
+        this._routes[this._currentRouteId].section.$el.removeAttribute('hidden');
         this._routes[this._currentRouteId].section.playTransitionIn();
     }.bind(this));
     this._routes[this._previousRouteId].section.playTransitionOut();
 }
 
+/**
+ * The previous view and the current view play theirs transitions together
+ */
 function transitionInAndOutTogether() {
     this._routes[this._previousRouteId].section.once('onTransitionOutComplete', function() {
         this._routes[this._previousRouteId].section.remove();
     }.bind(this));
     this._routes[this._previousRouteId].section.playTransitionOut();
-    // TODO: remove hidden attribute on current view
+    this._routes[this._currentRouteId].section.$el.removeAttribute('hidden');
     this._routes[this._currentRouteId].section.playTransitionIn();
+}
+
+/**
+ * The current view plays transition in
+ */
+function transitionInOnly() {
+    this._routes[this._previousRouteId].section.once('destroyed', function() {
+        this._routes[this._currentRouteId].section.$el.removeAttribute('hidden');
+        this._routes[this._currentRouteId].section.playTransitionIn();
+    }.bind(this));
+    this._routes[this._previousRouteId].section.remove();
+}
+
+/**
+ * The previous view plays transition out
+ */
+function transitionOutOnly() {
+    this._routes[this._previousRouteId].section.once('onTransitionOutComplete', function() {
+        this._routes[this._previousRouteId].section.remove();
+        this._routes[this._currentRouteId].section.$el.removeAttribute('hidden');
+    }.bind(this));
+    this._routes[this._previousRouteId].section.playTransitionOut();
 }
 
 module.exports = new Router();
