@@ -140,10 +140,10 @@ function _onRouted(context, next) {
     this._routes[this._currentRouteId].section.model.routeParams = clone(context.params);
     this._routes[this._currentRouteId].section.appendTo(this.$el);
 
-    if(!this._previousRouteId || this._previousRouteId === this._currentRouteId) {
+    if (!this._previousRouteId || this._previousRouteId === this._currentRouteId) {
         this._routes[this._currentRouteId].section.$el.removeAttribute('hidden');
 
-        if(this._routes[this._currentRouteId].section.transitionMode !== consts.TRANSITION_NONE) {
+        if (this._routes[this._currentRouteId].section.transitionMode !== consts.TRANSITION_NONE) {
             this._routes[this._currentRouteId].section.playTransitionIn();
         }
     } else {

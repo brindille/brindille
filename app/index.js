@@ -8,10 +8,9 @@ var View = require('base/View');
 var Router = require('base/Router');
 var config = require(config);
 var Q = require('q');
-var preloader = require('base/utils/Preloader');
+var preloader = require('brindille-preloader');
 
 domready(function() {
-
     var promiseTest = function(ms, res) {
         var deferred = Q.defer();
         setTimeout(function() {
@@ -45,8 +44,14 @@ domready(function() {
             p1: promiseTest(1000, 'coucou'),
             p2: promiseTest(4000, 'coucou2'),
             assets: preloader.load([
-                { id: 'imgTest1', src: config.assetsRoot + 'images/61.jpg' },
-                { id: 'imgTest2', src: config.assetsRoot + 'images/62.jpg' }
+                {
+                    id: 'imgTest1',
+                    src: config.assetsRoot + 'images/61.jpg'
+                },
+                {
+                    id: 'imgTest2',
+                    src: config.assetsRoot + 'images/62.jpg'
+                }
             ]).getPromise()
         },
         compose: {
@@ -57,13 +62,24 @@ domready(function() {
         var tl = new TimelineMax({
             onComplete: onCompleteCallback
         });
-        tl.fromTo(this.$el, 0.4, {alpha: 0, y: 150}, {alpha: 1, y: 0, ease: Expo.easeInOut});
+        tl.fromTo(this.$el, 0.4, {
+            alpha: 0,
+            y: 150
+        }, {
+            alpha: 1,
+            y: 0,
+            ease: Expo.easeInOut
+        });
     };
     view.transitionOut = function(onCompleteCallback) {
         var tl = new TimelineMax({
             onComplete: onCompleteCallback
         });
-        tl.to(this.$el, 0.4, {scale: 3, ease: Expo.easeInOut, clearProps: 'transform'});
+        tl.to(this.$el, 0.4, {
+            scale: 3,
+            ease: Expo.easeInOut,
+            clearProps: 'transform'
+        });
     };
 
     Router.init({

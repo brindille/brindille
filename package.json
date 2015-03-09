@@ -19,20 +19,6 @@
   ],
   "author": "vdaguenet, superguigui",
   "license": "MIT",
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browser": {
-    "PxLoader": "./node_modules/PxLoader/dist/pxloader-all.js"
-  },
-  "browserify-shim": {
-    "PxLoader": "PxLoader"
-  },
-  "napa": {
-    "PxLoader": "thinkpixellab/PxLoader"
-  },
   "devDependencies": {
     "aliasify": "^1.5.1",
     "envify": "^3.2.0",
@@ -55,7 +41,6 @@
     "gulp-streamify": "0.0.5",
     "gulp-uglify": "^1.1.0",
     "gulp-util": "^3.0.3",
-    "napa": "^1.2.0",
     "pretty-hrtime": "^1.0.0",
     "vinyl-source-stream": "^1.0.0",
     "watchify": "^2.3.0",
@@ -67,6 +52,7 @@
   },
   "dependencies": {
     "bindall-standalone": "^1.0.5",
+    "brindille-preloader": "^1.0.1",
     "brindille-resize": "^0.1.1",
     "brindille-scroll": "^0.1.0",
     "clone": "^1.0.1",
