@@ -23,8 +23,7 @@ TODO
 - [x] Serve page to crawlers
     - [x] redirect crawlers
     - [x] render requested page using PhantomJS
-- [ ] Global
-    - [ ] remove unused components from package.json
-
-- [ ] View 2.0 (GG)
+- [x] Global
+    - [x] remove unused components from package.json
+- [x] View 2.0 (GG)
     - [x] Add resolve param and methods to handle promise resolving before transitioning (if it exists)
