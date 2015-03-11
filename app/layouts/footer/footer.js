@@ -8,6 +8,5 @@ var Footer = factory.viewInstance({
   compose: {},
   resolve: {}
 });
-Footer.apendTo('footer');
 
 module.exports = Footer;
