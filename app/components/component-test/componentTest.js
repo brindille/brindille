@@ -6,6 +6,7 @@ var inherits = require('inherits');
 var extend = require('extend');
 
 function ComponentTest(model) {
+  console.log('componentTest', model);
   View.call(this, {
     template: require('./componentTest.html'),
     model: extend({
