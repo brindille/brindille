@@ -1,16 +1,15 @@
 'use strict';
 
-var Component = require('lib/Component');
-var fs = require('fs');
-var inherits = require('inherits');
+var factory = require('lib/factory');
 
-function ComponentTest() {
-    this.template = require('./componentTest.html');
-    this.data = {
-        url: 'http://google.com',
-        label: 'test'
-    };
-}
-inherits(ComponentTest, Component);
+var ComponentTest = factory.view({
+  template: require('./componentTest.html'),
+  model: {
+    url: 'http://google.com',
+    label: 'test'
+  },
+  compose: {},
+  resolve: {}
+});
 
 module.exports = ComponentTest;

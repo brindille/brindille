@@ -1,5 +1,0 @@
-<div style="border: 1px solid white; padding: 10px; width: 300px; margin: 10px 0;">
-    <h3>I'm a component instance</h3>
-    <h4>title: {{title}}</h4>
-    <h4>bidule: {{bidule}}</h4>
-</div>

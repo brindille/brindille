@@ -1,9 +1,0 @@
-<div style="border: 1px solid white; padding: 10px;margin: 10px;">
-    <h1>I'm a view with child components - {{title}} - {{sub.trou}}</h1><br/>
-    <h2>Rapidly changing value: {{time}} / 100</h2><br/>
-    <div>
-        <a href="/home">home</a> - <a href="/about">about</a> - <a href="/contact">contact</a>
-    </div>
-    <test bind-title="sub.trou" bidule="toto"></test>
-    <test bind-title="secondTitle" bidule="guigui"></test>
-</div>

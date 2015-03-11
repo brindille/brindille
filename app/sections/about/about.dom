@@ -1,4 +1,0 @@
-<section class="about">
-    <h1>{{ title }}</h1>
-    <a href="/home">back</a>
-</section>

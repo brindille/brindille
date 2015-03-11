@@ -6,22 +6,22 @@ var green = util.colors.cyan;
 var magenta = util.colors.magenta;
 
 module.exports = function(processName) {
-    var startTime;
+  var startTime;
 
-    return {
-        start: function() {
-            startTime = process.hrtime();
-            util.log('Running', '\'' + green(processName) + '\'...');
-        },
+  return {
+    start: function() {
+      startTime = process.hrtime();
+      util.log('Running', '\'' + green(processName) + '\'...');
+    },
 
-        end: function() {
-            var taskTime = process.hrtime(startTime);
+    end: function() {
+      var taskTime = process.hrtime(startTime);
 
-            util.log(
-                'Finished',
-                '\'' + green(processName) + '\'',
-                'after', magenta(prettyHrtime(taskTime))
-            );
-        }
-    };
+      util.log(
+        'Finished',
+        '\'' + green(processName) + '\'',
+        'after', magenta(prettyHrtime(taskTime))
+      );
+    }
+  };
 };

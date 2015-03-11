@@ -1,29 +1,13 @@
 'use strict';
 
-var Layout = require('lib/Layout');
-var fs = require('fs');
+var factory = require('lib/factory');
 
-var footer = new Layout({
-    el: 'footer',
-    template: require('./footer.html'),
-    data: {},
-    components: {
-        simpleLink: {
-            componentId: 'component-test'
-        },
-        simpleLink2: {
-            componentId: 'component-test',
-            data: {
-                label: 'simple link 2'
-            }
-        },
-        simpleLink3: {
-            componentId: 'component-test',
-            data: {
-                label: 'simple link 3'
-            }
-        }
-    }
+var Footer = factory.viewInstance({
+  template: require('./footer.html'),
+  model: {},
+  compose: {},
+  resolve: {}
 });
+Footer.apendTo('footer');
 
-module.exports = footer;
+module.exports = Footer;

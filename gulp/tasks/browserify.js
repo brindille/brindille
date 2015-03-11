@@ -4,7 +4,6 @@ var gulp = require('gulp');
 var vinyl = require('vinyl-source-stream');
 var envify = require('envify/custom');
 var stringify = require('stringify');
-var domthingify = require('domthingify');
 var stripify = require('stripify');
 var watchify = require('watchify');
 var opts = require('../options');
@@ -14,41 +13,41 @@ var bundleLogger = require('../utils/time-logger')('bundle');
 var errorNotif = require('../utils/error-notification');
 
 gulp.task('browserify', function() {
-    var bundler = require('browserify')({
-        entries: cfg.entry.scripts,
-        cache: {},
-        packageCache: {},
-        fullPaths: opts.debug,
-        debug: opts.debug
-    });
+  var bundler = require('browserify')({
+    entries: cfg.entry.scripts,
+    cache: {},
+    packageCache: {},
+    fullPaths: opts.debug,
+    debug: opts.debug
+  });
 
-    if (opts.watch) {
-        bundler = watchify(bundler);
-        bundler.on('update', bundle);
-    }
+  if (opts.watch) {
+    bundler = watchify(bundler);
+    bundler.on('update', bundle);
+  }
 
-    applyTransform(bundler);
+  applyTransform(bundler);
 
-    return bundle();
+  return bundle();
 
-    function bundle() {
-        bundleLogger.start();
+  function bundle() {
+    bundleLogger.start();
 
-        return bundler.bundle()
-            .on('error', errorNotif)
-            .pipe(vinyl(cfg.output.filename + '.js'))
-            .pipe(gulp.dest(cfg.output.path))
-            .on('end', bundleLogger.end);
-    }
+    return bundler.bundle()
+      .on('error', errorNotif)
+      .pipe(vinyl(cfg.output.filename + '.js'))
+      .pipe(gulp.dest(cfg.output.path))
+      .on('end', bundleLogger.end);
+  }
 });
 
 function applyTransform(bundler) {
-    bundler.transform(envify({
-        NODE_ENV: opts.env
-    }));
-    bundler.transform(aliasify);
-    bundler.transform(domthingify);
-    if(opts.production) {
-        bundler.transform(stripify);
-    }
+  bundler.transform(envify({
+    NODE_ENV: opts.env
+  }));
+  bundler.transform(aliasify);
+  bundler.transform(stringify);
+  if (opts.production) {
+    bundler.transform(stripify);
+  }
 }
