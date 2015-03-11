@@ -6,7 +6,7 @@ var ComponentTest = factory.view({
   template: require('./componentTest.html'),
   model: {
     'label': 'test',
-    'url': 'perdu.com'
+    'url': 'google.com'
   }
 });
 

@@ -4,10 +4,8 @@
   "description": "Javascript front-end project boilerplate, gulp + browserify + rivets + stylus",
   "main": "app/index.js",
   "scripts": {
-    "start": "npm run server",
+    "start": "gulp server --watch",
     "dev": "gulp build --watch",
-    "server": "gulp server --watch",
-    "server-proxy": "gulp server --watch --proxy localhost:3333",
     "prod": "gulp build --production"
   },
   "keywords": [
