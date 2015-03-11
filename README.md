@@ -13,8 +13,9 @@ It uses:
 Clone this repository and install the dependencies
 
 ```bash
-rm -rf ./.git
+rm -rf brindille/.git
 npm install
+composer install
 ```
 
 ## File structure
