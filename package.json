@@ -1,7 +1,7 @@
 {
   "name": "brindille",
   "version": "1.0.0",
-  "description": "No js framework, gulp + browserify based boilerplate",
+  "description": "Javascript front-end project boilerplate, gulp + browserify + rivets + stylus",
   "main": "app/index.js",
   "scripts": {
     "start": "npm run server",
@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "brindille-router": "^1.0.1",
-    "brindille-view": "^1.0.4",
+    "brindille-view": "^1.0.5",
     "clone": "^1.0.1",
     "domready": "^1.0.7",
     "extend": "^2.0.0",

@@ -1,18 +1,60 @@
-No framework boilerplate
-========================
+# brindille
 
-Boilerplate for single page website without using framework.
+Javascript front-end project boilerplate.
 
-Lifecycle
-=========
-1. `bind()`
-2. `addEvents()`
-3. `createPromises()`
-4. `ready()`
-5. `onPreloadComplete()`
-6. `transitionIn()`
-7. `unbind()`
-8. `transitionOut()`
-9. `beforeDestroy()`
-10. `removeEvents()`
-11. `destroy()`
+It uses:
+- [gulp](http://gulpjs.com/)
+- [browserify](http://browserify.org/)
+- [rivets](http://rivetsjs.com/)
+- [stylus](http://learnboost.github.io/stylus/)
+
+## Install
+
+Clone this repository and install the dependencies
+
+```bash
+rm -rf ./.git
+npm install
+```
+
+## File structure
+
+Organise your files in a component structure: JavaScript, template and styles of a component should be in the same folder. (ex: `/app/components/component-test`.)
+Then, they will be build in the `/static/build` folder.
+
+Images, fonts and other assets have to be in the `/static/{images,fonts}` folders.
+
+## Ressources
+
+- [View documentation](https://github.com/brindille/brindille-view/blob/master/README.md)
+- [Router documentation](https://github.com/brindille/brindille-router/blob/master/README.md)
+
+## Tasks
+
+### Dev
+
+Builds CSS & JS files and watches for changes.
+
+```bash
+npm run dev
+```
+
+### Server
+
+Executes dev task and run a local server.
+
+```bash
+npm start
+```
+
+### Production
+
+Build the files and minify them.
+
+```bash
+npm run prod
+```
+
+## License
+
+MIT

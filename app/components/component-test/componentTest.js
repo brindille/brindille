@@ -1,20 +1,13 @@
 'use strict';
 
 var factory = require('lib/factory');
-var View = require('brindille-view');
-var inherits = require('inherits');
-var extend = require('extend');
 
-function ComponentTest(model) {
-  View.call(this, {
-    template: require('./componentTest.html'),
-    model: extend({
-      'label': 'test',
-      'url': 'perdu.com'
-    }, model)
-  });
-}
-
-inherits(ComponentTest, View);
+var ComponentTest = factory.view({
+  template: require('./componentTest.html'),
+  model: {
+    'label': 'test',
+    'url': 'perdu.com'
+  }
+});
 
 module.exports = ComponentTest;
