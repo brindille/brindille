@@ -24,7 +24,7 @@ domready(function() {
         section: require('sections/home/home'),
         title: 'Brindille - Home',
         description: 'Welcome to Brindille',
-        transitionMode: router.TRANSITION_OUT_AFTER_IN
+        transitionMode: router.TRANSITION_OUT_AND_AFTER_IN
       }
     }
   });

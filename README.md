@@ -33,6 +33,7 @@ Images, fonts and other assets have to be in the `/static/{images,fonts}` folder
 - [Other brindille modules](https://github.com/brindille)
 
 ## Tasks
+Gulp tasks inspired by [firestarter](https://github.com/NorthKingdom/firestarter/)
 
 ### Dev
 
