@@ -29,6 +29,8 @@ Images, fonts and other assets have to be in the `/static/{images,fonts}` folder
 
 - [View documentation](https://github.com/brindille/brindille-view/blob/master/README.md)
 - [Router documentation](https://github.com/brindille/brindille-router/blob/master/README.md)
+- [Preloader documentation](https://github.com/brindille/brindille-preloader/blob/master/README.md)
+- [Other brindille modules](https://github.com/brindille)
 
 ## Tasks
 

@@ -11,6 +11,7 @@
   "keywords": [
     "boilerplate",
     "javascript",
+    "rivet.js",
     "gulp",
     "browserify"
   ],
@@ -53,7 +54,10 @@
     "watchify": "^2.4.0"
   },
   "dependencies": {
+    "brindille-preloader": "^1.0.1",
+    "brindille-resize": "^0.1.1",
     "brindille-router": "^1.0.1",
+    "brindille-scroll": "^0.1.0",
     "brindille-view": "^1.0.5",
     "clone": "^1.0.1",
     "domready": "^1.0.7",
@@ -62,5 +66,13 @@
     "inherits": "^2.0.1",
     "stylus-easing": "^1.0.0",
     "stylus-media-queries": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/brindille/brindille.git"
+  },
+  "homepage": "https://github.com/brindille/brindille",
+  "bugs": {
+    "url": "https://github.com/brindille/brindille/issues"
   }
 }

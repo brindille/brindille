@@ -1,6 +1,9 @@
 'use strict';
 
 var factory = require('lib/factory');
+var preloader = require('brindille-preloader');
+var resizeUtil = require('brindille-resize');
+var scrollUtil = require('brindille-scroll');
 
 var Home = factory.view({
   template: require('./home.html'),
