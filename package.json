@@ -55,9 +55,9 @@
   },
   "dependencies": {
     "brindille-preloader": "^1.0.1",
-    "brindille-resize": "^0.1.1",
+    "brindille-resize": "^0.1.2",
     "brindille-router": "^1.0.3",
-    "brindille-scroll": "^0.1.0",
+    "brindille-scroll": "^0.1.2",
     "brindille-view": "^1.0.5",
     "clone": "^1.0.1",
     "domready": "^1.0.7",
