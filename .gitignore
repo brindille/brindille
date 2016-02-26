@@ -10,7 +10,7 @@ cache
 
 #composer
 vendor
-composer.lock
+*.lock
 composer.phar
 
 # build
