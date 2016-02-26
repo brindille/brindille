@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
+
+    <!-- facebook meta -->
+    <meta property="og:title" content="{{ Global.title }}"/>
+    <meta property="og:url" content="{{ rooturl }}"/>
+    <meta property="og:image" content="{{ rooturl }}assets/images/share.jpg"/>
+    <meta property="og:description" content="{{  Global.description }}"/>
+
+    <!-- twitter meta -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:site" content="{{ rooturl }}"/>
+    <meta name="twitter:title" content="{{ Global.title }}"/>
+    <meta name="twitter:description" content="{{ Global.description }}"/>
+    <meta name="twitter:image:src" content="{{ rooturl }}assets/images/share.jpg"/>
+
+    <title>{{ Global.title }}</title>
+    <meta name="description" content="{{ Global.description }}"/>
+    <link rel="stylesheet" href="{{ base }}/build/main.css" media="screen">
+
+    <!-- favicons -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <div id="symbols">
+      {% include 'icons.svg' %}
+    </div>
+    <script type="text/javascript">
+      var rootUrl = '{{ rooturl }}';
+      var baseUrl = '{{ base }}';
+      var page = '{{ page }}';
+      var isMobile = {% if isMobile == false %}false{%else%}true{%endif%};
+      var isTablet = {% if isTablet == false %}false{%else%}true{%endif%};
+      var isIE = {% if isIE == false %}false{%else%}true{%endif%};
+      var isEdge = {% if isEdge == false %}false{%else%}true{%endif%};
+      var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
+      var isFirefox = {% if isFirefox == false %}false{%else%}true{%endif%};
+    </script>
+
+    {% include './layouts/view/view.html' %}
+
+    <!-- Google Analytics goes here -->
+
+    <script src="{{ base }}/build/build.js"></script>
+  </body>
+</html>

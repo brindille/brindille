@@ -1,0 +1,12 @@
+<div class="About" data-component="About">
+  <h1>About</h1>
+
+  <p>
+    {{ About.content }}
+  </p>
+
+  {% include './components/button-test/button-test.html' with {
+    link: '/home',
+    text: 'Go to home'
+  } %}
+</div>

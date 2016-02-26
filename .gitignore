@@ -1,6 +1,19 @@
+#system
 *.log
 .DS_Store
-.sass-cache
-node_modules/
-static/build/
-static/php/vendor
+
+#node
+node_modules
+
+#twig
+cache
+
+#composer
+vendor
+composer.lock
+composer.phar
+
+# build
+public/build/*.js
+public/build/*.css
+public/build/*.map

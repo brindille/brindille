@@ -1,71 +1,57 @@
 {
   "name": "brindille",
   "version": "1.0.0",
-  "description": "Javascript front-end project boilerplate, gulp + browserify + rivets + stylus",
-  "main": "app/index.js",
+  "description": "Javascript front-end project boilerplate, twig + stylus + browserify + babel",
+  "main": "src/index.js",
   "scripts": {
-    "start": "gulp server --watch",
-    "dev": "gulp build --watch",
-    "prod": "gulp build --production"
+    "start": "npm run js:dev & npm run css:dev",
+    "build": "npm run js:prod && npm run css:prod",
+    "js:dev": "watchify -d -t babelify -t aliasify -t yamlify ./src/index.js -o public/build/build.js",
+    "js:prod": "browserify ./src/index.js --t babelify -t aliasify -t yamlify | uglifyjs -nm > public/build/build.js",
+    "css:dev": "stylus -u autoprefixer-stylus -u ./node_modules/stylus-font-face --with {limit:80000} -w ./src/stylus/main.styl -o public/build --sourcemap",
+    "css:prod": "stylus -u autoprefixer-stylus -u ./node_modules/stylus-font-face --with {limit:80000} ./src/stylus/main.styl -o public/build --compress",
+    "svg": "svg-sprite -w 1024 -h 1024 --svg-xmldecl false --svg-doctype false -s --symbol-dest ./src/views --symbol-dimensions true --ss icons.svg --symbol-bust false public/assets/images/icons/*.svg"
   },
-  "keywords": [
-    "boilerplate",
-    "javascript",
-    "rivet.js",
-    "gulp",
-    "browserify"
-  ],
-  "author": {
-    "name": "Valentin Daguenet",
-    "email": "valentin.daguenet@gmail.com",
-    "url": "https://github.com/vdaguenet"
-  },
-  "contributors": [
-    {
-      "name": "Guillaume Gouessan",
-      "email": "guillaume.gouessan@gmail.com"
+  "aliasify": {
+    "aliases": {
+      "lib": "./src/lib/",
+      "config": "./src/config/",
+      "views": "./src/views/",
+      "data": "./data/"
     }
-  ],
+  },
+  "author": "Hellohikimori",
   "license": "MIT",
   "devDependencies": {
-    "aliasify": "^1.7.2",
-    "browser-sync": "^2.2.3",
-    "browserify": "^9.0.3",
-    "connect-history-api-fallback": "0.0.5",
-    "defaults": "^1.0.0",
-    "envify": "^3.3.0",
-    "gulp": "^3.8.11",
-    "gulp-autoprefixer": "^2.1.0",
-    "gulp-filter": "^2.0.2",
-    "gulp-minify-css": "^1.0.0",
-    "gulp-notify": "^2.2.0",
-    "gulp-plumber": "^1.0.0",
-    "gulp-rename": "^1.2.0",
-    "gulp-sourcemaps": "^1.5.0",
-    "gulp-stylus": "^2.0.1",
-    "gulp-uglify": "^1.1.0",
-    "gulp-util": "^3.0.4",
-    "minimist": "^1.1.1",
-    "pretty-hrtime": "^1.0.0",
-    "rimraf": "^2.3.2",
-    "stringify": "^3.1.0",
-    "stripify": "^3.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^2.4.0"
+    "aliasify": "*",
+    "autoprefixer-stylus": "*",
+    "babel-eslint": "*",
+    "babel-preset-es2015": "*",
+    "babelify": "*",
+    "browserify": "*",
+    "stylus": "*",
+    "stylus-font-face": "*",
+    "svg-sprite": "*",
+    "uglify-js": "*",
+    "watchify": "*",
+    "yamlify": "*"
   },
   "dependencies": {
-    "brindille-preloader": "^1.0.1",
-    "brindille-resize": "^0.1.2",
-    "brindille-router": "^1.0.5",
-    "brindille-scroll": "^0.1.2",
-    "brindille-view": "^1.0.8",
-    "clone": "^1.0.1",
-    "domready": "^1.0.7",
-    "extend": "^2.0.0",
-    "gsap": "^1.16.0",
-    "inherits": "^2.0.1",
-    "stylus-easing": "^1.0.0",
-    "stylus-media-queries": "^1.0.0"
+    "brindille-preloader": "*",
+    "brindille-resize": "*",
+    "brindille-scroll": "*",
+    "brindille-stylus-extends": "*",
+    "dom-classes": "*",
+    "dom-event": "*",
+    "dom-walk": "*",
+    "emitter-component": "*",
+    "gsap": "*",
+    "lodash.bindall": "*",
+    "page": "*",
+    "stylus-easing": "*",
+    "stylus-font-face": "*",
+    "stylus-media-queries": "*",
+    "stylus-reset": "*"
   },
   "repository": {
     "type": "git",

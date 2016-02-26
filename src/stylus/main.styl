@@ -1,0 +1,36 @@
+/*======================================================================
+    MIXINS & EXTENDS
+======================================================================*/
+@import "../../node_modules/stylus-media-queries"
+@import "../../node_modules/stylus-easing"
+@import "../../node_modules/stylus-reset"
+@import "../../node_modules/brindille-stylus-extends"
+
+@import "./config/**/*"
+
+/*======================================================================
+    BASE
+======================================================================*/
+reset()
+
+html
+  @extend .full-size
+  background black
+  color white
+  overflow-x hidden
+  overflow-y scroll
+
+body,
+section
+  @extend .full-size-relative
+
+#symbols
+  display none
+
+a
+  text-decoration none
+
+/*======================================================================
+    COMPONENTS
+======================================================================*/
+@import "../views/**/*"
