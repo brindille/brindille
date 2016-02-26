@@ -1,4 +1,4 @@
-import InteractiveComponent from 'lib/core/InteractiveComponent';
+import InteractiveComponent from 'brindille-interactive-component';
 
 export default class ButtonTest extends InteractiveComponent {
   constructor($el) {
@@ -7,5 +7,9 @@ export default class ButtonTest extends InteractiveComponent {
 
   dispose() {
     super.dispose();
+  }
+
+  onClick(e) {
+    console.log('[Button test] click', e);
   }
 }

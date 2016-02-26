@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "brindille-component": "*",
+    "brindille-interactive-component": "*",
     "brindille-preloader": "*",
     "brindille-resize": "*",
     "brindille-scroll": "*",

@@ -71,6 +71,7 @@ export default class View extends Component {
     $node.removeAttribute('data-component');
 
     let section = new Ctor($node);
+    section.init(componentManager.rootComponent.definitions);
     section.componentName = componentName;
     section.parent = this;
 
