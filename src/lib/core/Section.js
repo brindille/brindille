@@ -1,4 +1,4 @@
-import Component from 'lib/core/Component';
+import Component from 'brindille-component';
 import classes from 'dom-classes';
 
 export default class Section extends Component {

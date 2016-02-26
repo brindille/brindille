@@ -1,4 +1,4 @@
-import Component from './Component';
+import Component from 'brindille-component';
 import bindAll from 'lodash.bindall';
 import {on, off} from 'dom-event';
 

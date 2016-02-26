@@ -1,4 +1,4 @@
-import Component from 'lib/core/Component';
+import Component from 'brindille-component';
 import componentManager from 'lib/core/ComponentManager';
 import Mediator from 'lib/Mediator';
 import bindAll from 'lodash.bindall';

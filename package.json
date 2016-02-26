@@ -37,6 +37,7 @@
     "yamlify": "*"
   },
   "dependencies": {
+    "brindille-component": "*",
     "brindille-preloader": "*",
     "brindille-resize": "*",
     "brindille-scroll": "*",

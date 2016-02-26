@@ -1,5 +1,5 @@
 import componentManager from 'lib/core/ComponentManager';
-import Component from 'lib/core/Component';
+import Component from 'brindille-component';
 import Router from './Router';
 import 'gsap';
 
@@ -26,7 +26,7 @@ componentManager.registerMultiple({
   About
 });
 
-let rootComponent = new Component(document.body);
+let rootComponent = new Component(document.body, componentManager.get);
 componentManager.setRootComponent(rootComponent);
 
 Router.registerRoutes(globals.routes, globals.defaultRoute);

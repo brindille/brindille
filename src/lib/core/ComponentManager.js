@@ -1,5 +1,9 @@
+import bindAll from 'lodash.bindall';
+
 class ComponentManager {
   constructor() {
+    bindAll(this, 'get');
+
     this.components = {};
   }
 
