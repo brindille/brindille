@@ -3,7 +3,6 @@
   "require": {
     "twig/twig": "~1.0",
     "symfony/yaml": "~2.7",
-    "mobiledetect/mobiledetectlib": "2.8.13",
-    "swiftmailer/swiftmailer": "^5.4"
+    "mobiledetect/mobiledetectlib": "2.8.13"
   }
 }
