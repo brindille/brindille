@@ -6,8 +6,8 @@
   "scripts": {
     "start": "npm run js:dev & npm run css:dev",
     "build": "npm run js:prod && npm run css:prod",
-    "js:dev": "watchify -d -t babelify -t aliasify -t yamlify ./src/index.js -o public/build/build.js",
-    "js:prod": "browserify ./src/index.js --t babelify -t aliasify -t yamlify | uglifyjs -nm > public/build/build.js",
+    "js:dev": "watchify -v -d -t babelify -t aliasify -t yamlify ./src/index.js -o public/build/build.js",
+    "js:prod": "browserify -v ./src/index.js --t babelify -t aliasify -t yamlify | uglifyjs -nm > public/build/build.js",
     "css:dev": "stylus -u autoprefixer-stylus -u ./node_modules/stylus-font-face --with {limit:80000} -w ./src/stylus/main.styl -o public/build --sourcemap",
     "css:prod": "stylus -u autoprefixer-stylus -u ./node_modules/stylus-font-face --with {limit:80000} ./src/stylus/main.styl -o public/build --compress",
     "svg": "svg-sprite -w 1024 -h 1024 --svg-xmldecl false --svg-doctype false -s --symbol-dest ./src/views --symbol-dimensions true --ss icons.svg --symbol-bust false public/assets/images/icons/*.svg"
