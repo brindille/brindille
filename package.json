@@ -29,7 +29,7 @@
     "babel-preset-es2015": "*",
     "babelify": "*",
     "browserify": "*",
-    "eslint": "^2.11.1",
+    "eslint": "*",
     "stylus": "*",
     "stylus-font-face": "*",
     "svg-sprite": "*",
