@@ -106,9 +106,8 @@ class Router
    */
   private function _mergePageInfosAndDatas()
   {
-    foreach ($this->pageInfos as $key => $value) {
-      $this->datas[$key] = $value;
-    }
+    $this->datas['pageInfos'] = [];
+    $this->datas['pageInfos'] = array_merge($this->datas['pageInfos'], $this->pageInfos);
   }
 
   /**
