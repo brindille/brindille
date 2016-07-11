@@ -44,8 +44,11 @@ export default class View extends Component {
   }
 
   removeAllChilds(except) {
-    this._componentInstances.forEach((value) => {
-      if (value !== except) value.dispose();
+    this._componentInstances.forEach((value, i) => {
+      if (value !== except) {
+        value.dispose();
+        this._componentInstances.splice(i, 1);
+      }
     });
 
     if (!except) this._componentInstances = [];
