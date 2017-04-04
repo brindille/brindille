@@ -26,6 +26,17 @@ Then, they will be build in the `/public/build` folder.
 
 Images, fonts and other assets have to be in the `/public/assets/{images,fonts}` folders.
 
+
+## Templating
+
+Templating uses [twig engine](http://twig.sensiolabs.org/). We added a useful `brindillePage` function you can use in your template to create a link for a given page.
+
+
+## Localization
+
+Brindille is multilingual by default, you can set up languages in `data/languages.yaml`.
+
+
 ## Ressources
 
 - [Component documentation](https://github.com/brindille/brindille-component/blob/master/README.md)

@@ -3,7 +3,12 @@
   "require": {
     "twig/twig": "~1.0",
     "symfony/yaml": "~2.7",
-    "mobiledetect/mobiledetectlib": "2.8.13",
-    "swiftmailer/swiftmailer": "^5.4"
+    "mobiledetect/mobiledetectlib": "^2.8",
+    "twig/extensions": "^1.4",
+    "silex/silex": "~2.0",
+    "symfony/expression-language": "^3.2",
+    "knplabs/gaufrette": "^0.2.1",
+    "symfony/asset": "^3.2",
+    "symfony/twig-bridge": "^3.2"
   }
 }

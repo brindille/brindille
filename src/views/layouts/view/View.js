@@ -1,32 +1,30 @@
 import Component from 'brindille-component';
 import componentManager from 'lib/core/ComponentManager';
 import Mediator from 'lib/Mediator';
-import bindAll from 'lodash.bindall';
 
 export default class View extends Component {
-  constructor($el) {
+  constructor ($el) {
     super($el);
 
-    bindAll(this, 'onRoute', 'showFirstPage');
+    this.onRoute = this.onRoute.bind(this);
+    this.showFirstPage = this.showFirstPage.bind(this);
 
     Mediator.on('route:change:ready', this.onRoute);
     Mediator.once('route:change:first', this.showFirstPage);
-
-    this.isSafariMobile = navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/);
   }
 
-  dispose() {
+  dispose () {
     Mediator.off('route:change:ready', this.onRoute);
     Mediator.off('route:change:first', this.showFirstPage);
     super.dispose();
   }
 
-  showFirstPage() {
+  showFirstPage () {
     this.currentPage = this._componentInstances[0];
     this.currentPage.transitionIn(this.firstPageShown);
   }
 
-  transitionInAndAfterOut() {
+  transitionInAndAfterOut () {
     this.addNewPage();
 
     this.currentPage.transitionIn(() => {
@@ -35,7 +33,7 @@ export default class View extends Component {
     });
   }
 
-  transitionOutAndAfterIn() {
+  transitionOutAndAfterIn () {
     this._componentInstances[this._componentInstances.length - 1].transitionOut(() => {
       this.removeAllChilds();
       this.addNewPage();
@@ -43,24 +41,27 @@ export default class View extends Component {
     });
   }
 
-  removeAllChilds(except) {
-    this._componentInstances.forEach((value) => {
-      if (value !== except) value.dispose();
+  removeAllChilds (except) {
+    this._componentInstances.forEach((value, i) => {
+      if (value !== except) {
+        value.dispose();
+        this._componentInstances.splice(i, 1);
+      }
     });
 
     if (!except) this._componentInstances = [];
   }
 
-  addNewPage() {
+  addNewPage () {
     this._componentInstances.push(this.currentPage);
     this.$el.appendChild(this.currentPage.$el);
   }
 
-  firstPageShown() {
+  firstPageShown () {
     Mediator.emit('route:change:done');
   }
 
-  createSection(text) {
+  createSection (text) {
     let $node = document.createElement('div');
     $node.innerHTML = text;
     $node = $node.firstChild;
@@ -78,15 +79,15 @@ export default class View extends Component {
     return section;
   }
 
-  manageSpecialPages() {}
+  manageSpecialPages () {}
 
-  onRoute(path, id, content) {
+  onRoute (path, id, content) {
     window.scrollTo(0, 0);
     this.currentPath = path;
-    this.currentPage = this.createSection(content.page);
+    this.currentPage = this.createSection(content.html);
     this.content = content;
 
-    if (this._componentInstances.length && !window.isMobile) {
+    if (this._componentInstances.length) {
       this.transitionOutAndAfterIn();
       this.manageSpecialPages(id);
     } else {
