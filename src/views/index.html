@@ -18,13 +18,16 @@
     <meta name="twitter:description" content="{{ Global.description }}"/>
     <meta name="twitter:image:src" content="{{ rooturl }}assets/images/share.jpg"/>
 
-    <title>{{ Global.title }}</title>
-    <meta name="description" content="{{ Global.description }}"/>
-    <link rel="stylesheet" href="{{ base }}/build/main.css" media="screen">
+    <!-- metas -->
+    <title>{{ Main.title }}</title>
+    <meta name="description" content="{{ Main.description }}"/>
+
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="{{ asset('build/main.css') }}" media="screen">
 
     <!-- favicons -->
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
   </head>
   <body>
     <div id="symbols">
@@ -34,6 +37,8 @@
       var rootUrl = '{{ rooturl }}';
       var baseUrl = '{{ base }}';
       var page = '{{ page }}';
+      var lang = '{{ lang }}';
+      var isMultilingual = {% if isMultilingual == false %}false{% else %}true{% endif %};
       var isMobile = {% if isMobile == false %}false{%else%}true{%endif%};
       var isTablet = {% if isTablet == false %}false{%else%}true{%endif%};
       var isIE = {% if isIE == false %}false{%else%}true{%endif%};
@@ -46,6 +51,6 @@
 
     <!-- Google Analytics goes here -->
 
-    <script src="{{ base }}/build/build.js"></script>
+    <script src="{{ asset('build/build.js') }}"></script>
   </body>
 </html>

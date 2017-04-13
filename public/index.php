@@ -1,15 +1,23 @@
 <?php
-  require_once '../vendor/autoload.php';
-  require_once '../src/php/bundle.php';
+  require_once __DIR__.'/../vendor/autoload.php';
 
   /* --------------------------------------------------------
-  Twig setup
+  Create our silex app
   --------------------------------------------------------*/
-  $twigAbstraction = new TwigAbstraction();
+  $app = require __DIR__.'/../src/php/app.php';
 
   /* --------------------------------------------------------
-  Routing
+  Register some services
   --------------------------------------------------------*/
-  $router = new Router($twigAbstraction->getTwigInstance());
+  require __DIR__.'/../src/php/services/yaml.php';
+  require __DIR__.'/../src/php/services/device.php';
 
-  echo $router->render();
+  /* --------------------------------------------------------
+  Register our controlelrs
+  --------------------------------------------------------*/
+  require __DIR__.'/../src/php/controllers.php';
+
+  /* --------------------------------------------------------
+  Launch app
+  --------------------------------------------------------*/
+  $app->run();

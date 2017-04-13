@@ -1,9 +1,5 @@
-import Emitter from 'component-emitter';
+import Emitter from 'component-emitter'
 
-class Mediator extends Emitter {
-  constructor() {
-    super();
-  }
-}
+class Mediator extends Emitter {}
 
-export default new Mediator();
+export default new Mediator()

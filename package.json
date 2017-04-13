@@ -4,12 +4,9 @@
   "description": "Javascript front-end project boilerplate, twig + stylus + browserify + babel",
   "main": "src/index.js",
   "scripts": {
-    "start": "npm run js:dev & npm run css:dev",
-    "build": "npm run js:prod && npm run css:prod",
-    "js:dev": "watchify -v -d -t babelify -t aliasify -t yamlify ./src/index.js -o public/build/build.js",
-    "js:prod": "browserify ./src/index.js --t babelify -t aliasify -t yamlify | uglifyjs -nm > public/build/build.js",
-    "css:dev": "stylus -u autoprefixer-stylus -u ./node_modules/stylus-font-face --with {limit:80000} -w ./src/stylus/main.styl -o public/build --sourcemap",
-    "css:prod": "stylus -u autoprefixer-stylus -u ./node_modules/stylus-font-face --with {limit:80000} ./src/stylus/main.styl -o public/build --compress",
+    "start": "brindille watch babelify aliasify yamlify",
+    "build": "brindille build babelify aliasify yamlify",
+    "lint": "standard --verbose | snazzy",
     "svg": "svg-sprite -w 1024 -h 1024 --svg-xmldecl false --svg-doctype false -s --symbol-dest ./src/views --symbol-dimensions true --ss icons.svg --symbol-bust false public/assets/images/icons/*.svg"
   },
   "aliasify": {
@@ -22,19 +19,41 @@
   },
   "author": "Hellohikimori",
   "license": "MIT",
+  "standard": {
+    "ignore": [
+      "/public"
+    ],
+    "globals": [
+      "Image",
+      "Audio",
+      "TweenLite",
+      "TweenMax",
+      "TimelineLite",
+      "TimelineMax",
+      "Expo",
+      "Cubic",
+      "Quad",
+      "Back",
+      "Power0",
+      "Circ",
+      "Quint",
+      "Bounce",
+      "Linear",
+      "Elastic",
+      "RoughEase",
+      "YT",
+      "PIXI",
+      "THREE"
+    ]
+  },
   "devDependencies": {
     "aliasify": "*",
-    "autoprefixer-stylus": "*",
-    "babel-eslint": "*",
     "babel-preset-es2015": "*",
     "babelify": "*",
-    "browserify": "*",
-    "eslint": "*",
-    "stylus": "*",
-    "stylus-font-face": "*",
+    "brindille-cli": "^1.0.1",
+    "snazzy": "^6.0.0",
+    "standard": "^9.0.2",
     "svg-sprite": "*",
-    "uglify-js": "*",
-    "watchify": "*",
     "yamlify": "*"
   },
   "dependencies": {
@@ -44,17 +63,17 @@
     "brindille-resize": "*",
     "brindille-scroll": "*",
     "brindille-stylus-extends": "*",
-    "dom-classes": "npm-dom/dom-classes",
-    "dom-event": "npm-dom/dom-event",
-    "dom-walk": "*",
+    "component-emitter": "^1.2.1",
+    "dom-classes": "*",
+    "dom-event": "*",
     "emitter-component": "*",
     "gsap": "*",
-    "lodash.bindall": "*",
     "page": "*",
     "stylus-easing": "*",
     "stylus-font-face": "*",
     "stylus-media-queries": "*",
-    "stylus-reset": "*"
+    "stylus-reset": "*",
+    "whatwg-fetch": "^2.0.3"
   },
   "repository": {
     "type": "git",

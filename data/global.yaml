@@ -1,8 +1,0 @@
-title: "Brindille"
-description: "Hellohikimori™ Starter"
-
-routes:
-  home: 'home'
-  about: 'about'
-
-defaultRoute: 'home'
