@@ -3,6 +3,7 @@
 Javascript front-end project boilerplate.
 
 It uses:
+- [silex](http://silex.sensiolabs.org/)
 - [twig](http://twig.sensiolabs.org/)
 - [stylus](http://learnboost.github.io/stylus/)
 - [babel](https://babeljs.io/)
