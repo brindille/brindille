@@ -48,9 +48,9 @@
   },
   "devDependencies": {
     "aliasify": "*",
-    "babel-preset-es2015": "*",
+    "babel-preset-env": "^1.6.0",
     "babelify": "*",
-    "brindille-cli": "^1.0.1",
+    "brindille-cli": "^1.0.5",
     "snazzy": "^6.0.0",
     "standard": "^9.0.2",
     "svg-sprite": "*",
