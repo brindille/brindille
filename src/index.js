@@ -16,6 +16,8 @@ import View from 'views/layouts/view/View'
 // Sections
 import Home from 'views/sections/home/Home'
 import About from 'views/sections/about/About'
+import Projects from 'views/sections/projects/Projects'
+import Project from 'views/sections/project/Project'
 
 componentManager.registerMultiple({
   /* Layouts */
@@ -24,7 +26,9 @@ componentManager.registerMultiple({
   ButtonTest,
   /* Sections */
   Home,
-  About
+  About,
+  Projects,
+  Project
 })
 
 let rootComponent = new Component(document.body, componentManager.get)

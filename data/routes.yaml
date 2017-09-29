@@ -1,2 +1,4 @@
 home: 'home'
 about: 'about'
+projects: 'projects'
+project: 'projects/{id}'

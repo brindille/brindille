@@ -35,9 +35,17 @@ $dataMiddleware = function (Request $request, Application $app) {
   $app['lang'] = getLanguageFromRequest($request, $app);
   $app['page'] = getPageFromRequest($request);
 
+  // Extract route parameters if they exist
+  $params = [];
+  $paramsKeys = $request->attributes->get('route_params');
+  foreach ($paramsKeys as $key) {
+    $params[$key] = $request->attributes->get($key);
+  }
+
   $app['twig_datas'] = array(
     'page' => $app['page'],
     'lang' => $app['lang'],
+    'params' => $params,
     'isMultilingual' => $app['isMultilingual'],
     'ua' => $_SERVER['HTTP_USER_AGENT'],
     'assetVersion' => $app['assetVersion'],
@@ -87,10 +95,6 @@ $renderInner = function(Request $request, Application $app) {
   $html = $app['twig']->render('sections/'.$page.'/'.$page.'.html', $app['twig_datas']);
 
   return createJsonResponse(array('html' => $html));
-  // return $app->json(array('html' => $html), 200, array(
-  //   'Cache-Control' => 'public, s-max-age=300, max-age=300, must-revalidate',
-  //   'Vary' => 'User-Agent'
-  // ));
 };
 
 /**
@@ -104,15 +108,29 @@ $renderFull = function(Request $request, Application $app) {
 foreach ($app['available_routes'] as $id => $url) {
   $path = $app['isMultilingual'] ? '{lang}/'.$url : $url;
 
+  /* Extract parameters to be passed to route */
+  $matches = array();
+  preg_match('/{[a-zA-Z0-9]+}/', $url, $matches);
+  $matches = array_map(function ($value) {
+    return str_replace(['{', '}'], '', $value);
+  }, $matches);
+
+  // Middleware to inform the route of which route params it will be able to use in controller
+  $routeParamMiddleware = function (Request $request, Application $app) use ($matches) {
+    $request->attributes->set('route_params', $matches);
+  };
+  
   // When route requested by Ajax we only serve the inner content of the page
-  $app->get($path, $renderInner)
+  $innerRequest = $app->get($path, $renderInner)
     ->bind($id.'_ajax')
     ->when('request.isXmlHttpRequest()')
+    ->before($routeParamMiddleware)
     ->before($dataMiddleware);
 
   // Else we render the page inside the global layout
-  $app->get($path, $renderFull)
+  $fullRequest = $app->get($path, $renderFull)
     ->bind($id)
+    ->before($routeParamMiddleware)
     ->before($dataMiddleware);
 }
 
@@ -132,13 +150,13 @@ $app->error(function (\Exception $e, Request $request, $code) use ($app) {
   } else {
     $path = $base.$path;
   }
-  if (404 === $code) {
-    return $app->redirect($path);
-  }
-  if ($e instanceof NotFoundHttpException) {
-    return $app->redirect($path);
-  }
-  if ($e instanceof FileNotFound) {
-    return $app->redirect($path);
-  }
+  // if (404 === $code) {
+  //   return $app->redirect($path);
+  // }
+  // if ($e instanceof NotFoundHttpException) {
+  //   return $app->redirect($path);
+  // }
+  // if ($e instanceof FileNotFound) {
+  //   return $app->redirect($path);
+  // }
 });

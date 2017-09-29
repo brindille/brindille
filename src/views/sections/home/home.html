@@ -1,8 +1,4 @@
 <div class="Home" data-component="Home">
   <h1>{{ Home.title }}</h1>
-
-  {% include './components/button-test/button-test.html' with {
-    link: brindillePage('about'),
-    text: 'Got to about'
-  } %}
+  <p>{{ Home.text }}</p>
 </div>

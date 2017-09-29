@@ -31,8 +31,8 @@ class Router {
     this.routes = Object.keys(routes)
     this.paths = this.routes.map((key) => routes[key])
     this.defaultRoute = defaultRoute || this.routes[0]
-
     this.paths.forEach((value) => {
+      value = value.replace(/{([a-z]+)}/g, ':$1')
       page(window.isMultilingual ? '/:lang/' + value : '/' + value, this.loadRoute)
     })
     page('*', this.notFoundController)
@@ -123,6 +123,8 @@ class Router {
       Mediator.emit('route:change:first', this.currentPath, this.currentPageId)
       return
     }
+
+    console.log('loadRoute', window.baseUrl, '|||', context.path)
 
     window.fetch(window.baseUrl + context.path + '?t=content', {
       headers: {
