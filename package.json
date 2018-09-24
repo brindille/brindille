@@ -51,6 +51,9 @@
     "babel-preset-env": "^1.6.0",
     "babelify": "*",
     "brindille-cli": "brindille/brindille-cli#without-linter",
+    "husky": "^1.0.0-rc.15",
+    "lint-staged": "^7.3.0",
+    "prettier": "1.14.3",
     "snazzy": "^6.0.0",
     "standard": "^9.0.2",
     "svg-sprite": "*",
@@ -77,6 +80,17 @@
     "stylus-reset": "*",
     "whatwg-fetch": "^2.0.3",
     "winston": "^3.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
