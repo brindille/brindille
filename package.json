@@ -4,7 +4,7 @@
   "description": "Javascript front-end project boilerplate, twig + stylus + browserify + babel",
   "main": "src/index.js",
   "scripts": {
-    "start": "brindille watch babelify aliasify yamlify",
+    "start": "node_modules/brindille-cli/bin/brindille watch babelify aliasify yamlify",
     "build": "brindille build babelify aliasify yamlify",
     "lint": "standard --verbose | snazzy",
     "svg": "svg-sprite -w 1024 -h 1024 --svg-xmldecl false --svg-doctype false -s --symbol-dest ./src/views --symbol-dimensions true --ss icons.svg --symbol-bust false public/assets/images/icons/*.svg"
@@ -50,13 +50,15 @@
     "aliasify": "*",
     "babel-preset-env": "^1.6.0",
     "babelify": "*",
-    "brindille-cli": "^1.0.9",
+    "brindille-cli": "brindille/brindille-cli#without-linter",
     "snazzy": "^6.0.0",
     "standard": "^9.0.2",
     "svg-sprite": "*",
     "yamlify": "*"
   },
   "dependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
     "brindille-component": "*",
     "brindille-interactive-component": "*",
     "brindille-preloader": "*",
@@ -73,7 +75,8 @@
     "stylus-font-face": "*",
     "stylus-media-queries": "*",
     "stylus-reset": "*",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.3",
+    "winston": "^3.1.0"
   },
   "repository": {
     "type": "git",
