@@ -57,6 +57,7 @@
     "snazzy": "^6.0.0",
     "standard": "^9.0.2",
     "svg-sprite": "*",
+    "webpack": "^4.20.2",
     "yamlify": "*"
   },
   "dependencies": {
