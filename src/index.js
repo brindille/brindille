@@ -5,7 +5,7 @@ import 'gsap'
 import 'whatwg-fetch'
 
 // datas
-import routes from 'data/routes.yaml'
+import routes from 'json-loader!yaml-loader!data/routes.yaml'
 
 // Components
 import ButtonTest from 'views/components/button-test/ButtonTest'
@@ -31,3 +31,5 @@ let rootComponent = new Component(document.body, componentManager.get)
 componentManager.setRootComponent(rootComponent)
 
 Router.registerRoutes(routes, routes[0])
+
+console.log('COUCOU')

@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node_modules/brindille-cli/bin/brindille watch babelify aliasify yamlify",
+    "webpack": "webpack --config webpack.config.js",
     "build": "brindille build babelify aliasify yamlify",
     "lint": "standard --verbose | snazzy",
     "svg": "svg-sprite -w 1024 -h 1024 --svg-xmldecl false --svg-doctype false -s --symbol-dest ./src/views --symbol-dimensions true --ss icons.svg --symbol-bust false public/assets/images/icons/*.svg"
@@ -47,22 +48,26 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
     "aliasify": "*",
+    "babel-loader": "^8.0.4",
     "babel-preset-env": "^1.6.0",
     "babelify": "*",
     "brindille-cli": "brindille/brindille-cli#without-linter",
     "husky": "^1.0.0-rc.15",
+    "json-loader": "^0.5.7",
     "lint-staged": "^7.3.0",
     "prettier": "1.14.3",
     "snazzy": "^6.0.0",
     "standard": "^9.0.2",
     "svg-sprite": "*",
     "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "yaml-loader": "^0.5.0",
     "yamlify": "*"
   },
   "dependencies": {
-    "@babel/core": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
     "brindille-component": "*",
     "brindille-interactive-component": "*",
     "brindille-preloader": "*",

@@ -21,8 +21,26 @@ git clone https://github.com/brindille/brindille.git ./my-project
 cd my-project
 rm -rf ./.git
 npm install && composer install
+```
+
+## Run
+
+Launch docker config.
+
+```bash
 docker-compose up -d
+```
+
+Launch local bundling.
+
+```bash
 npm start
+```
+
+When you are done don't forget to stop docker
+
+```bash
+docker-compose stop
 ```
 
 ## File structure
