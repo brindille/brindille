@@ -1,5 +1,3 @@
-import Emitter from 'component-emitter'
-
-class Mediator extends Emitter {}
-
-export default new Mediator()
+import dush from 'dush'
+const mediator = dush()
+export default mediator

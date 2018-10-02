@@ -4,6 +4,7 @@ const autoprefixer = require('autoprefixer-stylus')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const WebpackBar = require('webpackbar')
+const LiveReloadPlugin = require('webpack-livereload-plugin')
 
 module.exports = env => {
   const isProd = env && env.prod
@@ -87,7 +88,8 @@ module.exports = env => {
     config.plugins.push(
       new webpack.optimize.OccurrenceOrderPlugin(),
       // new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin(),
+      new LiveReloadPlugin({ appendScriptTag: true })
     )
   }
 

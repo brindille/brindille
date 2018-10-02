@@ -1,18 +1,18 @@
 import componentManager from 'lib/core/ComponentManager'
 import Component from 'brindille-component'
-import Router from './Router'
+import mediator from 'lib/mediator'
+import { initRouter } from 'lib/Router'
+import { View } from 'brindille-router'
+
 import 'gsap'
 import 'whatwg-fetch'
-import './stylus/main.styl'
 
-// datas
-import routes from 'json-loader!yaml-loader!data/routes.yaml'
+import './stylus/main.styl'
 
 // Components
 import ButtonTest from 'views/components/button-test/ButtonTest'
 
 // Layouts
-import View from 'views/layouts/view/View'
 
 // Sections
 import Home from 'views/sections/home/Home'
@@ -31,6 +31,7 @@ componentManager.registerMultiple({
 let rootComponent = new Component(document.body, componentManager.get)
 componentManager.setRootComponent(rootComponent)
 
-Router.registerRoutes(routes, routes[0])
-
-console.log('COUCOU2')
+const router = initRouter(rootComponent)
+router.start()
+router.on('update', route => mediator.emit('router.update', route))
+router.on('loaded', route => mediator.emit('router.loaded', route))
