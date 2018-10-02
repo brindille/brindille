@@ -3,6 +3,7 @@ import Component from 'brindille-component'
 import Router from './Router'
 import 'gsap'
 import 'whatwg-fetch'
+import './stylus/main.styl'
 
 // datas
 import routes from 'json-loader!yaml-loader!data/routes.yaml'
@@ -32,4 +33,4 @@ componentManager.setRootComponent(rootComponent)
 
 Router.registerRoutes(routes, routes[0])
 
-console.log('COUCOU')
+console.log('COUCOU2')
